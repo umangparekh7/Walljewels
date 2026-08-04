@@ -13,15 +13,67 @@
     document.designMode = 'on';
   } catch (err) {}
 
-  /* ---------- 2. Open Clicked Images in New Sub-Window ---------- */
+  /* ---------- 2. In-Page Full Screen Image Lightbox Modal ---------- */
+  let lightboxModal = null;
+
+  function createLightbox() {
+    if (lightboxModal) return lightboxModal;
+    const modal = document.createElement('div');
+    modal.className = 'lightbox-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-label', 'Full screen image preview');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.innerHTML = `
+      <div class="lightbox-modal__backdrop"></div>
+      <div class="lightbox-modal__content">
+        <button class="lightbox-modal__close" aria-label="Close full screen preview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <img class="lightbox-modal__img" src="" alt="Full screen preview">
+        <p class="lightbox-modal__caption"></p>
+      </div>`;
+    document.body.appendChild(modal);
+
+    const closeBtn = modal.querySelector('.lightbox-modal__close');
+    const backdrop = modal.querySelector('.lightbox-modal__backdrop');
+
+    const close = () => {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    closeBtn.addEventListener('click', close);
+    backdrop.addEventListener('click', close);
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) close();
+    });
+
+    lightboxModal = { modal, close };
+    return lightboxModal;
+  }
+
+  function openLightbox(src, altText) {
+    const { modal } = createLightbox();
+    const img = modal.querySelector('.lightbox-modal__img');
+    const cap = modal.querySelector('.lightbox-modal__caption');
+    img.src = src;
+    img.alt = altText || 'Full screen preview';
+    cap.textContent = altText || '';
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
   document.addEventListener('click', (e) => {
     const img = e.target.closest('img');
     if (!img) return;
+    if (img.classList.contains('lightbox-modal__img')) return;
     const src = img.currentSrc || img.src;
     if (src && !src.startsWith('data:image/svg+xml')) {
       e.preventDefault();
       e.stopPropagation();
-      window.open(src, '_blank', 'noopener,noreferrer');
+      openLightbox(src, img.alt || '');
     }
   }, true);
 
