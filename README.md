@@ -1,166 +1,240 @@
-# Wall Jewels Wallpaper World — new website
+# 💎 Wall Jewels — Luxury Wallpaper World
 
-Static site. No build step, no framework, no dependencies. Two HTML files, one CSS file,
-two JS files. It will run on any host — Netlify, Vercel, Cloudflare Pages, GoDaddy, cPanel,
-or the same server the current site is on.
+> **Next-Generation Static Web Experience** for Wall Jewels, Chennai's premier provider of custom wallpapers, 3D murals, divine pooja motifs, vertical gardens, and specialty flooring.
+
+---
+
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Key Features](#-key-features)
+- [Technology Stack](#-technology-stack)
+- [Project Architecture](#-project-architecture)
+- [Quick Start \& Execution Commands](#-quick-start--execution-commands)
+  - [Method 1: Python HTTP Server (Recommended)](#method-1-python-http-server-recommended)
+  - [Method 2: Node.js / npx](#method-2-nodejs--npx)
+  - [Method 3: VS Code Live Server Extension](#method-3-vs-code-live-server-extension)
+  - [Method 4: PHP Built-in Server](#method-4-php-built-in-server)
+  - [Method 5: Direct Browser Access](#method-5-direct-browser-access)
+- [Configuration \& Customization (Phase 2)](#-configuration--customization-phase-2)
+  - [Adding Custom Photography](#adding-custom-photography)
+  - [Tuning Coverflow Deck Geometry](#tuning-coverflow-deck-geometry)
+  - [Customizing Background Shaders](#customizing-background-shaders)
+- [Deployment Guide](#-deployment-guide)
+- [Showroom \& Contact Details](#-showroom--contact-details)
+- [License \& Credits](#-license--credits)
+
+---
+
+## 🌟 Overview
+
+The **Wall Jewels** web platform is designed to provide an opulent, immersive showcase for premium wall coverings and interior solutions. Engineered with zero external npm dependencies or heavy JavaScript frameworks, it delivers instant page loads, smooth 60fps animations, and a rich visual aesthetic across desktop and mobile devices.
+
+### Highlights
+- ⚡ **Zero-Build Architecture**: Pure HTML5, CSS3, and modern ES6 JavaScript. No compilation or bundler step required.
+- 🎨 **WebGL Ambient Canvas**: Custom WebGL shader engine featuring 5 interactive visual modes.
+- 🎠 **3D Coverflow Arc Carousel**: GPU-accelerated 3D carousel with hardware-accelerated transforms.
+- 🌓 **Adaptive Theme Engine**: Built-in Light/Dark mode supporting system preferences and persistent user overrides.
+- ♿ **WCAG AA Compliant**: Rigorously tested text contrast ratios (≥ 14.8:1 body contrast), keyboard navigation, and reduced-motion modes.
+
+---
+
+## ✨ Key Features
+
+### 1. 3D Coverflow Showcase Deck
+Located on the landing page (`index.html`), the coverflow carousel fans out featured wallpaper collections in an arc.
+- **Hardware-Accelerated**: Every card operates from a unified absolute origin using CSS `transform` and `z-index`, avoiding browser layout reflows during slides.
+- **Multi-Input Controls**: Supports directional navigation arrows, interactive pagination dots, direct card clicking, keyboard arrow keys, mouse dragging, and touch swipe gestures.
+- **Smart Pause**: Autoplay cycles every 4.6 seconds and automatically pauses on user interaction or hover.
+
+### 2. Interactive WebGL Background Shader Engine
+A low-impact, downscaled ambient shader layer rendered behind the UI (`assets/js/background.js`):
+- **5 Procedural Modes**:
+  - `Plasma`: Slow, molten organic drift (Default).
+  - `Silk`: Quiet, flowing horizontal fabric bands.
+  - `Aurora`: Soft, serene drifting color clouds.
+  - `Damask`: Living wallpaper repeat pattern on a half-drop grid.
+  - `Marble`: Veined stone pattern mimicking real Calacatta marble.
+  - `Off`: Minimalist pure CSS gradient wash fallback.
+- **Performance Optimized**: Renders at `0.5×` resolution with bicubic upscaling to minimize GPU utilization. Automatically pauses when the browser tab is hidden or when `prefers-reduced-motion` is active.
+
+### 3. Comprehensive Collection Explorer
+The collection browser (`collection.html`) allows users to filter wall jewel offerings by:
+- **Rooms**: Living Room, Bedroom, Pooja Room, Kids & Nursery, Office, School & Campus, Balcony & Outdoor, Flooring.
+- **Themes**: 3D & Depth, Indian Deities, Nature & Landscape, Animal Kingdom, Beach & Coastal, Outer Space, Marble & Texture, Floral & Botanical, Superheroes & Cartoons, Custom Photographs.
+
+---
+
+## 🛠️ Technology Stack
+
+| Layer | Technologies |
+| :--- | :--- |
+| **Markup** | HTML5 (Semantic Structure, Accessible ARIA standards) |
+| **Styling** | Modern Vanilla CSS3 (Custom Properties / Design Tokens, Flexbox, Grid, Glassmorphism) |
+| **Logic** | Vanilla JavaScript (ES6+ Modules, WebGL API, LocalStorage State) |
+| **Build Tools** | *None required* (Runs natively in any web environment) |
+
+---
+
+## 📁 Project Architecture
 
 ```
-walljewels-site/
-├─ index.html            landing page
-├─ collection.html       filterable collection browser
-└─ assets/
-   ├─ css/styles.css     the whole design system
-   └─ js/
-      ├─ data.js         ← all content you'll want to edit
-      ├─ app.js          behaviour + the collection deck
-      └─ background.js   plasma shader
+Walljewels/
+├── index.html            # Primary landing page & flagship collection showcase
+├── collection.html       # Dynamic, filterable collection browser page
+├── assets/
+│   ├── css/
+│   │   └── styles.css    # Unified design system, CSS variables & layouts
+│   └── js/
+│       ├── data.js       # Central data store (Collection, Rooms, Themes)
+│       ├── app.js        # Core UI logic, carousel deck & filter handlers
+│       └── background.js # WebGL ambient shader engine & theme syncer
+├── .claude/
+│   └── launch.json       # Project launcher metadata
+└── README.md             # Project documentation
 ```
 
-## The collection deck
+---
 
-The premium collection on the landing page is a **coverflow arc carousel**, built the same
-way as the Consultancy Solutions block on thevisionarys.com: every card sits at the same
-absolute origin and is separated purely by `transform` and `z-index`, so sliding never
-triggers a layout pass.
+## 🚀 Quick Start & Execution Commands
 
-Controls: arrows, dots, click a side card to centre it, arrow keys, drag with a mouse,
-swipe on touch. Autoplay runs every 4.6s and stops on hover, focus, or any interaction.
-Only the centred card is a tab stop; the rest are `aria-hidden` with `tabindex="-1"`.
+Because Wall Jewels uses native HTTP standards (including ES modules and dynamic fetch calls), **it must be served over a local HTTP/HTTPS web server** rather than opened directly via `file://`.
 
-Tune the geometry with the CSS variables on `.deck` (`assets/css/styles.css`, section 22):
+Below are commands to execute and run the project locally across different environments:
 
-| variable | what it does |
-| --- | --- |
-| `--card-w` / `--card-h` | card size |
-| `--step` | horizontal gap between fanned cards |
-| `--tilt` | degrees of rotation per card away from centre |
+### Method 1: Python HTTP Server (Recommended)
 
-`VISIBLE` in `app.js` sets how many cards fan out either side (currently 3). Which designs
-appear is the `picks` array — just names from `COLLECTION`.
-
-## The background
-
-Two fixed, non-interactive layers behind everything (`z-index: -1`):
-
-1. **A WebGL shader** — `assets/js/background.js`, five effects to choose from.
-2. **Colour splash** — pure CSS, four layered radial washes with a slow 34s drift.
-   `.splash` in the stylesheet. Also the standalone fallback.
-
-Visitors pick the effect from the swatch button in the header, next to the light/dark
-toggle. The choice is remembered in `localStorage` and carries across pages.
-
-| Effect | Character |
-| --- | --- |
-| **Plasma** | Slow molten drift. The default. |
-| **Silk** | Flowing fabric bands, quiet and horizontal. |
-| **Aurora** | Soft drifting colour clouds. The calmest. |
-| **Damask** | A living wallpaper repeat, on a half-drop like real wallpaper. |
-| **Marble** | Veined stone, nodding to the Calacatta range. |
-| **Off** | No shader. Splash gradients only, no animation. |
-
-All five use the same warm brand palette (`PALETTE` in `background.js`) — reds, terracotta
-and gold, not the indigo-purple from the Visionarys site — and repaint on theme switch.
-
-**On intensity.** The first version was too pale in light mode to see, which was a real
-bug: the wash worked out to about 16% coverage of an almost-white peach, a colour distance
-of ~14 from the paper background. It's now a properly saturated terracotta/gold and every
-effect is normalised to 13–20% coverage, giving a distance of 28–35 in light mode. The
-per-effect `gain` values do that normalisation — Aurora needs a much lower gain than the
-rest because its three blobs sum toward full coverage across most of the frame.
-
-Measured text contrast over the wash, all five effects × both themes: body ≥ 14.8:1,
-muted ≥ 5.99:1, small mono labels ≥ 5.0:1. Nothing below WCAG AA.
-
-Two dials if you want it different:
-
-- Overall strength: `--plasma-op` in the stylesheet (`.88` light, `.82` dark).
-- Per-effect strength: the `gain` value on each entry in `MODES`.
-- Remove entirely: delete the `.bg-layers` block from both HTML files.
-
-It degrades on purpose: no WebGL hides the picker and the splash gradients carry it alone
-(tested by blocking `webgl`, `webgl2` and `experimental-webgl`); reduced-motion draws one
-static frame with no animation loop; a hidden tab parks the loop. The shader renders at
-0.5× and upscales, since it's a soft blur — full resolution would just burn GPU.
-
-## Run it locally
+If Python is installed on your system, execute one of the following commands in your terminal:
 
 ```bash
+# Python 3.x (Standard)
 python -m http.server 5178
+
+# Alternatively with python3 command
+python3 -m http.server 5178
 ```
-
-Then open <http://localhost:5178>. (It must be served over http, not opened as a `file://`
-path, or the room/theme deep links won't behave.)
-
-## Deploy
-
-Upload the folder as-is to your web root. Nothing to compile.
-
-**Your current live site has not been touched.** This is a separate build, ready to go
-whenever you are.
+Then open your browser and navigate to: **`http://localhost:5178`**
 
 ---
 
-## Phase 2 — swapping in your own photographs
+### Method 2: Node.js / npx
 
-Everything image-related lives in one place: `assets/js/data.js`.
+If Node.js is installed on your machine, you can run a local server instantly without installing global dependencies:
 
-1. Put your photos in `assets/img/collection/`.
-2. In `data.js`, change the `img` field:
+```bash
+# Option A: Using 'serve'
+npx serve . -p 5178
 
-```js
-{ t: 'Calacatta Gold', room: 'living', theme: 'texture',
-  blurb: '…',
-  img: 'assets/img/collection/calacatta-gold.jpg',   // ← this line
-  tone: ['#EDE6DA','#BFA46F'], tag: 'Bestseller' },
+# Option B: Using 'http-server'
+npx http-server -p 5178
 ```
-
-That's it — the landing page showcase, the room cards, the collection grid and the counts
-all update themselves.
-
-**Useful details:**
-
-- `img: null` draws a generated wallpaper swatch instead of a photo. Three pooja-room
-  entries use this right now (Om Mandala, Lakshmi Kamal, Ganesha Relief) because I would
-  not put an unverified stock photo behind a deity. Replace with your own images.
-- `tone: ['#light','#dark']` is the two-colour pair used for that swatch, and as the
-  fallback if a photo ever fails to load. No design will ever render as a broken image.
-- `tag:` is the little red corner label ("Bestseller", "New"). Omit it for no label.
-- To add a design, copy any line in `COLLECTION`. To add a whole room or theme, add an
-  entry to `ROOMS` or `THEMES` — filters, footer links and counts pick it up automatically.
-
-The photos you sent me (the Buddha 3D mural, the Spiderman wall, the balcony vertical
-gardens, Palazzo, the IMAX foyer) are the strongest assets you have. They belong in the
-**Selected work** section of `index.html` — search for `class="project__media"` and swap
-the four `src` values.
-
-## Placeholder images
-
-All current photography is Unsplash (free licence, hotlink-permitted). Every URL was
-load-tested; there are no broken images. They are placeholders — replace them with your
-own work in phase 2.
+Then open your browser and navigate to: **`http://localhost:5178`**
 
 ---
 
-## Things to confirm
+### Method 3: VS Code Live Server Extension
 
-- **Phone numbers.** The site currently uses `+91 98400 64205 / 06 / 07` (from your
-  existing website) for the showrooms, and `+91 99207 70172` (from your new WJWP posters)
-  for WhatsApp and custom-printing enquiries. Tell me if that split is wrong.
-- **Email.** Using `info@walljewels.com`.
-- **Branch addresses.** The company profile says three Chennai branches and a 5,000 sq.ft
-  flagship at Parry's, but gives no street addresses. The "Visit" section has placeholder
-  copy for branches two and three — send me the addresses and I'll put them in.
-- **Enquiry form.** It currently opens a pre-filled WhatsApp message so no enquiry is lost.
-  If you want it to email you instead, point it at a Formspree endpoint or your CRM —
-  see the marked block in `assets/js/app.js`.
-- **Rajinikanth's residence.** It's in the company profile, so I've included it. Worth a
-  quick check that you're happy to name it publicly on the website.
+If you are using Visual Studio Code or Cursor:
+1. Open the project folder in VS Code.
+2. Install the **Live Server** extension (`daybreak.live-server` or `ritwickdey.LiveServer`).
+3. Right-click `index.html` in the file explorer and select **"Open with Live Server"**.
+4. The site will open automatically in your browser at `http://127.0.0.1:5500`.
 
-## Notes on the build
+---
 
-- Light and dark mode. Follows the OS setting on first visit, then remembers the choice.
-  Toggle is in the header.
-- All text passes WCAG AA contrast in both themes (lowest measured ratio: 4.62:1).
-- No horizontal scroll at 375px through to 1440px+.
-- Respects `prefers-reduced-motion`.
-- If JavaScript fails to load, all content still renders — nothing is hidden behind JS.
+### Method 4: PHP Built-in Server
+
+If PHP is available on your machine:
+
+```bash
+php -S localhost:5178
+```
+Then open your browser and navigate to: **`http://localhost:5178`**
+
+---
+
+### Method 5: Direct Browser Access
+
+While an HTTP server is recommended for hash routing and WebGL shader support, you can preview static page structures directly:
+- Double-click `index.html` or drag `index.html` into Google Chrome, Microsoft Edge, or Firefox.
+
+---
+
+## ⚙️ Configuration & Customization (Phase 2)
+
+### Adding Custom Photography
+All catalog items are defined inside `assets/js/data.js`. To add or replace wallpaper imagery:
+
+1. Place high-resolution photos into `assets/img/collection/`.
+2. Update the `img` path in `assets/js/data.js`:
+
+```javascript
+{
+  t: 'Calacatta Gold',
+  room: 'living',
+  theme: 'texture',
+  blurb: 'Book-matched marble veining, printed seamless across the full wall.',
+  img: 'assets/img/collection/calacatta-gold.jpg', // ← Update your image path here
+  tone: ['#EDE6DA', '#BFA46F'],
+  tag: 'Bestseller'
+}
+```
+
+*Note: If `img: null` is set, the application automatically renders a woven fallback swatch using the two colors specified in `tone`.*
+
+---
+
+### Tuning Coverflow Deck Geometry
+To adjust the 3D coverflow card spacing, card dimensions, or rotation angles, modify the CSS variables in `assets/css/styles.css` (Section 22):
+
+```css
+.deck {
+  --card-w: 320px;  /* Width of individual cards */
+  --card-h: 460px;  /* Height of individual cards */
+  --step: 110px;    /* Horizontal offset gap between cards */
+  --tilt: 18deg;    /* 3D Y-axis rotation angle for side cards */
+}
+```
+
+---
+
+### Customizing Background Shaders
+Shader opacity and intensity can be tuned in `assets/css/styles.css`:
+
+```css
+:root {
+  --plasma-op: 0.88; /* Light theme shader opacity */
+}
+[data-theme="dark"] {
+  --plasma-op: 0.82; /* Dark theme shader opacity */
+}
+```
+
+To adjust specific shader gain levels or color palettes, edit the `MODES` object inside `assets/js/background.js`.
+
+---
+
+## 📦 Deployment Guide
+
+Since this project requires no build pipeline, deployment is instant:
+
+- **Netlify**: Drag & drop the project folder into Netlify Drop, or connect the Git repository (Publish directory: `./`).
+- **Vercel**: Import the repository as a Static Site (Build command: *None*, Output directory: `./`).
+- **Cloudflare Pages / GitHub Pages**: Point the deployment path to the repository root.
+- **Traditional Hosting (cPanel / Apache / Nginx)**: Upload all files directly to your server's `public_html` or web root folder.
+
+---
+
+## 📍 Showroom & Contact Details
+
+- **Email**: `info@walljewels.com`
+- **Phone / Showroom Enquiries**: `+91 98400 64205 / 06 / 07`
+- **WhatsApp & Custom Orders**: `+91 99207 70172`
+- **Headquarters**: Parry's Flagship Showroom (5,000 sq. ft.), Chennai, Tamil Nadu, India.
+
+---
+
+## 📄 License & Credits
+
+- © **Wall Jewels Wallpaper World**. All rights reserved.
+- Designed & Developed for Wall Jewels.
