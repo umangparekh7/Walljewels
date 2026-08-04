@@ -52,7 +52,6 @@
         img.removeEventListener('error', handle);
         img.src = swatch(img.dataset.tone.split('|'), img.dataset.swatchLabel || '');
       }, { once: true });
-      if (img.complete && img.naturalWidth === 0) img.dispatchEvent(new Event('error'));
     });
   }
 
@@ -195,6 +194,8 @@
           </span>
         </a>`;
     }).join('');
+
+    guardImages(stage);
 
     const cards = $$('.deck__card', stage);
     const dotsEl = $('#deck-dots');
