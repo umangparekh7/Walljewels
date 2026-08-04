@@ -1022,3 +1022,78 @@ h3, h4 { font-family: var(--sans); font-weight: 600; letter-spacing: -.012em; li
   .deck__card { transition: none; }
   .deck__card img { transition: none; }
 }
+
+/* ---------- Full Screen In-Page Lightbox Modal ---------- */
+.lightbox-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s var(--ease), visibility .3s;
+}
+.lightbox-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+.lightbox-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 6, 5, .92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.lightbox-modal__content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  gap: 0.8rem;
+  max-width: 94vw;
+  max-height: 92vh;
+  padding: 1rem;
+}
+.lightbox-modal__img {
+  max-width: 90vw;
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: var(--r, 12px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, .6);
+  border: 1px solid rgba(255, 255, 255, .12);
+  cursor: default;
+  transition: transform .3s var(--ease);
+}
+.lightbox-modal__caption {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, .82);
+  text-align: center;
+  max-width: 60ch;
+}
+.lightbox-modal__close {
+  position: absolute;
+  top: -1.2rem;
+  right: -1.2rem;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .15);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .25);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+.lightbox-modal__close:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: scale(1.08);
+}
+.lightbox-modal__close svg {
+  width: 22px;
+  height: 22px;
+}
