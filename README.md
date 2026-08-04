@@ -216,12 +216,21 @@ To adjust specific shader gain levels or color palettes, edit the `MODES` object
 
 ## 📦 Deployment Guide
 
-Since this project requires no build pipeline, deployment is instant:
+### Automated Production Deployment (Hostinger & GitHub Actions)
 
-- **Netlify**: Drag & drop the project folder into Netlify Drop, or connect the Git repository (Publish directory: `./`).
+This repository is equipped with an automated **GitHub Actions Workflow** ([`.github/workflows/deploy-production.yml`](file:///c:/Users/user/Desktop/UMP%202/Walljewels/Walljewels/.github/workflows/deploy-production.yml)).
+
+- **Trigger**: Every push to the `main` branch.
+- **Action**: Automatically syncs production-ready static files into the **`production`** branch.
+- **Hostinger Integration**: Connect your Hostinger hPanel Git Deployment to track the **`production`** branch with Auto-Deployment enabled. Any push to `main` will automatically build and update your live Hostinger website.
+
+### Alternative Static Hosting Options
+
+- **Hostinger (Git Deployment)**: Point Hostinger Git deployment directly to the `production` branch.
+- **Netlify**: Connect the Git repository (Publish directory: `./`).
 - **Vercel**: Import the repository as a Static Site (Build command: *None*, Output directory: `./`).
-- **Cloudflare Pages / GitHub Pages**: Point the deployment path to the repository root.
-- **Traditional Hosting (cPanel / Apache / Nginx)**: Upload all files directly to your server's `public_html` or web root folder.
+- **Cloudflare Pages / GitHub Pages**: Set branch to `production` or `main`.
+
 
 ---
 
