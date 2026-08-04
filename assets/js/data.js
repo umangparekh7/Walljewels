@@ -37,17 +37,17 @@ const U = (id, w) => `https://images.unsplash.com/photo-${id}?auto=format&fit=cr
 
 const COLLECTION = [
   // ---------- LIVING ROOM ----------
-  { t: 'Calacatta Gold',        room: 'living',  theme: 'texture', blurb: 'Book-matched marble veining, printed seamless across the full wall.', img: U('1615874959474-d609969a20ed'), tone: ['#EDE6DA','#BFA46F'], tag: 'Bestseller' },
-  { t: 'Ink & Gold Flow',       room: 'living',  theme: 'texture', blurb: 'Abstract alcohol-ink marbling with metallic gold rivers.',            img: U('1618221195710-dd6b41faaea6'), tone: ['#1B2436','#C9A24B'] },
-  { t: 'Botanical Luxe',        room: 'living',  theme: 'floral',  blurb: 'Oversized banana leaf in deep emerald on a warm ground.',             img: U('1512428813834-c702c7702b78'), tone: ['#1E3A2B','#7FA86A'] },
-  { t: 'Facet',                 room: 'living',  theme: '3d',      blurb: 'Low-poly relief that catches cove lighting from every angle.',        img: U('1618220179428-22790b461013'), tone: ['#D8D2C8','#8C8377'], tag: 'New' },
-  { t: 'Raw Concrete',          room: 'living',  theme: 'texture', blurb: 'Micro-cement finish — the loft look without the loft.',               img: U('1600607687939-ce8a6c25118c'), tone: ['#B8B3AC','#6E6862'] },
-  { t: 'Cherry Blossom Branch', room: 'living',  theme: 'floral',  blurb: 'Hand-painted chinoiserie, scaled to your exact wall.',                img: U('1616486338812-3dadae4b4ace'), tone: ['#F2E4DC','#C98897'] },
-  { t: 'Noir Marquina',         room: 'living',  theme: 'texture', blurb: 'Black marble with lightning-white veins. Drama, controlled.',         img: U('1600566753086-00f18fb6b3ea'), tone: ['#141312','#C9BFA8'] },
-  { t: 'Highland Panorama',     room: 'living',  theme: 'nature',  blurb: 'A single continuous vista — no repeat, no seams.',                    img: U('1441974231531-c6227db76b6e'), tone: ['#2E3B33','#9FB4A1'] },
+  { t: 'Calacatta Gold',        room: 'living',  theme: 'texture', blurb: 'Book-matched marble veining, printed seamless across the full wall.', img: 'assets/Wallpapers/wallpaper-collection-1.jpg', tone: ['#EDE6DA','#BFA46F'], tag: 'Bestseller' },
+  { t: 'Ink & Gold Flow',       room: 'living',  theme: 'texture', blurb: 'Abstract alcohol-ink marbling with metallic gold rivers.',            img: 'assets/Wallpapers/wallpaper-collection-2.jpg', tone: ['#1B2436','#C9A24B'] },
+  { t: 'Botanical Luxe',        room: 'living',  theme: 'floral',  blurb: 'Oversized banana leaf in deep emerald on a warm ground.',             img: 'assets/Wallpapers/wallpaper-collection-3.jpg', tone: ['#1E3A2B','#7FA86A'] },
+  { t: 'Facet',                 room: 'living',  theme: '3d',      blurb: 'Low-poly relief that catches cove lighting from every angle.',        img: 'assets/Wallpapers/wallpaper-collection-4.jpg', tone: ['#D8D2C8','#8C8377'], tag: 'New' },
+  { t: 'Raw Concrete',          room: 'living',  theme: 'texture', blurb: 'Micro-cement finish — the loft look without the loft.',               img: 'assets/Wallpapers/wallpaper-collection-1.jpg', tone: ['#B8B3AC','#6E6862'] },
+  { t: 'Cherry Blossom Branch', room: 'living',  theme: 'floral',  blurb: 'Hand-painted chinoiserie, scaled to your exact wall.',                img: 'assets/Wallpapers/wallpaper-collection-3.jpg', tone: ['#F2E4DC','#C98897'] },
+  { t: 'Noir Marquina',         room: 'living',  theme: 'texture', blurb: 'Black marble with lightning-white veins. Drama, controlled.',         img: 'assets/Wallpapers/wallpaper-collection-2.jpg', tone: ['#141312','#C9BFA8'] },
+  { t: 'Highland Panorama',     room: 'living',  theme: 'nature',  blurb: 'A single continuous vista — no repeat, no seams.',                    img: 'assets/Wallpapers/wallpaper-collection-4.jpg', tone: ['#2E3B33','#9FB4A1'] },
 
   // ---------- BEDROOM ----------
-  { t: 'Golden Eleaves',        room: 'bedroom', theme: 'floral',  blurb: 'Brushed-gold foliage on charcoal. Reads as art at night.',            img: U('1616594039964-ae9021a400a0'), tone: ['#191A18','#C79A45'], tag: 'Bestseller' },
+  { t: 'Golden Eleaves',        room: 'bedroom', theme: 'floral',  blurb: 'Brushed-gold foliage on charcoal. Reads as art at night.',            img: 'assets/Wallpapers/wallpaper-collection-2.jpg', tone: ['#191A18','#C79A45'], tag: 'Bestseller' },
   { t: 'Soft Bloom Mural',      room: 'bedroom', theme: 'floral',  blurb: 'Watercolour peonies fading into bare plaster.',                       img: U('1522708323590-d24dbb6b0267'), tone: ['#F5E9E6','#D6A7AC'] },
   { t: 'Linen Weave',           room: 'bedroom', theme: 'texture', blurb: 'Real fabric scanned at 1200dpi. You can almost feel it.',             img: U('1505693416388-ac5ce068fe85'), tone: ['#E6DCCB','#A3907A'] },
   { t: 'Misty Ridge',           room: 'bedroom', theme: 'nature',  blurb: 'Layered hills in ten greys — the calmest wall we sell.',              img: U('1470071459604-3b5ec3a7fe05'), tone: ['#C6CCCB','#5C6A6B'] },
