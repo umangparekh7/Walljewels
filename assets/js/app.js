@@ -8,10 +8,7 @@
   const $$ = (s, r) => [...(r || document).querySelectorAll(s)];
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  /* ---------- 1. Enable Site-Wide Live Text Editing & Copy ---------- */
-  try {
-    document.designMode = 'on';
-  } catch (err) {}
+
 
   /* ---------- 2. In-Page Full Screen Image Lightbox Modal ---------- */
   let lightboxModal = null;
