@@ -8,6 +8,23 @@
   const $$ = (s, r) => [...(r || document).querySelectorAll(s)];
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+  /* ---------- 1. Enable Site-Wide Live Text Editing & Copy ---------- */
+  try {
+    document.designMode = 'on';
+  } catch (err) {}
+
+  /* ---------- 2. Open Clicked Images in New Sub-Window ---------- */
+  document.addEventListener('click', (e) => {
+    const img = e.target.closest('img');
+    if (!img) return;
+    const src = img.currentSrc || img.src;
+    if (src && !src.startsWith('data:image/svg+xml')) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.open(src, '_blank', 'noopener,noreferrer');
+    }
+  }, true);
+
   /* ---------- Woven fallback swatch -------------------------
      If a photo fails to load we don't show a broken frame — we
      draw a plausible wallpaper swatch from the design's own
