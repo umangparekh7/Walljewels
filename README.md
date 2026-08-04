@@ -238,7 +238,7 @@ This repository is equipped with an automated **GitHub Actions Workflow** ([`.gi
 
 - **Email**: `info@walljewels.com`
 - **Phone / Showroom Enquiries**: `+91 98400 64205 / 06 / 07`
-- **WhatsApp & Custom Orders**: `+91 99207 70172`
+- **WhatsApp & Custom Orders**: `+91 9677042903`
 - **Headquarters**: Parry's Flagship Showroom (5,000 sq. ft.), Chennai, Tamil Nadu, India.
 
 ---
