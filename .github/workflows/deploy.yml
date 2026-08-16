@@ -16,7 +16,7 @@ jobs:
       - name: Prepare dist (public files only)
         run: |
           mkdir dist
-          cp index.html collection.html dist/
+          cp index.html collection.html .htaccess dist/
           cp -r assets dist/assets
 
       - name: Publish dist to production
