@@ -336,6 +336,9 @@
       update();
     });
 
+    const baseOut = $('[data-cfg-base]', cfg), gstOut = $('[data-cfg-gst]', cfg);
+    const GST = 0.18;
+    const inr = (n) => `₹${Math.round(n).toLocaleString('en-IN')}`;
     function update() {
       const w = parseFloat(wIn.value) || 0;
       const h = parseFloat(hIn.value) || 0;
@@ -343,9 +346,13 @@
       const finName = fin.selectedOptions[0] ? fin.selectedOptions[0].dataset.name : 'Non-Woven';
       if (w >= 12 && h >= 12) {
         const sqft = (w * h) / 144;
-        const price = Math.round(sqft * rate);
+        const base = sqft * rate;
+        const gst = base * GST;
+        const total = base + gst;
         areaOut.textContent = `${w}″ × ${h}″  ·  ${sqft.toFixed(1)} sq.ft`;
-        priceOut.textContent = `₹${price.toLocaleString('en-IN')}`;
+        baseOut.textContent = `${inr(base)}  ·  @ ₹${rate}/sq.ft`;
+        gstOut.textContent = inr(gst);
+        priceOut.textContent = inr(total);
         preview.style.aspectRatio = Math.min(2.6, Math.max(0.45, w / h));
         wLabel.textContent = `${w} in`;
         hLabel.textContent = `${h} in`;
@@ -353,13 +360,17 @@
           `Design: ${source}\n` +
           `Wall: ${w} × ${h} inches (${sqft.toFixed(1)} sq.ft)\n` +
           `Finish: ${finName} @ ₹${rate}/sq.ft\n` +
-          `Estimated price: ₹${price.toLocaleString('en-IN')}\n` +
+          `Wallpaper: ${inr(base)}\n` +
+          `GST 18%: ${inr(gst)}\n` +
+          `Total incl. GST: ${inr(total)}\n` +
           `Please confirm my exact quote.`;
         waBtn.href = `https://wa.me/919677042903?text=${encodeURIComponent(msg)}`;
         waBtn.hidden = false;
         note.hidden = !uploaded;
       } else {
         areaOut.textContent = 'enter your wall size above';
+        baseOut.textContent = '—';
+        gstOut.textContent = '—';
         priceOut.textContent = '—';
         waBtn.hidden = true;
         note.hidden = true;
@@ -521,11 +532,113 @@
   document.addEventListener('click', (e) => {
     const img = e.target.closest(LB_SEL);
     if (!img) return;
+    if (img.closest('[data-open-catalogue]')) return; /* catalogue viewer owns these */
     const a = img.closest('a');
     if (a) e.preventDefault();
     openLightbox(img.currentSrc || img.src, img.alt);
   });
   addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+  /* ---------------- catalogue viewer: flip through the volumes ---------------- */
+  const CATALOGUES = {
+    kp: { name: 'Kala Parampara · Volume I', count: 82, prefix: 'assets/img/catalogue/kp-' },
+    kr: { name: 'Kala Rasa · Volume II', count: 189, prefix: 'assets/img/catalogue/kr-' }
+  };
+  const catViews = {};
+  let activeCat = null;
+
+  function buildCatView(id) {
+    const c = CATALOGUES[id];
+    const view = document.createElement('div');
+    view.className = 'catview';
+    view.setAttribute('role', 'dialog');
+    view.setAttribute('aria-label', `${c.name} — catalogue`);
+    view.innerHTML = `
+      <div class="catview__bar">
+        <span class="catview__title">${c.name}</span>
+        <span class="catview__count"><span data-cat-cur>1</span> / ${c.count}</span>
+        <button class="tool" type="button" data-cat-close aria-label="Close the catalogue">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" width="22" height="22">
+            <path d="M6 6 L18 18 M18 6 L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="catview__strip" tabindex="0"></div>
+      <button class="catview__nav catview__nav--prev" type="button" aria-label="Previous page">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M14 8 H2 M7 3 L2 8 L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="catview__nav catview__nav--next" type="button" aria-label="Next page">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M2 8 H14 M9 3 L14 8 L9 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <p class="catview__hint">Scroll or swipe through the pages · click a page for full view · Esc to close</p>`;
+    const strip = $('.catview__strip', view);
+    for (let i = 0; i < c.count; i++) {
+      const pg = document.createElement('div');
+      pg.className = 'catview__page';
+      pg.innerHTML = `<img data-src="${c.prefix}${String(i).padStart(3, '0')}.jpg"
+        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 717'%3E%3Crect width='1280' height='717' fill='%23191c23'/%3E%3C/svg%3E"
+        alt="${c.name} — page ${i + 1}" decoding="async"><span class="pgnum">${i + 1}</span>`;
+      strip.appendChild(pg);
+    }
+    const lazyIO = new IntersectionObserver((ents) => {
+      ents.forEach(e => {
+        if (e.isIntersecting) {
+          const im = $('img', e.target);
+          if (im && im.dataset.src) { im.src = im.dataset.src; delete im.dataset.src; }
+          lazyIO.unobserve(e.target);
+        }
+      });
+    }, { root: strip, rootMargin: '0px 1600px 0px 1600px' });
+    $$('.catview__page', strip).forEach(p => lazyIO.observe(p));
+
+    const cur = $('[data-cat-cur]', view);
+    const pageStep = () => strip.querySelector('.catview__page').getBoundingClientRect().width + parseFloat(getComputedStyle(strip).gap || 24);
+    strip.addEventListener('scroll', () => {
+      cur.textContent = Math.min(c.count, Math.max(1, Math.round(strip.scrollLeft / pageStep()) + 1));
+    }, { passive: true });
+    $('.catview__nav--prev', view).addEventListener('click', () => strip.scrollBy({ left: -pageStep(), behavior: 'smooth' }));
+    $('.catview__nav--next', view).addEventListener('click', () => strip.scrollBy({ left: pageStep(), behavior: 'smooth' }));
+    $('[data-cat-close]', view).addEventListener('click', closeCatalogue);
+    document.body.appendChild(view);
+    return view;
+  }
+  function openCatalogue(id) {
+    if (!CATALOGUES[id]) return;
+    activeCat = catViews[id] || (catViews[id] = buildCatView(id));
+    activeCat.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    $('.catview__strip', activeCat).focus({ preventScroll: true });
+  }
+  function closeCatalogue() {
+    if (!activeCat) return;
+    activeCat.classList.remove('is-open');
+    activeCat = null;
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-open-catalogue]');
+    if (!t) return;
+    e.preventDefault();
+    openCatalogue(t.dataset.openCatalogue);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!activeCat) return;
+    if (e.key === 'Escape') { closeCatalogue(); return; }
+    const strip = $('.catview__strip', activeCat);
+    const step = strip.querySelector('.catview__page').getBoundingClientRect().width + 24;
+    if (e.key === 'ArrowRight') strip.scrollBy({ left: step, behavior: 'smooth' });
+    if (e.key === 'ArrowLeft') strip.scrollBy({ left: -step, behavior: 'smooth' });
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.matches && e.target.matches('[data-open-catalogue]')) {
+      openCatalogue(e.target.dataset.openCatalogue);
+    }
+  });
+  /* catalogue pages open the lightbox at full size */
+  document.addEventListener('click', (e) => {
+    const img = e.target.closest('.catview__page img');
+    if (img && !img.dataset.src) openLightbox(img.src, img.alt);
+  });
 
   /* ---------------- boot ---------------- */
   counts(); syncWishButtons(); renderDocket();
