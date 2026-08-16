@@ -19,6 +19,12 @@ jobs:
           cp index.html collection.html .htaccess dist/
           cp -r assets dist/assets
 
+      - name: Stamp asset versions with commit hash (cache busting)
+        run: |
+          SHA="${GITHUB_SHA::8}"
+          sed -i "s/?v=[0-9A-Za-z.-]*/?v=${SHA}/g" dist/index.html dist/collection.html
+          grep -m1 -o '?v=[0-9A-Za-z.-]*' dist/index.html
+
       - name: Publish dist to production
         uses: peaceiris/actions-gh-pages@v4
         with:
