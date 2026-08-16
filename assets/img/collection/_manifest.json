@@ -1,0 +1,302 @@
+{
+ "divine-himalayan-ascetic": {
+  "w": 690,
+  "h": 738
+ },
+ "divine-cosmic-dance": {
+  "w": 610,
+  "h": 588
+ },
+ "divine-devoted-breath": {
+  "w": 650,
+  "h": 746
+ },
+ "divine-darbar-ancients": {
+  "w": 594,
+  "h": 682
+ },
+ "divine-kadamba-melody": {
+  "w": 706,
+  "h": 746
+ },
+ "divine-ganesha-relief": {
+  "w": 754,
+  "h": 762
+ },
+ "divine-golden-obstacle": {
+  "w": 540,
+  "h": 738
+ },
+ "divine-invincible-sovereign": {
+  "w": 594,
+  "h": 722
+ },
+ "divine-temple-sovereign": {
+  "w": 880,
+  "h": 762
+ },
+ "divine-resonance-om": {
+  "w": 626,
+  "h": 374
+ },
+ "divine-goddess-lotus": {
+  "w": 840,
+  "h": 762
+ },
+ "divine-ganesha-plate": {
+  "w": 404,
+  "h": 476
+ },
+ "pichwai-moonlit-grove": {
+  "w": 1078,
+  "h": 524
+ },
+ "pichwai-eternal-melody": {
+  "w": 1078,
+  "h": 524
+ },
+ "heritage-chola-pillars": {
+  "w": 698,
+  "h": 762
+ },
+ "heritage-abstract-gopuram": {
+  "w": 516,
+  "h": 674
+ },
+ "heritage-chettinad-grandeur": {
+  "w": 650,
+  "h": 730
+ },
+ "heritage-tanjore-garden": {
+  "w": 896,
+  "h": 682
+ },
+ "heritage-tanjore-echoes": {
+  "w": 730,
+  "h": 762
+ },
+ "heritage-kolam-rhythm": {
+  "w": 626,
+  "h": 754
+ },
+ "heritage-royal-tusker": {
+  "w": 698,
+  "h": 762
+ },
+ "heritage-gopuram-dusk": {
+  "w": 746,
+  "h": 746
+ },
+ "heritage-palace-corridor": {
+  "w": 770,
+  "h": 690
+ },
+ "heritage-stone-chariot": {
+  "w": 634,
+  "h": 698
+ },
+ "heritage-shrine-alcove": {
+  "w": 548,
+  "h": 690
+ },
+ "heritage-grand-study": {
+  "w": 754,
+  "h": 762
+ },
+ "heritage-mural-library": {
+  "w": 944,
+  "h": 762
+ },
+ "tropical-emerald-jungle": {
+  "w": 928,
+  "h": 762
+ },
+ "botanical-lotus-bloom": {
+  "w": 754,
+  "h": 618
+ },
+ "tropical-kerala-monsoon": {
+  "w": 754,
+  "h": 730
+ },
+ "tropical-malabar-coast": {
+  "w": 808,
+  "h": 682
+ },
+ "tropical-cabana-palms": {
+  "w": 754,
+  "h": 706
+ },
+ "botanical-verdant-hall": {
+  "w": 556,
+  "h": 706
+ },
+ "botanical-lotus-bath": {
+  "w": 698,
+  "h": 762
+ },
+ "tropical-banana-grove": {
+  "w": 944,
+  "h": 738
+ },
+ "tropical-midnight-palm": {
+  "w": 880,
+  "h": 754
+ },
+ "tropical-golden-shore": {
+  "w": 706,
+  "h": 658
+ },
+ "botanical-peacock-garden": {
+  "w": 770,
+  "h": 762
+ },
+ "botanical-chintz-revival": {
+  "w": 754,
+  "h": 762
+ },
+ "world-london-study": {
+  "w": 698,
+  "h": 634
+ },
+ "world-paris-library": {
+  "w": 816,
+  "h": 706
+ },
+ "world-rome-colosseum": {
+  "w": 778,
+  "h": 674
+ },
+ "world-bosphorus-lounge": {
+  "w": 698,
+  "h": 690
+ },
+ "world-india-gate": {
+  "w": 754,
+  "h": 754
+ },
+ "world-mumbai-marine": {
+  "w": 698,
+  "h": 746
+ },
+ "world-singapore-gardens": {
+  "w": 896,
+  "h": 658
+ },
+ "world-manhattan-stair": {
+  "w": 698,
+  "h": 762
+ },
+ "kids-little-gopala": {
+  "w": 722,
+  "h": 762
+ },
+ "kids-mango-grove": {
+  "w": 770,
+  "h": 762
+ },
+ "kids-jungle-troop": {
+  "w": 746,
+  "h": 746
+ },
+ "kids-orchard-play": {
+  "w": 730,
+  "h": 754
+ },
+ "kids-backwater-tale": {
+  "w": 762,
+  "h": 602
+ },
+ "kids-lotus-parade": {
+  "w": 754,
+  "h": 714
+ },
+ "modern-amethyst-swirl": {
+  "w": 690,
+  "h": 626
+ },
+ "texture-gilded-marble": {
+  "w": 714,
+  "h": 762
+ },
+ "modern-blush-terra": {
+  "w": 698,
+  "h": 746
+ },
+ "modern-terracotta-trellis": {
+  "w": 618,
+  "h": 762
+ },
+ "modern-crimson-weave": {
+  "w": 618,
+  "h": 642
+ },
+ "botanical-emerald-print": {
+  "w": 698,
+  "h": 730
+ },
+ "modern-indigo-damask": {
+  "w": 532,
+  "h": 618
+ },
+ "modern-teal-deco": {
+  "w": 404,
+  "h": 492
+ },
+ "modern-azure-steps": {
+  "w": 770,
+  "h": 698
+ },
+ "modern-marigold-sun": {
+  "w": 816,
+  "h": 762
+ },
+ "modern-amber-dusk": {
+  "w": 762,
+  "h": 754
+ },
+ "modern-olive-current": {
+  "w": 762,
+  "h": 762
+ },
+ "space-dining-pichwai": {
+  "w": 856,
+  "h": 666
+ },
+ "space-banquet-mural": {
+  "w": 864,
+  "h": 626
+ },
+ "space-boardroom-lattice": {
+  "w": 762,
+  "h": 762
+ },
+ "space-resort-cove": {
+  "w": 904,
+  "h": 690
+ },
+ "space-cafe-collage": {
+  "w": 936,
+  "h": 682
+ },
+ "space-office-metropolis": {
+  "w": 690,
+  "h": 698
+ },
+ "sepia-temple-sanctuary": {
+  "w": 1536,
+  "h": 1024
+ },
+ "sepia-sacred-waters": {
+  "w": 1536,
+  "h": 1024
+ },
+ "sepia-rooted-heritage": {
+  "w": 1536,
+  "h": 1024
+ },
+ "sepia-southern-harmony": {
+  "w": 1536,
+  "h": 1024
+ }
+}

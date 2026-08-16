@@ -1,0 +1,29 @@
+name: Deploy to production branch
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare dist (public files only)
+        run: |
+          mkdir dist
+          cp index.html collection.html dist/
+          cp -r assets dist/assets
+
+      - name: Publish dist to production
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: production
+          publish_dir: ./dist
+          force_orphan: true
+          commit_message: "deploy: ${{ github.event.head_commit.message }}"

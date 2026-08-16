@@ -1,0 +1,532 @@
+/* ============================================================================
+   WALL JEWELS — behaviour
+   ----------------------------------------------------------------------------
+   Enhancement only: every section renders complete without this file.
+   One motion clock (var --beat); marks, not hues, for state; the docket
+   never deletes — it voids, and a void can be restored.
+   ========================================================================== */
+(function () {
+  'use strict';
+  const $ = (s, c) => (c || document).querySelector(s);
+  const $$ = (s, c) => [...(c || document).querySelectorAll(s)];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.classList.remove('no-js');
+
+  const slugOf = (d) => d.img.split('/').pop().replace('.jpg', '');
+  const bySlug = {};
+  if (typeof COLLECTION !== 'undefined') COLLECTION.forEach(d => { bySlug[slugOf(d)] = d; });
+  const volName = (id) => (typeof VOLUMES !== 'undefined' && (VOLUMES.find(v => v.id === id) || {}).name) || '';
+
+  /* ---------------- header ---------------- */
+  const header = $('.header');
+  addEventListener('scroll', () => {
+    header && header.classList.toggle('is-scrolled', scrollY > 8);
+  }, { passive: true });
+
+  const drawer = $('.drawer');
+  $('[data-open-drawer]') && $('[data-open-drawer]').addEventListener('click', () => {
+    drawer.classList.add('is-open');
+    drawer.removeAttribute('inert');
+    document.body.style.overflow = 'hidden';
+  });
+  const closeDrawer = () => {
+    if (!drawer) return;
+    drawer.classList.remove('is-open');
+    drawer.setAttribute('inert', '');
+    document.body.style.overflow = '';
+  };
+  $('[data-close-drawer]') && $('[data-close-drawer]').addEventListener('click', closeDrawer);
+  drawer && $$('.drawer__nav a', drawer).forEach(a => a.addEventListener('click', closeDrawer));
+
+  /* ---------------- reveals ---------------- */
+  const io = new IntersectionObserver((ents) => {
+    ents.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+  }, { threshold: 0.16, rootMargin: '0px 0px -6% 0px' });
+  $$('.rv, .rv--wipe, .hero__title').forEach(n => io.observe(n));
+
+  /* litany lines light as they pass the middle of the screen */
+  const litanyIO = new IntersectionObserver((ents) => {
+    ents.forEach(e => e.target.classList.toggle('is-in', e.isIntersecting));
+  }, { rootMargin: '-42% 0px -42% 0px' });
+  $$('.litany__lines p').forEach(p => litanyIO.observe(p));
+
+  /* ---------------- parallax (committed rates, one clock) ---------------- */
+  const plx = $$('[data-plx]');
+  if (plx.length && !reduced) {
+    let ticking = false;
+    const step = () => {
+      ticking = false;
+      const vh = innerHeight;
+      plx.forEach(n => {
+        const r = n.parentElement.getBoundingClientRect();
+        if (r.bottom < -80 || r.top > vh + 80) return;
+        const p = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
+        n.style.transform = `translate3d(0, ${(-p * parseFloat(n.dataset.plx) * 100).toFixed(2)}px, 0)`;
+      });
+    };
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(step); } }, { passive: true });
+    step();
+  }
+
+  /* ---------------- rails ---------------- */
+  $$('.rail-zone').forEach(zone => {
+    const rail = $('.rail', zone);
+    if (!rail) return;
+    const prev = $('[data-rail-prev]', zone), next = $('[data-rail-next]', zone);
+    const stepBy = () => Math.min(rail.clientWidth * 0.8, 420);
+    prev && prev.addEventListener('click', () => rail.scrollBy({ left: -stepBy(), behavior: reduced ? 'auto' : 'smooth' }));
+    next && next.addEventListener('click', () => rail.scrollBy({ left: stepBy(), behavior: reduced ? 'auto' : 'smooth' }));
+    const sync = () => {
+      if (prev) prev.disabled = rail.scrollLeft < 20;
+      if (next) next.disabled = rail.scrollLeft > rail.scrollWidth - rail.clientWidth - 20;
+    };
+    rail.addEventListener('scroll', sync, { passive: true });
+    sync();
+  });
+
+  /* plate tilt — quiet 3D, pointer only */
+  if (matchMedia('(hover: hover)').matches && !reduced) {
+    $$('.plate').forEach(p => {
+      p.addEventListener('pointermove', (e) => {
+        const r = p.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        p.style.transform = `perspective(900px) rotateY(${(x * 5).toFixed(2)}deg) rotateX(${(-y * 4).toFixed(2)}deg) translateY(-4px)`;
+      });
+      p.addEventListener('pointerleave', () => { p.style.transform = ''; });
+    });
+  }
+
+  /* ---------------- edit rows: floating peek ---------------- */
+  const peek = $('.edit-row__peek');
+  if (peek && matchMedia('(hover: hover)').matches) {
+    $$('.edit-row').forEach(row => {
+      row.addEventListener('pointerenter', () => {
+        const img = row.dataset.peek;
+        if (!img) return;
+        peek.querySelector('img').src = img;
+        peek.classList.add('is-on');
+      });
+      row.addEventListener('pointermove', (e) => {
+        peek.style.left = Math.min(innerWidth - 260, e.clientX + 28) + 'px';
+        peek.style.top = Math.min(innerHeight - 320, e.clientY - 150) + 'px';
+      });
+      row.addEventListener('pointerleave', () => peek.classList.remove('is-on'));
+    });
+  }
+
+  /* ---------------- stores ---------------- */
+  const store = {
+    get wish() { try { return JSON.parse(localStorage.getItem('wjwp:wish') || '[]'); } catch { return []; } },
+    set wish(v) { localStorage.setItem('wjwp:wish', JSON.stringify(v)); },
+    get basket() { try { return JSON.parse(localStorage.getItem('wjwp:basket') || '[]'); } catch { return []; } },
+    set basket(v) { localStorage.setItem('wjwp:basket', JSON.stringify(v)); }
+  };
+
+  const counts = () => {
+    const w = store.wish.length, b = store.basket.filter(i => !i.void).length;
+    $$('[data-count-wish]').forEach(n => n.textContent = w || '');
+    $$('[data-count-basket]').forEach(n => n.textContent = b || '');
+  };
+
+  /* wishlist buttons */
+  function syncWishButtons() {
+    const w = store.wish;
+    $$('.wish[data-slug]').forEach(b => b.setAttribute('aria-pressed', w.includes(b.dataset.slug)));
+  }
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('.wish[data-slug]');
+    if (!b) return;
+    const slug = b.dataset.slug;
+    let w = store.wish;
+    if (w.includes(slug)) { w = w.filter(s => s !== slug); toast('Removed from your wishlist'); }
+    else {
+      w.push(slug);
+      const d = bySlug[slug];
+      toast((d ? `“${d.n}”` : 'Design') + ' marked on your wishlist');
+    }
+    store.wish = w;
+    syncWishButtons(); counts();
+  });
+
+  /* add-to-docket buttons */
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-add-basket]');
+    if (!b) return;
+    const slug = b.dataset.addBasket;
+    const basket = store.basket;
+    const hit = basket.find(i => i.slug === slug);
+    if (hit) { hit.void = false; }
+    else basket.push({ slug, void: false });
+    store.basket = basket;
+    counts(); renderDocket();
+    const d = bySlug[slug];
+    toast((d ? `“${d.n}”` : 'Design') + ' entered on your enquiry docket');
+  });
+
+  /* ---------------- docket ---------------- */
+  const docket = $('.docket'), scrim = $('.docket-scrim');
+  const openDocket = () => {
+    if (!docket) return;
+    renderDocket();
+    docket.classList.add('is-open'); scrim.classList.add('is-open');
+    docket.removeAttribute('inert');
+    document.body.style.overflow = 'hidden';
+    const first = $('.docket__void, input', docket);
+    first && first.focus({ preventScroll: true });
+  };
+  const closeDocket = () => {
+    if (!docket) return;
+    docket.classList.remove('is-open'); scrim.classList.remove('is-open');
+    docket.setAttribute('inert', '');
+    document.body.style.overflow = '';
+  };
+  $$('[data-open-docket]').forEach(b => b.addEventListener('click', openDocket));
+  $('[data-close-docket]') && $('[data-close-docket]').addEventListener('click', closeDocket);
+  scrim && scrim.addEventListener('click', closeDocket);
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeDocket(); closeSearch(); closeDrawer(); }
+  });
+
+  function renderDocket() {
+    const list = $('.docket__list');
+    if (!list) return;
+    const basket = store.basket;
+    if (!basket.length) {
+      list.innerHTML = `<div class="docket__empty">
+        <svg width="54" height="54" viewBox="0 0 54 54" fill="none" aria-hidden="true">
+          <circle cx="27" cy="27" r="18" stroke="currentColor" stroke-width="1.2"/>
+          <circle cx="27" cy="27" r="2" fill="currentColor"/>
+          <circle cx="27" cy="9" r="1.6" fill="currentColor"/><circle cx="45" cy="27" r="1.6" fill="currentColor"/>
+          <circle cx="27" cy="45" r="1.6" fill="currentColor"/><circle cx="9" cy="27" r="1.6" fill="currentColor"/>
+        </svg>
+        <p>Your docket is empty.<br>Mark any design “Add to enquiry” and it is entered here.</p>
+      </div>`;
+      return;
+    }
+    list.innerHTML = basket.map(item => {
+      const d = bySlug[item.slug];
+      if (!d) return '';
+      return `<div class="docket__item ${item.void ? 'is-void' : ''}" data-slug="${item.slug}">
+        <img src="${d.img}" alt="" loading="lazy">
+        <div>
+          <div class="docket__iname">${d.n}</div>
+          <div class="docket__ivol">${volName(d.v)} · ${d.no}</div>
+        </div>
+        <button class="docket__void" data-void="${item.slug}">${item.void ? 'Restore' : 'Void'}</button>
+      </div>`;
+    }).join('');
+  }
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-void]');
+    if (!b) return;
+    const basket = store.basket;
+    const hit = basket.find(i => i.slug === b.dataset.void);
+    if (hit) hit.void = !hit.void;
+    store.basket = basket;
+    renderDocket(); counts();
+  });
+
+  /* docket → WhatsApp */
+  const sendBtn = $('[data-send-docket]');
+  sendBtn && sendBtn.addEventListener('click', () => {
+    const live = store.basket.filter(i => !i.void).map(i => bySlug[i.slug]).filter(Boolean);
+    const name = ($('#dk-name') || {}).value || '';
+    const w = ($('#dk-w') || {}).value || '';
+    const h = ($('#dk-h') || {}).value || '';
+    const notes = ($('#dk-notes') || {}).value || '';
+    let msg = 'Namaste Wall Jewels — I would like a consultation.\n';
+    if (live.length) {
+      msg += '\nDesigns on my docket:\n' + live.map(d => `• ${d.n} (${d.no})`).join('\n') + '\n';
+    }
+    if (w || h) msg += `\nWall size: ${w || '—'} ft wide × ${h || '—'} ft high`;
+    if (name) msg += `\nName: ${name}`;
+    if (notes) msg += `\nNotes: ${notes}`;
+    open(`${CONTACT.whatsappHref}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+  });
+
+  /* ---------------- toast ---------------- */
+  let toastT;
+  function toast(text) {
+    let t = $('.toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.className = 'toast';
+      t.setAttribute('role', 'status');
+      t.innerHTML = '<span class="dot"></span><span class="toast__msg"></span>';
+      document.body.appendChild(t);
+    }
+    $('.toast__msg', t).textContent = text;
+    t.classList.add('is-on');
+    clearTimeout(toastT);
+    toastT = setTimeout(() => t.classList.remove('is-on'), 2600);
+  }
+
+  /* ---------------- search ---------------- */
+  const veil = $('.search-veil');
+  const sInput = $('.search-box input');
+  const sOut = $('.search-results');
+  const openSearch = () => {
+    if (!veil) { location.href = 'collection.html'; return; }
+    veil.classList.add('is-open');
+    veil.removeAttribute('inert');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => sInput && sInput.focus(), 80);
+  };
+  const closeSearch = () => {
+    if (!veil) return;
+    veil.classList.remove('is-open');
+    veil.setAttribute('inert', '');
+    document.body.style.overflow = '';
+  };
+  $$('[data-open-search]').forEach(b => b.addEventListener('click', openSearch));
+  veil && veil.addEventListener('click', (e) => { if (e.target === veil) closeSearch(); });
+
+  function searchRender(q) {
+    if (!sOut) return;
+    q = q.trim().toLowerCase();
+    if (q.length < 2) { sOut.innerHTML = ''; return; }
+    const hits = COLLECTION.filter(d => {
+      const hay = `${d.n} ${d.no} ${d.c} ${d.s} ${d.b} ${volName(d.v)}`.toLowerCase();
+      return q.split(/\s+/).every(w => hay.includes(w));
+    }).slice(0, 9);
+    sOut.innerHTML = hits.length
+      ? hits.map(d => `<a href="collection.html#${slugOf(d)}">
+          <img src="${d.img}" alt="" loading="lazy">
+          <span><span class="sr-name">${d.n}</span><br><span class="sr-meta">${volName(d.v)} · ${d.no}</span></span>
+        </a>`).join('')
+      : `<a href="collection.html"><span><span class="sr-name">No design answers “${q}” yet</span><br>
+         <span class="sr-meta">Browse the full collection — or WhatsApp us; if it exists, we can print it.</span></span></a>`;
+  }
+  sInput && sInput.addEventListener('input', () => searchRender(sInput.value));
+
+  /* ---------------- visualiser & price calculator ---------------- */
+  const cfg = $('#visualiser');
+  if (cfg) {
+    const img = $('[data-cfg-img]', cfg);
+    const preview = $('[data-cfg-preview]', cfg);
+    const fileIn = $('[data-cfg-file]', cfg);
+    const urlIn = $('[data-cfg-url]', cfg);
+    const wIn = $('#cfg-w'), hIn = $('#cfg-h'), fin = $('[data-cfg-fin]', cfg);
+    const areaOut = $('[data-cfg-area]', cfg), priceOut = $('[data-cfg-price]', cfg);
+    const waBtn = $('[data-cfg-wa]', cfg), note = $('[data-cfg-note]', cfg);
+    const wLabel = $('[data-cfg-wlabel]', cfg), hLabel = $('[data-cfg-hlabel]', cfg);
+    let source = 'our collection (Pichwai: Eternal Melody)';
+    let uploaded = false;
+
+    fileIn && fileIn.addEventListener('change', () => {
+      const f = fileIn.files && fileIn.files[0];
+      if (!f) return;
+      img.src = URL.createObjectURL(f);
+      source = `my uploaded reference (${f.name})`;
+      uploaded = true;
+      if (urlIn) urlIn.value = '';
+      update();
+      toast('Reference loaded — set your wall size to see it at scale');
+    });
+    urlIn && urlIn.addEventListener('change', () => {
+      const u = urlIn.value.trim();
+      if (!u) return;
+      source = `this link: ${u}`;
+      uploaded = false;
+      const probe = new Image();
+      probe.onload = () => { img.src = u; };
+      probe.onerror = () => toast('That site blocks previews — the link will still be sent with your enquiry');
+      probe.src = u;
+      update();
+    });
+
+    function update() {
+      const w = parseFloat(wIn.value) || 0;
+      const h = parseFloat(hIn.value) || 0;
+      const rate = parseFloat(fin.value) || 120;
+      const finName = fin.selectedOptions[0] ? fin.selectedOptions[0].dataset.name : 'Non-Woven';
+      if (w >= 12 && h >= 12) {
+        const sqft = (w * h) / 144;
+        const price = Math.round(sqft * rate);
+        areaOut.textContent = `${w}″ × ${h}″  ·  ${sqft.toFixed(1)} sq.ft`;
+        priceOut.textContent = `₹${price.toLocaleString('en-IN')}`;
+        preview.style.aspectRatio = Math.min(2.6, Math.max(0.45, w / h));
+        wLabel.textContent = `${w} in`;
+        hLabel.textContent = `${h} in`;
+        let msg = `Namaste Wall Jewels — I'd like a custom wallpaper.\n` +
+          `Design: ${source}\n` +
+          `Wall: ${w} × ${h} inches (${sqft.toFixed(1)} sq.ft)\n` +
+          `Finish: ${finName} @ ₹${rate}/sq.ft\n` +
+          `Estimated price: ₹${price.toLocaleString('en-IN')}\n` +
+          `Please confirm my exact quote.`;
+        waBtn.href = `https://wa.me/919677042903?text=${encodeURIComponent(msg)}`;
+        waBtn.hidden = false;
+        note.hidden = !uploaded;
+      } else {
+        areaOut.textContent = 'enter your wall size above';
+        priceOut.textContent = '—';
+        waBtn.hidden = true;
+        note.hidden = true;
+        wLabel.textContent = 'Width';
+        hLabel.textContent = 'Height';
+      }
+    }
+    [wIn, hIn, fin].forEach(el => el && el.addEventListener('input', update));
+    update();
+  }
+
+  /* ---------------- journey stepper: artwork -> your wall ---------------- */
+  const j2 = $('.journey2');
+  if (j2) {
+    const stage = $('.j2stage', j2);
+    const items = $$('.j2list li', j2);
+    let k = 0, jt = null, visible = false;
+    const apply = (i) => {
+      k = i;
+      items.forEach((li, x) => li.classList.toggle('is-on', x === i));
+      stage.dataset.k = i;
+    };
+    const restart = () => {
+      clearInterval(jt);
+      if (!reduced) jt = setInterval(() => {
+        if (visible && !document.hidden) apply((k + 1) % items.length);
+      }, 2400);
+    };
+    items.forEach((li, i) => li.addEventListener('click', () => { apply(i); restart(); }));
+    new IntersectionObserver((ents) => { visible = ents[0].isIntersecting; }, { threshold: 0.35 }).observe(j2);
+    apply(0);
+    restart();
+    j2.addEventListener('pointerenter', () => clearInterval(jt));
+    j2.addEventListener('pointerleave', restart);
+  }
+
+  /* ---------------- collection page ---------------- */
+  const grid = $('[data-coll-grid]');
+  if (grid) {
+    const chips = $$('.fchip[data-filter]');
+    const countOut = $('[data-coll-count]');
+    const state = { v: null, c: null, s: null, search: '' };
+    const params = new URLSearchParams(location.search);
+    ['v', 'c', 's'].forEach(k => { if (params.get(k)) state[k] = params.get(k); });
+    if (params.get('search')) state.search = params.get('search');
+
+    function match(d) {
+      if (state.v && d.v !== state.v) return false;
+      if (state.c && d.c !== state.c) return false;
+      if (state.s && d.s !== state.s) return false;
+      if (state.search) {
+        const hay = `${d.n} ${d.no} ${d.c} ${d.s} ${d.b}`.toLowerCase();
+        if (!state.search.toLowerCase().split(/\s+/).every(w => hay.includes(w))) return false;
+      }
+      return true;
+    }
+    function applyFilters() {
+      let shown = 0;
+      $$('.plate[data-slug]', grid).forEach(p => {
+        const d = bySlug[p.dataset.slug];
+        const on = d && match(d);
+        p.style.display = on ? '' : 'none';
+        if (on) shown++;
+      });
+      if (countOut) countOut.textContent = `${shown} design${shown === 1 ? '' : 's'}`;
+      $('.coll-empty') && ($('.coll-empty').style.display = shown ? 'none' : '');
+      chips.forEach(ch => {
+        const [k, v] = ch.dataset.filter.split(':');
+        ch.setAttribute('aria-pressed', state[k] === v);
+      });
+    }
+    chips.forEach(ch => ch.addEventListener('click', () => {
+      const [k, v] = ch.dataset.filter.split(':');
+      state[k] = state[k] === v ? null : v;
+      applyFilters();
+    }));
+    applyFilters();
+    if (location.hash) {
+      const target = $(location.hash);
+      if (target) setTimeout(() => target.scrollIntoView({ block: 'center' }), 60);
+    }
+  }
+
+  /* ---------------- hero slideshow (every 3s) ---------------- */
+  const slides = $$('.hero__media .slide');
+  if (slides.length) {
+    const dotsHost = $('.hero__dots');
+    let cur = 0, timer = null;
+    const dots = slides.map((s, i) => {
+      if (!dotsHost) return null;
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', `Show design ${i + 1} of ${slides.length}`);
+      b.addEventListener('click', () => { go(i); restart(); });
+      dotsHost.appendChild(b);
+      return b;
+    });
+    function go(k) {
+      slides[cur].classList.remove('is-on');
+      dots[cur] && dots[cur].setAttribute('aria-current', 'false');
+      cur = (k + slides.length) % slides.length;
+      slides[cur].classList.add('is-on');
+      dots[cur] && dots[cur].setAttribute('aria-current', 'true');
+      const img = $('img', slides[cur]);
+      const title = (img && img.dataset.title) || '';
+      const [dn, dc] = title.split(' · ');
+      const nameEl = $('.hero__dname'), metaEl = $('.hero__dmeta');
+      if (nameEl && dn) nameEl.textContent = dn;
+      if (metaEl) metaEl.textContent = `${dc || 'Wall Jewels'} · Where walls become art — since 1978`;
+    }
+    function restart() {
+      clearInterval(timer);
+      if (!reduced) timer = setInterval(() => { if (!document.hidden) go(cur + 1); }, 3000);
+    }
+    go(0);
+    restart();
+    const hero = $('.hero');
+    hero && hero.addEventListener('pointerenter', () => clearInterval(timer));
+    hero && hero.addEventListener('pointerleave', restart);
+  }
+
+  /* ---------------- lightbox: any artwork click opens full view ---------------- */
+  const LB_SEL = '.plate__media img, .tile__img img, .space__img img, .volume__media img, .feature__media img, .journey__art img, .hero__media .slide.is-on img, .soon img';
+  let lb = null;
+  function ensureLB() {
+    if (lb) return lb;
+    lb = document.createElement('div');
+    lb.className = 'lightbox';
+    lb.setAttribute('role', 'dialog');
+    lb.setAttribute('aria-label', 'Design full view');
+    lb.innerHTML = `
+      <button class="lightbox__close" type="button" aria-label="Close full view">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M4 4 L16 16 M16 4 L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <figure><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%23191c23'/%3E%3C/svg%3E" alt=""><figcaption></figcaption></figure>`;
+    document.body.appendChild(lb);
+    lb.addEventListener('click', (e) => {
+      if (e.target === lb || e.target.closest('.lightbox__close')) closeLightbox();
+    });
+    return lb;
+  }
+  function openLightbox(src, alt) {
+    const box = ensureLB();
+    const img = $('img', box);
+    img.src = src;
+    img.alt = alt || '';
+    $('figcaption', box).textContent = (alt || '').split(' — ')[0];
+    box.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    $('.lightbox__close', box).focus({ preventScroll: true });
+  }
+  function closeLightbox() {
+    if (!lb) return;
+    lb.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('click', (e) => {
+    const img = e.target.closest(LB_SEL);
+    if (!img) return;
+    const a = img.closest('a');
+    if (a) e.preventDefault();
+    openLightbox(img.currentSrc || img.src, img.alt);
+  });
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+  /* ---------------- boot ---------------- */
+  counts(); syncWishButtons(); renderDocket();
+})();
