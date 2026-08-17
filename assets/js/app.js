@@ -12,6 +12,24 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.documentElement.classList.remove('no-js');
 
+  /* ---------------- smooth inertial scrolling (Lenis) ---------------- */
+  let lenis = null;
+  if (!reduced && typeof Lenis !== 'undefined') {
+    document.documentElement.classList.add('has-lenis');
+    lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 1.0, touchMultiplier: 1.4 });
+    const rafLoop = (t) => { lenis.raf(t); requestAnimationFrame(rafLoop); };
+    requestAnimationFrame(rafLoop);
+    /* in-page anchors glide instead of jump */
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      const target = document.getElementById(a.getAttribute('href').slice(1));
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -88, duration: 1.35 });
+    });
+  }
+
   const slugOf = (d) => d.img.split('/').pop().replace('.jpg', '');
   const bySlug = {};
   if (typeof COLLECTION !== 'undefined') COLLECTION.forEach(d => { bySlug[slugOf(d)] = d; });

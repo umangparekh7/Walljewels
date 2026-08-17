@@ -1,7 +1,7 @@
 // One-off generator: emits collection.html with the full grid baked in (no-JS floor).
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const SITE = String.raw`C:\Users\Chintan Kamani\Desktop\WJWP New Website\walljewels-site`;
+const SITE = String.raw`C:\Users\Chintan Kamani\Desktop\WJWP New Website-Fable\walljewels-site`;
 const dataSrc = readFileSync(`${SITE}\\assets\\js\\data.js`, 'utf8');
 const ctx = {};
 new Function(`${dataSrc}; this.VOLUMES=VOLUMES; this.SPACES=SPACES; this.CATEGORIES=CATEGORIES; this.COLLECTION=COLLECTION;`).call(ctx);
@@ -245,6 +245,7 @@ ${plates}
     </div>
   </div>
 
+  <script src="assets/js/vendor/lenis.min.js?v=2026-08-16b" defer></script>
   <script src="assets/js/data.js?v=2026-08-16b" defer></script>
   <script src="assets/js/kolam.js?v=2026-08-16b" defer></script>
   <script src="assets/js/app.js?v=2026-08-16b" defer></script>

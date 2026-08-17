@@ -68,6 +68,9 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+/* Lenis drives scrolling when active — native smooth would fight it */
+html.has-lenis { scroll-behavior: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto; }
 
 body {
   background: var(--ground);
@@ -450,7 +453,7 @@ main::before {
 .hero__media .slide {
   position: absolute; inset: 0;
   opacity: 0;
-  transition: opacity 1.1s var(--ease);
+  transition: opacity 1.8s cubic-bezier(.4, 0, .2, 1);
 }
 .hero__media .slide.is-on { opacity: 1; }
 /* every design shows COMPLETE — never cropped, never zoomed */
