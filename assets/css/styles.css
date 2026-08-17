@@ -456,12 +456,30 @@ main::before {
   transition: opacity 1.8s cubic-bezier(.4, 0, .2, 1);
 }
 .hero__media .slide.is-on { opacity: 1; }
-/* every design shows COMPLETE — never cropped, never zoomed */
+/* cinema hero — full-bleed with a slow perpetual drift, like a looping film */
 .hero__media { background: var(--ground-deep); }
 .hero__media .slide img {
-  width: 100%; height: 100%; object-fit: contain;
-  object-position: center 46%;
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: center 42%;
   cursor: zoom-in;
+  animation: hero-drift 16s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.hero__media .slide:nth-child(even) img {
+  animation-name: hero-drift-b;
+  animation-duration: 18s;
+}
+.hero__media .slide:not(.is-on) img { animation-play-state: paused; }
+@keyframes hero-drift {
+  from { transform: scale(1.02) translateX(-1%); }
+  to   { transform: scale(1.09) translateX(1%); }
+}
+@keyframes hero-drift-b {
+  from { transform: scale(1.09) translateX(1%); }
+  to   { transform: scale(1.02) translateX(-1%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__media .slide img { animation: none; }
 }
 .hero__dots {
   position: absolute; right: clamp(16px, 2vw, 32px); top: clamp(16px, 2.5vh, 28px);
