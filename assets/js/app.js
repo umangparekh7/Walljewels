@@ -667,12 +667,6 @@
       openCatalogue(e.target.dataset.openCatalogue);
     }
   });
-  /* catalogue pages open the lightbox at full size */
-  document.addEventListener('click', (e) => {
-    const img = e.target.closest('.catview__page img');
-    if (img && !img.dataset.src) openLightbox(img.src, img.alt);
-  });
-
   /* ---------------- boot ---------------- */
   counts(); syncWishButtons(); renderDocket();
 })();
