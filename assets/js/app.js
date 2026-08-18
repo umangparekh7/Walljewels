@@ -487,21 +487,30 @@
       return b;
     });
     function go(k) {
+      const prevMedia = $('video', slides[cur]);
+      prevMedia && prevMedia.pause();
       slides[cur].classList.remove('is-on');
       dots[cur] && dots[cur].setAttribute('aria-current', 'false');
       cur = (k + slides.length) % slides.length;
       slides[cur].classList.add('is-on');
       dots[cur] && dots[cur].setAttribute('aria-current', 'true');
-      const img = $('img', slides[cur]);
-      const title = (img && img.dataset.title) || '';
+      const media = $('img,video', slides[cur]);
+      if (media && media.tagName === 'VIDEO') {
+        if (media.preload === 'none') media.preload = 'auto';
+        media.play && media.play().catch(() => {});
+        const nxt = $('video', slides[(cur + 1) % slides.length]);
+        if (nxt && nxt.preload === 'none') nxt.preload = 'auto';
+      }
+      const title = (media && media.dataset.title) || '';
       const [dn, dc] = title.split(' · ');
       const nameEl = $('.hero__dname'), metaEl = $('.hero__dmeta');
       if (nameEl && dn) nameEl.textContent = dn;
       if (metaEl) metaEl.textContent = `${dc || 'Wall Jewels'} · Where walls become art — since 1978`;
     }
+    const HOLD = $('.hero__media video') ? 6000 : 3000; /* films need room to breathe */
     function restart() {
       clearInterval(timer);
-      if (!reduced) timer = setInterval(() => { if (!document.hidden) go(cur + 1); }, 3000);
+      if (!reduced) timer = setInterval(() => { if (!document.hidden) go(cur + 1); }, HOLD);
     }
     go(0);
     restart();
@@ -556,6 +565,12 @@
     openLightbox(img.currentSrc || img.src, img.alt);
   });
   addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+  /* hero films open their full still artwork */
+  document.addEventListener('click', (e) => {
+    const v = e.target.closest('.hero__media .slide.is-on video');
+    if (!v || !v.dataset.full) return;
+    openLightbox(v.dataset.full, v.getAttribute('aria-label') || '');
+  });
 
   /* ---------------- catalogue viewer: flip through the volumes ---------------- */
   const CATALOGUES = {

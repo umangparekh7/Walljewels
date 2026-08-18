@@ -105,8 +105,8 @@
     const svg = el('svg', { viewBox: `0 0 ${w} ${h}`, width: w, height: h, 'aria-hidden': 'true' });
     svg.style.overflow = 'visible';
     weave(svg, f.cols, f.rows, f.cell, 4, 2);
-    svg.querySelectorAll('path').forEach(p => { p.style.stroke = 'rgba(242,237,222,.6)'; p.style.fill = 'none'; p.style.strokeWidth = 1.2; });
-    svg.querySelectorAll('circle').forEach(c => { c.style.fill = 'rgba(207,161,78,.9)'; });
+    svg.querySelectorAll('path').forEach(p => { p.style.stroke = 'rgba(43,36,26,.55)'; p.style.fill = 'none'; p.style.strokeWidth = 1.2; });
+    svg.querySelectorAll('circle').forEach(c => { c.style.fill = 'rgba(169,123,34,.9)'; });
     host.prepend(svg);
     prime(svg);
   });
@@ -164,11 +164,11 @@
       });
       d += ` L 36 ${H - 260}`;
       path = el('path', { d });
-      path.style.cssText = 'fill:none;stroke:rgba(242,237,222,.28);stroke-width:1.1;vector-effect:non-scaling-stroke';
+      path.style.cssText = 'fill:none;stroke:rgba(43,36,26,.3);stroke-width:1.1;vector-effect:non-scaling-stroke';
       svg.appendChild(path);
       marks.forEach(y => {
         const c = el('circle', { cx: 20, cy: y, r: 2.4 });
-        c.style.fill = 'rgba(207,161,78,.75)';
+        c.style.fill = 'rgba(169,123,34,.8)';
         svg.appendChild(c);
       });
       const L = path.getTotalLength();

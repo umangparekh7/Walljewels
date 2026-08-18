@@ -1,7 +1,7 @@
 // One-off generator: emits collection.html with the full grid baked in (no-JS floor).
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const SITE = String.raw`C:\Users\Chintan Kamani\Desktop\WJWP New Website-Fable\walljewels-site`;
+const SITE = String.raw`C:\Users\Chintan Kamani\Desktop\WJWP New Website\walljewels-site`;
 const dataSrc = readFileSync(`${SITE}\\assets\\js\\data.js`, 'utf8');
 const ctx = {};
 new Function(`${dataSrc}; this.VOLUMES=VOLUMES; this.SPACES=SPACES; this.CATEGORIES=CATEGORIES; this.COLLECTION=COLLECTION;`).call(ctx);
@@ -81,7 +81,7 @@ const html = `<!DOCTYPE html>
   <header class="header">
     <div class="header__in">
       <a class="wordmark wordmark--img" href="index.html" aria-label="Wall Jewels Wallpaper World — home">
-        <img src="assets/img/brand/logo-dark.png" alt="Wall Jewels Wallpaper World">
+        <img src="assets/img/brand/logo-light.png" alt="Wall Jewels Wallpaper World">
       </a>
       <nav class="nav" aria-label="Primary">
         <a href="collection.html" aria-current="page">Collection</a>
@@ -128,7 +128,7 @@ const html = `<!DOCTYPE html>
 
   <nav class="drawer" aria-label="Menu" inert>
     <div class="drawer__head">
-      <a class="wordmark wordmark--img" href="index.html"><img src="assets/img/brand/logo-dark.png" alt="Wall Jewels Wallpaper World"></a>
+      <a class="wordmark wordmark--img" href="index.html"><img src="assets/img/brand/logo-light.png" alt="Wall Jewels Wallpaper World"></a>
       <button class="tool" type="button" data-close-drawer aria-label="Close menu">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M6 6 L18 18 M18 6 L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>

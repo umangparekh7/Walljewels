@@ -25,24 +25,34 @@
 
 /* ---------- 2. Tokens ---------- */
 :root {
-  /* ground — wet earth before dawn */
-  --ground:      #12141a;
-  --ground-deep: #0b0d11;
-  --panel:       #191c23;
-  --panel-2:     #1f232c;
-  --hairline:    rgba(244, 239, 228, .14);
-  --hairline-2:  rgba(244, 239, 228, .26);
+  /* ground — warm handmade paper */
+  --ground:      #f3eee3;
+  --ground-deep: #ebe4d4;
+  --panel:       #faf7ef;
+  --panel-2:     #f0eadb;
+  --hairline:    rgba(43, 36, 26, .14);
+  --hairline-2:  rgba(43, 36, 26, .28);
 
-  /* rice flour */
-  --ink:      #f2edde;
-  --ink-soft: #cfc9b8;
-  --ink-dim:  #a49e8d;
+  /* iron-gall ink */
+  --ink:      #221c14;
+  --ink-soft: #4d4536;
+  --ink-dim:  #766c58;
 
-  /* the two pigments */
-  --gold:        #cfa14e;
-  --gold-bright: #e6c47f;
-  --kaavi:       #a53f2b;
-  --kaavi-soft:  #c05a41;
+  /* the two pigments (deepened for paper) */
+  --gold:        #a97b22;
+  --gold-bright: #8a641a;
+  --kaavi:       #9c3a26;
+  --kaavi-soft:  #b0492f;
+
+  /* the night — bars, footer, cinema surfaces */
+  --night:      #14110c;
+  --night-2:    #1c1811;
+  --night-ink:  #f2edde;
+  --night-soft: #cfc9b8;
+  --night-dim:  #a49e8d;
+  --night-hairline: rgba(244, 239, 228, .16);
+  --night-gold: #cfa14e;
+  --night-gold-bright: #e6c47f;
 
   /* type */
   --f-display: 'Marcellus', 'Times New Roman', serif;
@@ -83,12 +93,12 @@ body {
   overflow-x: clip;
   caret-color: var(--gold);
 }
-::selection { background: var(--kaavi); color: var(--ink); }
+::selection { background: var(--kaavi); color: #f2edde; }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--ground-deep); }
-::-webkit-scrollbar-thumb { background: #3a3b33; border-radius: 5px; border: 2px solid var(--ground-deep); }
+::-webkit-scrollbar-thumb { background: #b5aa93; border-radius: 5px; border: 2px solid var(--ground-deep); }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
-* { scrollbar-width: thin; scrollbar-color: #3a3b33 var(--ground-deep); }
+* { scrollbar-width: thin; scrollbar-color: #b5aa93 var(--ground-deep); }
 
 :focus { outline: none; }
 :focus-visible {
@@ -159,8 +169,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 main::before {
   content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background:
-    radial-gradient(110% 80% at 72% 0%, rgba(207, 161, 78, .06), transparent 55%),
-    radial-gradient(90% 70% at 10% 100%, rgba(165, 63, 43, .045), transparent 60%);
+    radial-gradient(110% 80% at 72% 0%, rgba(169, 123, 34, .05), transparent 55%),
+    radial-gradient(90% 70% at 10% 100%, rgba(156, 58, 38, .04), transparent 60%);
 }
 .wrap { max-width: none; margin-inline: var(--frame); padding-inline: 0; }
 @media (max-width: 900px) { :root { --frame: 6vw; } }
@@ -457,7 +467,12 @@ main::before {
 }
 .hero__media .slide.is-on { opacity: 1; }
 /* cinema hero — full-bleed with a slow perpetual drift, like a looping film */
-.hero__media { background: var(--ground-deep); }
+.hero__media { background: var(--night); }
+.hero__media .slide video {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: center 42%;
+  cursor: zoom-in;
+}
 .hero__media .slide img {
   width: 100%; height: 100%; object-fit: cover;
   object-position: center 42%;
@@ -595,6 +610,14 @@ main::before {
   background: var(--panel);
 }
 .tile:nth-child(1), .tile:nth-child(2) { grid-column: span 6; min-height: clamp(320px, 34vw, 470px); }
+/* the merged doors grid: every door the same modest size */
+.tiles--doors .tile { grid-column: span 3; min-height: clamp(230px, 22vw, 310px); }
+.tiles--doors .tile:nth-last-child(2), .tiles--doors .tile:nth-last-child(3) { grid-column: span 6; }
+.tiles--doors .tile--custom { grid-column: 1 / -1; }
+@media (max-width: 900px) {
+  .tiles--doors .tile, .tiles--doors .tile:nth-last-child(2), .tiles--doors .tile:nth-last-child(3) { grid-column: span 1; min-height: 210px; }
+  .tiles--doors .tile--custom { grid-column: 1 / -1; }
+}
 .tile__img { position: absolute; inset: 0; z-index: -1; }
 .tile__img img {
   width: 100%; height: 100%; object-fit: cover;
@@ -1310,8 +1333,8 @@ main::before {
 }
 .finale__kolam { position: absolute; inset: 0; z-index: -1; display: grid; place-items: center; pointer-events: none; }
 .finale__kolam svg { width: min(88vw, 760px); height: auto; opacity: .5; overflow: visible; }
-.finale__kolam path { fill: none; stroke: rgba(242, 237, 222, .34); stroke-width: 1.1; }
-.finale__kolam circle { fill: rgba(242, 237, 222, .3); }
+.finale__kolam path { fill: none; stroke: rgba(43, 36, 26, .32); stroke-width: 1.1; }
+.finale__kolam circle { fill: rgba(169, 123, 34, .5); }
 .finale .d1 { max-width: 14ch; margin-inline: auto; }
 .finale__steps {
   margin-top: 26px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 26px;
@@ -1635,6 +1658,94 @@ main::before {
 /* volume card actions */
 .volume__acts { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; margin-top: 26px; }
 .volume__media { cursor: zoom-in; }
+
+/* ---------- 33. Night islands on the paper theme ---------- */
+/* The page is warm paper; the bars, footer, drawer and every cinema surface
+   stay night so the artwork and chrome keep their jewel-box depth. */
+
+.annbar { background: var(--night); border-bottom-color: var(--night-hairline); }
+.annbar__track { color: var(--night-dim); }
+.annbar__track strong { color: var(--night-soft); }
+.annbar__track .sep { color: var(--night-gold); }
+
+.header { background: color-mix(in srgb, var(--ground) 86%, transparent); }
+
+.hero { background: var(--night); border-color: rgba(244, 239, 228, .16); }
+.hero__dname { color: var(--night-ink); }
+.hero__dmeta { color: var(--night-soft); }
+.hero__dots { background: rgba(10, 9, 6, .4); }
+.hero__dots button::after { background: rgba(242, 237, 222, .5); }
+.hero__dots button[aria-current="true"]::after { background: var(--night-gold-bright); }
+.hero .btn--gold { --line: var(--night-gold-bright); }
+.hero .btn--fill { --line: #201a10; background: var(--night-gold); border-color: var(--night-gold); }
+.hero .btn--fill:hover { background: var(--night-gold-bright); border-color: var(--night-gold-bright); }
+
+.btn--fill { --line: #241d12; }
+
+.drawer { background: var(--night); color: var(--night-ink); }
+.drawer__nav a { color: var(--night-ink); border-bottom-color: var(--night-hairline); }
+.drawer__nav a .num { color: var(--night-gold); }
+.drawer__foot .small, .drawer__foot a { color: var(--night-dim); }
+.drawer .tool { color: var(--night-soft); }
+.drawer .btn--wa { --line: var(--night-gold-bright); }
+
+.footer { background: var(--night); color: var(--night-ink); }
+.footer__brand p { color: var(--night-dim); }
+.footer .fcol a { color: var(--night-soft); }
+.footer .fcol a:hover { color: var(--night-gold-bright); }
+.footer .cap { color: var(--night-dim); }
+.footer__social a { color: var(--night-soft); border-color: rgba(244, 239, 228, .3); }
+.footer__social a:hover { color: var(--night); background: var(--night-gold); border-color: var(--night-gold); }
+.footer__bottom { color: var(--night-dim); border-top-color: var(--night-hairline); }
+
+.search-veil { color: var(--night-ink); }
+.search-box input { color: var(--night-ink); border-bottom-color: rgba(244, 239, 228, .3); }
+.search-box .small { color: var(--night-dim); }
+.search-results a { color: var(--night-soft); border-bottom-color: rgba(242, 237, 222, .08); }
+.search-results a:hover { color: var(--night-ink); background: rgba(242, 237, 222, .04); }
+.search-results .sr-meta { color: var(--night-dim); }
+
+.catview { color: var(--night-ink); }
+.catview__bar { border-bottom-color: var(--night-hairline); }
+.catview__count { color: var(--night-gold); }
+.catview__page { background: var(--night-2); border-color: var(--night-hairline); }
+.catview__page .pgnum { color: var(--night-dim); }
+.catview__nav { color: var(--night-ink); border-color: rgba(244, 239, 228, .3); }
+.catview__nav:hover { color: var(--night); background: var(--night-gold); border-color: var(--night-gold); }
+.catview__hint { color: var(--night-dim); }
+.catview .tool { color: var(--night-soft); }
+
+.lightbox figcaption { color: var(--night-soft); }
+.lightbox__close { color: var(--night-ink); border-color: rgba(244, 239, 228, .3); }
+
+.pulli-field { background-image: radial-gradient(rgba(43, 36, 26, .16) 1px, transparent 1.5px); }
+
+.tile::after { background: linear-gradient(to top, rgba(10, 9, 6, .88), rgba(10, 9, 6, .12) 55%); }
+.tile__body, .tile__name { color: #f2edde; }
+.tile__note { color: #cfc9b8; }
+.tile__go { color: #f2edde; border-color: rgba(244, 239, 228, .4); }
+.space::after { background: linear-gradient(to top, rgba(10, 9, 6, .9), rgba(10, 9, 6, .08) 52%); }
+.space__body, .space__name { color: #f2edde; }
+.space__note { color: #cfc9b8; }
+.feature { color: var(--night-ink); }
+.feature::before {
+  background:
+    linear-gradient(to top, rgba(10, 9, 6, .95), rgba(10, 9, 6, .25) 46%, rgba(10, 9, 6, .35)),
+    linear-gradient(100deg, rgba(10, 9, 6, .55), transparent 45%);
+}
+.feature .cap--gold { color: var(--night-gold); }
+.feature .lead { color: var(--night-soft); }
+.feature .textlink { color: var(--night-gold-bright); }
+
+.tile--custom {
+  border-color: rgba(169, 123, 34, .55);
+  background:
+    radial-gradient(120% 160% at 88% 10%, rgba(156, 58, 38, .3), transparent 55%),
+    radial-gradient(90% 140% at 8% 90%, rgba(207, 161, 78, .2), transparent 50%),
+    var(--night-2);
+}
+.tile--custom .tile__name, .tile--custom .tile__note { color: var(--night-ink); }
+
 
 /* print: the docket prints like paper */
 @media print {
