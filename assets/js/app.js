@@ -678,160 +678,163 @@
       openCatalogue(e.target.dataset.openCatalogue);
     }
   });
-  /* ---------------- 3D Cover Flow Carousel ---------------- */
+
+  /* ---------------- 3D Cover Flow Carousels ---------------- */
   function initCoverflow() {
-    const stage = $('[data-coverflow]');
-    if (!stage) return;
+    const sections = $$('.coverflow-section');
+    if (!sections.length) return;
 
-    const cards = $$('.coverflow-card', stage);
-    if (!cards.length) return;
+    sections.forEach(section => {
+      const stage = $('[data-coverflow]', section);
+      if (!stage) return;
 
-    const currEl = $('.cf-curr');
-    const totalEl = $('.cf-total');
-    const prevBtn = $('.cf-prev');
-    const nextBtn = $('.cf-next');
-    const toggleBtn = $('.cf-toggle');
-    const iconPause = $('.icon-pause', toggleBtn);
-    const iconPlay = $('.icon-play', toggleBtn);
+      const cards = $$('.coverflow-card', stage);
+      if (!cards.length) return;
 
-    let current = 0;
-    const total = cards.length;
-    let isPlaying = true;
-    let timer = null;
+      const currEl = $('.cf-curr', section);
+      const totalEl = $('.cf-total', section);
+      const prevBtn = $('.cf-prev', section);
+      const nextBtn = $('.cf-next', section);
+      const toggleBtn = $('.cf-toggle', section);
+      const iconPause = toggleBtn ? $('.icon-pause', toggleBtn) : null;
+      const iconPlay = toggleBtn ? $('.icon-play', toggleBtn) : null;
 
-    if (totalEl) totalEl.textContent = total;
+      let current = 0;
+      const total = cards.length;
+      let isPlaying = true;
+      let timer = null;
 
-    function render() {
-      const isMobile = window.innerWidth <= 768;
-      const xSpacing = isMobile ? 85 : 130;
-      const zDepth = isMobile ? 55 : 85;
-      const rotAngle = isMobile ? 18 : 22;
+      if (totalEl) totalEl.textContent = total;
 
-      cards.forEach((card, idx) => {
-        let diff = idx - current;
+      function render() {
+        const isMobile = window.innerWidth <= 768;
+        const xSpacing = isMobile ? 85 : 130;
+        const zDepth = isMobile ? 55 : 85;
+        const rotAngle = isMobile ? 18 : 22;
 
-        // Circular wrap for smooth nearest path
-        if (diff > total / 2) diff -= total;
-        if (diff < -total / 2) diff += total;
+        cards.forEach((card, idx) => {
+          let diff = idx - current;
 
-        const absDiff = Math.abs(diff);
-        const isCenter = diff === 0;
+          // Circular wrap for smooth nearest path
+          if (diff > total / 2) diff -= total;
+          if (diff < -total / 2) diff += total;
 
-        if (isCenter) {
-          card.style.transform = `translate3d(0, 0, 40px) scale(1.06) rotateY(0deg)`;
-          card.style.opacity = '1';
-          card.style.filter = 'none';
-          card.style.zIndex = '30';
-          card.style.pointerEvents = 'auto';
-          card.classList.add('is-active');
-        } else if (absDiff <= 3) {
-          const sign = Math.sign(diff);
-          const tx = sign * (xSpacing * (1 + (absDiff - 1) * 0.7));
-          const tz = -absDiff * zDepth;
-          const ry = -sign * rotAngle;
-          const scale = Math.max(0.68, 1 - absDiff * 0.11);
-          const opacity = Math.max(0.25, 1 - absDiff * 0.28);
-          const blur = Math.min(2, absDiff * 0.7);
+          const absDiff = Math.abs(diff);
+          const isCenter = diff === 0;
 
-          card.style.transform = `translate3d(${tx}px, 0, ${tz}px) scale(${scale}) rotateY(${ry}deg)`;
-          card.style.opacity = opacity.toString();
-          card.style.filter = `blur(${blur}px)`;
-          card.style.zIndex = (20 - absDiff).toString();
-          card.style.pointerEvents = 'auto';
-          card.classList.remove('is-active');
-        } else {
-          card.style.transform = `translate3d(${Math.sign(diff) * 320}px, 0, -300px) scale(0.5)`;
-          card.style.opacity = '0';
-          card.style.filter = 'blur(4px)';
-          card.style.zIndex = '0';
-          card.style.pointerEvents = 'none';
-          card.classList.remove('is-active');
-        }
-      });
+          if (isCenter) {
+            card.style.transform = `translate3d(0, 0, 40px) scale(1.06) rotateY(0deg)`;
+            card.style.opacity = '1';
+            card.style.filter = 'none';
+            card.style.zIndex = '30';
+            card.style.pointerEvents = 'auto';
+            card.classList.add('is-active');
+          } else if (absDiff <= 3) {
+            const sign = Math.sign(diff);
+            const tx = sign * (xSpacing * (1 + (absDiff - 1) * 0.7));
+            const tz = -absDiff * zDepth;
+            const ry = -sign * rotAngle;
+            const scale = Math.max(0.68, 1 - absDiff * 0.11);
+            const opacity = Math.max(0.25, 1 - absDiff * 0.28);
+            const blur = Math.min(2, absDiff * 0.7);
 
-      if (currEl) currEl.textContent = (current + 1);
-    }
+            card.style.transform = `translate3d(${tx}px, 0, ${tz}px) scale(${scale}) rotateY(${ry}deg)`;
+            card.style.opacity = opacity.toString();
+            card.style.filter = `blur(${blur}px)`;
+            card.style.zIndex = (20 - absDiff).toString();
+            card.style.pointerEvents = 'auto';
+            card.classList.remove('is-active');
+          } else {
+            card.style.transform = `translate3d(${Math.sign(diff) * 320}px, 0, -300px) scale(0.5)`;
+            card.style.opacity = '0';
+            card.style.filter = 'blur(4px)';
+            card.style.zIndex = '0';
+            card.style.pointerEvents = 'none';
+            card.classList.remove('is-active');
+          }
+        });
 
-    function goTo(idx) {
-      current = (idx + total) % total;
-      render();
-    }
-
-    function next() { goTo(current + 1); }
-    function prev() { goTo(current - 1); }
-
-    function startAuto() {
-      stopAuto();
-      if (isPlaying) {
-        timer = setInterval(next, 3800);
+        if (currEl) currEl.textContent = (current + 1);
       }
-    }
 
-    function stopAuto() {
-      if (timer) { clearInterval(timer); timer = null; }
-    }
+      function goTo(idx) {
+        current = (idx + total) % total;
+        render();
+      }
 
-    // Card click: center that card
-    cards.forEach((card, idx) => {
-      card.addEventListener('click', (e) => {
-        if (current !== idx) {
-          e.preventDefault();
-          goTo(idx);
-          startAuto();
-        }
-      });
-    });
+      function next() { goTo(current + 1); }
+      function prev() { goTo(current - 1); }
 
-    // Button controls
-    prevBtn && prevBtn.addEventListener('click', () => { prev(); startAuto(); });
-    nextBtn && nextBtn.addEventListener('click', () => { next(); startAuto(); });
-
-    // Toggle autoplay
-    toggleBtn && toggleBtn.addEventListener('click', () => {
-      isPlaying = !isPlaying;
-      if (isPlaying) {
-        if (iconPause) iconPause.style.display = 'block';
-        if (iconPlay) iconPlay.style.display = 'none';
-        startAuto();
-      } else {
-        if (iconPause) iconPause.style.display = 'none';
-        if (iconPlay) iconPlay.style.display = 'block';
+      function startAuto() {
         stopAuto();
+        if (isPlaying) {
+          timer = setInterval(next, 3800);
+        }
       }
+
+      function stopAuto() {
+        if (timer) { clearInterval(timer); timer = null; }
+      }
+
+      // Card click: center that card
+      cards.forEach((card, idx) => {
+        card.addEventListener('click', (e) => {
+          if (current !== idx) {
+            e.preventDefault();
+            goTo(idx);
+            startAuto();
+          }
+        });
+      });
+
+      // Button controls
+      prevBtn && prevBtn.addEventListener('click', () => { prev(); startAuto(); });
+      nextBtn && nextBtn.addEventListener('click', () => { next(); startAuto(); });
+
+      // Toggle autoplay
+      toggleBtn && toggleBtn.addEventListener('click', () => {
+        isPlaying = !isPlaying;
+        if (isPlaying) {
+          if (iconPause) iconPause.style.display = 'block';
+          if (iconPlay) iconPlay.style.display = 'none';
+          startAuto();
+        } else {
+          if (iconPause) iconPause.style.display = 'none';
+          if (iconPlay) iconPlay.style.display = 'block';
+          stopAuto();
+        }
+      });
+
+      // Pause on hover
+      stage.addEventListener('mouseenter', stopAuto);
+      stage.addEventListener('mouseleave', () => { if (isPlaying) startAuto(); });
+
+      // Touch & swipe gestures
+      let startX = 0;
+      let isSwiping = false;
+
+      stage.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isSwiping = true;
+        stopAuto();
+      }, { passive: true });
+
+      stage.addEventListener('touchend', (e) => {
+        if (!isSwiping) return;
+        isSwiping = false;
+        const endX = e.changedTouches[0].clientX;
+        const diff = endX - startX;
+        if (Math.abs(diff) > 40) {
+          if (diff > 0) prev();
+          else next();
+        }
+        startAuto();
+      }, { passive: true });
+
+      window.addEventListener('resize', render, { passive: true });
+      render();
+      startAuto();
     });
-
-    // Pause on hover
-    stage.addEventListener('mouseenter', stopAuto);
-    stage.addEventListener('mouseleave', () => { if (isPlaying) startAuto(); });
-
-    // Touch & swipe gestures
-    let startX = 0;
-    let isSwiping = false;
-
-    stage.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-      isSwiping = true;
-      stopAuto();
-    }, { passive: true });
-
-    stage.addEventListener('touchend', (e) => {
-      if (!isSwiping) return;
-      isSwiping = false;
-      const endX = e.changedTouches[0].clientX;
-      const diff = endX - startX;
-      if (Math.abs(diff) > 40) {
-        if (diff > 0) prev();
-        else next();
-      }
-      if (isPlaying) startAuto();
-    }, { passive: true });
-
-    // Window resize handler
-    window.addEventListener('resize', render, { passive: true });
-
-    // Initial render & autoplay
-    render();
-    startAuto();
   }
 
   /* ---------------- boot ---------------- */
