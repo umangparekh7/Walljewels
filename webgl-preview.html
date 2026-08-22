@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wall Jewels — Bespoke WebGL Experience Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ground: #14110c;
+      --panel: rgba(26, 22, 16, 0.85);
+      --ink: #f2edde;
+      --ink-dim: #a49e8d;
+      --gold: #cfa14e;
+      --gold-bright: #e6c47f;
+      --kaavi: #b0492f;
+      --hairline: rgba(244, 239, 228, 0.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--ground);
+      color: var(--ink);
+      font-family: 'Jost', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+    #canvas-container {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* UI Overlay */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 32px 40px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .brand-tag {
+      font-family: 'Marcellus', serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.08em;
+      color: var(--gold-bright);
+      text-transform: uppercase;
+    }
+    .brand-sub {
+      font-size: 0.85rem;
+      color: var(--ink-dim);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* Concept Selector Bar */
+    .nav-concepts {
+      pointer-events: auto;
+      display: flex;
+      gap: 10px;
+      background: var(--panel);
+      backdrop-filter: blur(16px);
+      padding: 6px;
+      border-radius: 9999px;
+      border: 1px solid var(--hairline);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    }
+    .concept-btn {
+      background: transparent;
+      border: none;
+      color: var(--ink-dim);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 10px 20px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .concept-btn:hover {
+      color: var(--ink);
+    }
+    .concept-btn.active {
+      background: var(--gold);
+      color: #14110c;
+      font-weight: 600;
+      box-shadow: 0 4px 16px rgba(207, 161, 78, 0.35);
+    }
+
+    /* Hero Text Overlay for context testing */
+    .hero-content {
+      max-width: 620px;
+      margin-top: auto;
+      margin-bottom: 24px;
+    }
+    .hero-pre {
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-pre::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .hero-title {
+      font-family: 'Marcellus', serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      line-height: 1.15;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: #faf7ef;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+    }
+    .hero-desc {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--ink-dim);
+      font-weight: 300;
+      margin-bottom: 28px;
+    }
+
+    /* Bottom Status / Controls */
+    footer {
+      pointer-events: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--ink-dim);
+      border-top: 1px solid var(--hairline);
+      padding-top: 20px;
+    }
+    .controls-hint {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .dot-pulse {
+      width: 8px; height: 8px;
+      background: var(--gold-bright);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--gold-bright);
+      animation: pulse 2s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.4); opacity: 1; }
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+  <div id="canvas-container"></div>
+
+  <div class="overlay">
+    <header>
+      <div>
+        <div class="brand-tag">Wall Jewels</div>
+        <div class="brand-sub">Curated WebGL Aesthetics · 5 Interactive Previews</div>
+      </div>
+
+      <nav class="nav-concepts">
+        <button class="concept-btn active" data-id="1">1. Silk & Gold Foil</button>
+        <button class="concept-btn" data-id="2">2. Pigment Marbling</button>
+        <button class="concept-btn" data-id="3">3. Kolam Geometry</button>
+        <button class="concept-btn" data-id="4">4. 2.5D Tactile Relief</button>
+        <button class="concept-btn" data-id="5">5. Spore & Foil Drift</button>
+      </nav>
+    </header>
+
+    <div class="hero-content">
+      <div class="hero-pre" id="concept-tag">Concept 1 · Bespoke Fabric & Foil</div>
+      <h1 class="hero-title" id="concept-title">Where Walls Become Living Art.</h1>
+      <p class="hero-desc" id="concept-desc">
+        Slow-motion jacquard silk cloth simulation with dynamic specular gold leaf flecks catching cursor light.
+      </p>
+    </div>
+
+    <footer>
+      <div class="controls-hint">
+        <div class="dot-pulse"></div>
+        <span>Interactive: Move cursor or drag to interact with WebGL physics & lighting</span>
+      </div>
+      <div>60 FPS Shader Architecture · WebGL 2.0 / Three.js</div>
+    </footer>
+  </div>
+
+  <script>
+    // Concept Metadata
+    const concepts = {
+      1: {
+        tag: 'Concept 1 · Bespoke Fabric & Foil',
+        title: 'Tactile Silk & Gold Leaf Shimmer',
+        desc: 'Interactive 3D wave fabric simulation with anisotropic micro-specular highlights replicating handmade Varanasi silk and 24K gold foil wallpaper.'
+      },
+      2: {
+        tag: 'Concept 2 · Fluid Pigment Dispersion',
+        title: 'Kaavi & Mineral Ink Marbling',
+        desc: 'Real-time Navier-Stokes inspired fluid diffusion shader. Terracotta kaavi ink, raw charcoal, and molten gold pigments swirl organically on mouse drag.'
+      },
+      3: {
+        tag: 'Concept 3 · Southern Heritage',
+        title: 'Sacred Kolam Dot Constellation',
+        desc: 'Pulli dot matrix mathematical generator. Dynamic curves of golden light weave organically through rice-flour nodes responding to cursor velocity.'
+      },
+      4: {
+        tag: 'Concept 4 · Spatial Depth Architecture',
+        title: '2.5D Tactile Relief & Chiaroscuro',
+        desc: 'Depth-mapped architectural mural with dynamic specular bump relief. Moving the cursor casts an artisan lamp angle revealing wallpaper emboss texture.'
+      },
+      5: {
+        tag: 'Concept 5 · Palace Ambience',
+        title: 'Floating Gold Spores & Petals',
+        desc: 'Over 2,500 individual gold leaf flakes and botanical spores suspended in volumetric 3D air currents with soft depth-of-field bokeh.'
+      }
+    };
+
+    const container = document.getElementById('canvas-container');
+    let scene, camera, renderer, currentMesh, animationFrameId;
+    let mouse = { x: 0, y: 0, targetX: 0, targetY: 0, speed: 0 };
+    let clock = new THREE.Clock();
+    let currentConceptId = 1;
+
+    function initThree() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 5;
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      container.appendChild(renderer.domElement);
+
+      window.addEventListener('resize', onWindowResize);
+      window.addEventListener('pointermove', onPointerMove);
+    }
+
+    function onPointerMove(e) {
+      const prevX = mouse.targetX;
+      const prevY = mouse.targetY;
+      mouse.targetX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.targetY = -(e.clientY / window.innerHeight) * 2 + 1;
+      mouse.speed = Math.hypot(mouse.targetX - prevX, mouse.targetY - prevY);
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      if (currentMesh && currentMesh.material && currentMesh.material.uniforms && currentMesh.material.uniforms.u_resolution) {
+        currentMesh.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+      }
+    }
+
+    function clearScene() {
+      if (currentMesh) {
+        scene.remove(currentMesh);
+        if (currentMesh.geometry) currentMesh.geometry.dispose();
+        if (currentMesh.material) {
+          if (Array.isArray(currentMesh.material)) currentMesh.material.forEach(m => m.dispose());
+          else currentMesh.material.dispose();
+        }
+        currentMesh = null;
+      }
+      while (scene.children.length > 0) {
+        const obj = scene.children[0];
+        scene.remove(obj);
+      }
+    }
+
+    /* =========================================================================
+       CONCEPT 1: Silk & Gold Foil Cloth Wave
+       ========================================================================= */
+    function loadConcept1() {
+      clearScene();
+      camera.position.set(0, 0, 4.5);
+
+      const geometry = new THREE.PlaneGeometry(10, 7, 128, 128);
+      const customShader = {
+        uniforms: {
+          u_time: { value: 0 },
+          u_mouse: { value: new THREE.Vector2(0, 0) },
+          u_goldColor: { value: new THREE.Color(0xd4af37) },
+          u_darkColor: { value: new THREE.Color(0x18140f) },
+          u_kaaviColor: { value: new THREE.Color(0x8a301d) }
+        },
+        vertexShader: `
+          uniform float u_time;
+          uniform vec2 u_mouse;
+          varying vec2 vUv;
+          varying vec3 vNormal;
+          varying vec3 vViewPosition;
+
+          void main() {
+            vUv = uv;
+            vec3 pos = position;
+            
+            // Slow organic silk fabric waves
+            float wave1 = sin(pos.x * 1.5 + u_time * 0.7 + pos.y * 1.2) * 0.25;
+            float wave2 = cos(pos.y * 2.0 - u_time * 0.5 + pos.x * 0.8) * 0.18;
+            
+            // Mouse interaction wave
+            float dist = distance(pos.xy, u_mouse * vec2(3.0, 2.0));
+            float mouseWave = sin(dist * 4.0 - u_time * 2.0) * exp(-dist * 1.2) * 0.35;
+            
+            pos.z += wave1 + wave2 + mouseWave;
+            
+            vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+            vViewPosition = -mvPosition.xyz;
+            gl_Position = projectionMatrix * mvPosition;
+            vNormal = normalMatrix * normal;
+          }
+        `,
+        fragmentShader: `
+          uniform float u_time;
+          uniform vec3 u_goldColor;
+          uniform vec3 u_darkColor;
+          uniform vec3 u_kaaviColor;
+          varying vec2 vUv;
+          varying vec3 vNormal;
+          varying vec3 vViewPosition;
+
+          void main() {
+            vec3 normal = normalize(vNormal);
+            vec3 viewDir = normalize(vViewPosition);
+            
+            // Anisotropic silk reflection
+            float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 3.0);
+            float spec = pow(max(dot(reflect(-viewDir, normal), vec3(0.0, 0.8, 0.6)), 0.0), 16.0);
+            
+            // Subtle gold leaf flakes
+            float noise = fract(sin(dot(vUv * 80.0, vec2(12.9898, 78.233))) * 43758.5453);
+            float goldFlake = step(0.96, noise) * spec * 2.5;
+
+            // Base gradient
+            vec3 base = mix(u_darkColor, u_kaaviColor * 0.5, vUv.y * 0.5 + 0.2);
+            vec3 finalColor = mix(base, u_goldColor, fresnel * 0.7 + spec * 0.4 + goldFlake);
+
+            gl_FragColor = vec4(finalColor, 1.0);
+          }
+        `
+      };
+
+      const material = new THREE.ShaderMaterial({
+        uniforms: customShader.uniforms,
+        vertexShader: customShader.vertexShader,
+        fragmentShader: customShader.fragmentShader,
+        wireframe: false
+      });
+
+      currentMesh = new THREE.Mesh(geometry, material);
+      scene.add(currentMesh);
+    }
+
+    /* =========================================================================
+       CONCEPT 2: Mineral Pigment & Kaavi Ink Marbling
+       ========================================================================= */
+    function loadConcept2() {
+      clearScene();
+      camera.position.set(0, 0, 2);
+
+      const geometry = new THREE.PlaneGeometry(5, 5);
+      const shader = {
+        uniforms: {
+          u_time: { value: 0 },
+          u_mouse: { value: new THREE.Vector2(0, 0) },
+          u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+        },
+        vertexShader: `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform float u_time;
+          uniform vec2 u_mouse;
+          uniform vec2 u_resolution;
+          varying vec2 vUv;
+
+          // Simplex Noise & Swirl
+          vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+          vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+          vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+
+          float snoise(vec2 v) {
+            const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+            vec2 i  = floor(v + dot(v, C.yy));
+            vec2 x0 = v -   i + dot(i, C.xx);
+            vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+            vec4 x12 = x0.xyxy + C.xxzz;
+            x12.xy -= i1;
+            i = mod289(i);
+            vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+            vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+            m = m*m; m = m*m;
+            vec3 x = 2.0 * fract(p * C.www) - 1.0;
+            vec3 h = abs(x) - 0.5;
+            vec3 ox = floor(x + 0.5);
+            vec3 a0 = x - ox;
+            m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+            vec3 g;
+            g.x  = a0.x  * x0.x  + h.x  * x0.y;
+            g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+            return 130.0 * dot(m, g);
+          }
+
+          void main() {
+            vec2 uv = vUv;
+            vec2 m = u_mouse * 0.5 + 0.5;
+            
+            // Domain warping for marbling flow
+            vec2 q = vec2(
+              snoise(uv * 2.5 + vec2(0.0, u_time * 0.08)),
+              snoise(uv * 2.5 + vec2(5.2, 1.3 + u_time * 0.06))
+            );
+            
+            vec2 r = vec2(
+              snoise(uv * 3.0 + 4.0 * q + vec2(1.7, 9.2) + u_mouse * 0.8),
+              snoise(uv * 3.0 + 4.0 * q + vec2(8.3, 2.8))
+            );
+
+            float f = snoise(uv * 2.0 + 4.0 * r + u_time * 0.05);
+
+            // Palette: Warm Ground, Deep Kaavi Terracotta, Gold Leaf, Ink
+            vec3 ground = vec3(0.08, 0.07, 0.05);
+            vec3 kaavi  = vec3(0.61, 0.23, 0.15);
+            vec3 gold   = vec3(0.85, 0.68, 0.32);
+            vec3 goldBright = vec3(0.95, 0.82, 0.50);
+
+            vec3 col = mix(ground, kaavi, clamp(f * f * 2.5, 0.0, 1.0));
+            col = mix(col, gold, clamp(length(q) * 0.8, 0.0, 1.0));
+            col = mix(col, goldBright, clamp(pow(r.x, 3.0) * 1.5, 0.0, 1.0));
+
+            // Gold vein sharpness
+            float vein = smoothstep(0.48, 0.52, sin(f * 12.0 + u_time * 0.2));
+            col += goldBright * vein * 0.35;
+
+            gl_FragColor = vec4(col, 1.0);
+          }
+        `
+      };
+
+      const material = new THREE.ShaderMaterial({
+        uniforms: shader.uniforms,
+        vertexShader: shader.vertexShader,
+        fragmentShader: shader.fragmentShader
+      });
+
+      currentMesh = new THREE.Mesh(geometry, material);
+      scene.add(currentMesh);
+    }
+
+    /* =========================================================================
+       CONCEPT 3: Sacred Kolam Dot & Flow Constellation
+       ========================================================================= */
+    function loadConcept3() {
+      clearScene();
+      camera.position.set(0, 0, 5);
+
+      const group = new THREE.Group();
+      const dotCount = 1200;
+      const positions = new Float32Array(dotCount * 3);
+      const originalPos = new Float32Array(dotCount * 3);
+      const colors = new Float32Array(dotCount * 3);
+
+      const gold = new THREE.Color(0xcfa14e);
+      const kaavi = new THREE.Color(0xb0492f);
+      const inkSoft = new THREE.Color(0x766c58);
+
+      let idx = 0;
+      const rows = 30;
+      const cols = 40;
+      for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+          if (idx >= dotCount) break;
+          const x = (j - cols / 2) * 0.28 + (i % 2 === 0 ? 0.14 : 0);
+          const y = (i - rows / 2) * 0.24;
+          const z = 0;
+
+          positions[idx * 3] = x;
+          positions[idx * 3 + 1] = y;
+          positions[idx * 3 + 2] = z;
+
+          originalPos[idx * 3] = x;
+          originalPos[idx * 3 + 1] = y;
+          originalPos[idx * 3 + 2] = z;
+
+          const c = (i + j) % 3 === 0 ? gold : (i % 4 === 0 ? kaavi : inkSoft);
+          colors[idx * 3] = c.r;
+          colors[idx * 3 + 1] = c.g;
+          colors[idx * 3 + 2] = c.b;
+
+          idx++;
+        }
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+      // Circular Point Texture
+      const canvas = document.createElement('canvas');
+      canvas.width = 64; canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 30);
+      grad.addColorStop(0, 'rgba(255,255,255,1)');
+      grad.addColorStop(0.3, 'rgba(255,220,150,0.8)');
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0,0,64,64);
+      const dotTexture = new THREE.CanvasTexture(canvas);
+
+      const material = new THREE.PointsMaterial({
+        size: 0.18,
+        vertexColors: true,
+        map: dotTexture,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+      const points = new THREE.Points(geometry, material);
+      group.add(points);
+
+      // Connecting Kolam Light Strands
+      const lineGeo = new THREE.BufferGeometry();
+      const linePositions = new Float32Array(dotCount * 2 * 3);
+      lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+
+      const lineMat = new THREE.LineBasicMaterial({
+        color: 0xcfa14e,
+        transparent: true,
+        opacity: 0.25,
+        blending: THREE.AdditiveBlending
+      });
+      const lines = new THREE.LineSegments(lineGeo, lineMat);
+      group.add(lines);
+
+      currentMesh = group;
+      currentMesh.userData = { originalPos, points, lines, dotCount };
+      scene.add(currentMesh);
+    }
+
+    /* =========================================================================
+       CONCEPT 4: 2.5D Tactile Relief & Chiaroscuro Spot Light
+       ========================================================================= */
+    function loadConcept4() {
+      clearScene();
+      camera.position.set(0, 0, 4);
+
+      // Procedural Damask / Floral Relief Normal Map
+      const canvas = document.createElement('canvas');
+      canvas.width = 512; canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#8080ff';
+      ctx.fillRect(0,0,512,512);
+
+      // Create rich procedural floral embossed rings
+      for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+          const cx = i * 64 + 32;
+          const cy = j * 64 + 32;
+          ctx.beginPath();
+          ctx.arc(cx, cy, 24, 0, Math.PI * 2);
+          ctx.strokeStyle = '#c0c0ff';
+          ctx.lineWidth = 6;
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.arc(cx, cy, 10, 0, Math.PI * 2);
+          ctx.fillStyle = '#ff8080';
+          ctx.fill();
+        }
+      }
+      const normalTex = new THREE.CanvasTexture(canvas);
+      normalTex.wrapS = normalTex.wrapT = THREE.RepeatWrapping;
+      normalTex.repeat.set(4, 4);
+
+      const geometry = new THREE.PlaneGeometry(8, 6, 64, 64);
+      const material = new THREE.MeshStandardMaterial({
+        color: 0x1f1912,
+        roughness: 0.35,
+        metalness: 0.75,
+        normalMap: normalTex,
+        normalScale: new THREE.Vector2(0.8, 0.8)
+      });
+
+      const plane = new THREE.Mesh(geometry, material);
+
+      // Lights for dramatic chiaroscuro
+      const ambientLight = new THREE.AmbientLight(0x221c14, 0.8);
+      const spotGold = new THREE.PointLight(0xe6c47f, 3.5, 12);
+      spotGold.position.set(0, 0, 2);
+
+      const rimKaavi = new THREE.PointLight(0x9c3a26, 2.0, 10);
+      rimKaavi.position.set(-3, -2, 1.5);
+
+      const group = new THREE.Group();
+      group.add(plane);
+      group.add(ambientLight);
+      group.add(spotGold);
+      group.add(rimKaavi);
+
+      group.userData = { spotGold, plane };
+      currentMesh = group;
+      scene.add(currentMesh);
+    }
+
+    /* =========================================================================
+       CONCEPT 5: Floating Palace Gold Spores & Petals
+       ========================================================================= */
+    function loadConcept5() {
+      clearScene();
+      camera.position.set(0, 0, 5);
+
+      const count = 2500;
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(count * 3);
+      const velocities = new Float32Array(count * 3);
+      const scales = new Float32Array(count);
+      const colors = new Float32Array(count * 3);
+
+      const cGold = new THREE.Color(0xf1d592);
+      const cKaavi = new THREE.Color(0xb0492f);
+      const cAmber = new THREE.Color(0xa97b22);
+
+      for (let i = 0; i < count; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 10;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 8;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 6;
+
+        velocities[i * 3] = (Math.random() - 0.5) * 0.005;
+        velocities[i * 3 + 1] = Math.random() * 0.008 + 0.002; // slow rising
+        velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.005;
+
+        scales[i] = Math.random() * 0.12 + 0.04;
+
+        const randCol = Math.random();
+        const col = randCol > 0.4 ? cGold : (randCol > 0.2 ? cAmber : cKaavi);
+        colors[i * 3] = col.r;
+        colors[i * 3 + 1] = col.g;
+        colors[i * 3 + 2] = col.b;
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+      // Foil particle texture with specular glow
+      const canvas = document.createElement('canvas');
+      canvas.width = 64; canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = 'rgba(255, 235, 180, 0.9)';
+      ctx.beginPath();
+      ctx.arc(32, 32, 16, 0, Math.PI * 2);
+      ctx.fill();
+      const tex = new THREE.CanvasTexture(canvas);
+
+      const material = new THREE.PointsMaterial({
+        size: 0.14,
+        vertexColors: true,
+        map: tex,
+        transparent: true,
+        opacity: 0.85,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+      const particles = new THREE.Points(geometry, material);
+      particles.userData = { velocities, count };
+      currentMesh = particles;
+      scene.add(currentMesh);
+    }
+
+    // Concept Switcher
+    function setConcept(id) {
+      currentConceptId = parseInt(id);
+      document.querySelectorAll('.concept-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.querySelector(`.concept-btn[data-id="${id}"]`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const data = concepts[id];
+      document.getElementById('concept-tag').textContent = data.tag;
+      document.getElementById('concept-title').textContent = data.title;
+      document.getElementById('concept-desc').textContent = data.desc;
+
+      switch(currentConceptId) {
+        case 1: loadConcept1(); break;
+        case 2: loadConcept2(); break;
+        case 3: loadConcept3(); break;
+        case 4: loadConcept4(); break;
+        case 5: loadConcept5(); break;
+      }
+    }
+
+    document.querySelectorAll('.concept-btn').forEach(btn => {
+      btn.addEventListener('click', () => setConcept(btn.dataset.id));
+    });
+
+    // Render & Animation Loop
+    function animate() {
+      animationFrameId = requestAnimationFrame(animate);
+      const time = clock.getElapsedTime();
+
+      // Smooth mouse interpolation
+      mouse.x += (mouse.targetX - mouse.x) * 0.08;
+      mouse.y += (mouse.targetY - mouse.y) * 0.08;
+
+      if (currentMesh) {
+        if (currentConceptId === 1 && currentMesh.material.uniforms) {
+          currentMesh.material.uniforms.u_time.value = time;
+          currentMesh.material.uniforms.u_mouse.value.set(mouse.x, mouse.y);
+          currentMesh.rotation.y = mouse.x * 0.15;
+          currentMesh.rotation.x = -mouse.y * 0.1;
+        } 
+        else if (currentConceptId === 2 && currentMesh.material.uniforms) {
+          currentMesh.material.uniforms.u_time.value = time;
+          currentMesh.material.uniforms.u_mouse.value.set(mouse.x, mouse.y);
+        }
+        else if (currentConceptId === 3 && currentMesh.userData) {
+          const { originalPos, points, lines, dotCount } = currentMesh.userData;
+          const pos = points.geometry.attributes.position.array;
+          const linePos = lines.geometry.attributes.position.array;
+          let lineIdx = 0;
+
+          for (let i = 0; i < dotCount; i++) {
+            const ox = originalPos[i * 3];
+            const oy = originalPos[i * 3 + 1];
+            const oz = originalPos[i * 3 + 2];
+
+            const dx = ox - mouse.x * 3.0;
+            const dy = oy - mouse.y * 2.0;
+            const dist = Math.hypot(dx, dy);
+            const force = Math.max(0, 1.2 - dist);
+
+            pos[i * 3] = ox + Math.sin(time * 2.0 + ox * 3.0) * 0.05 + (dx / (dist + 0.001)) * force * 0.3;
+            pos[i * 3 + 1] = oy + Math.cos(time * 2.0 + oy * 3.0) * 0.05 + (dy / (dist + 0.001)) * force * 0.3;
+            pos[i * 3 + 2] = Math.sin(time + dist * 4.0) * 0.25;
+
+            // Connect nearby points to form dynamic kolam lines
+            if (i > 0 && i % 40 !== 0 && lineIdx < linePos.length - 6) {
+              linePos[lineIdx++] = pos[(i - 1) * 3];
+              linePos[lineIdx++] = pos[(i - 1) * 3 + 1];
+              linePos[lineIdx++] = pos[(i - 1) * 3 + 2];
+
+              linePos[lineIdx++] = pos[i * 3];
+              linePos[lineIdx++] = pos[i * 3 + 1];
+              linePos[lineIdx++] = pos[i * 3 + 2];
+            }
+          }
+          points.geometry.attributes.position.needsUpdate = true;
+          lines.geometry.attributes.position.needsUpdate = true;
+        }
+        else if (currentConceptId === 4 && currentMesh.userData) {
+          const { spotGold, plane } = currentMesh.userData;
+          spotGold.position.x = mouse.x * 4.0;
+          spotGold.position.y = mouse.y * 3.0;
+          spotGold.position.z = 1.8 + Math.sin(time * 1.5) * 0.3;
+          plane.rotation.y = mouse.x * 0.08;
+          plane.rotation.x = -mouse.y * 0.08;
+        }
+        else if (currentConceptId === 5 && currentMesh.userData) {
+          const { velocities, count } = currentMesh.userData;
+          const pos = currentMesh.geometry.attributes.position.array;
+
+          for (let i = 0; i < count; i++) {
+            pos[i * 3] += velocities[i * 3] + mouse.x * 0.01;
+            pos[i * 3 + 1] += velocities[i * 3 + 1];
+            pos[i * 3 + 2] += velocities[i * 3 + 2] + mouse.y * 0.01;
+
+            if (pos[i * 3 + 1] > 4) pos[i * 3 + 1] = -4;
+            if (pos[i * 3] > 5) pos[i * 3] = -5;
+            if (pos[i * 3] < -5) pos[i * 3] = 5;
+          }
+          currentMesh.geometry.attributes.position.needsUpdate = true;
+          currentMesh.rotation.y = time * 0.03;
+        }
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    initThree();
+    setConcept(1);
+    animate();
+  </script>
+</body>
+</html>
