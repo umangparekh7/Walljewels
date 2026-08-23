@@ -778,7 +778,8 @@ body.theme-light {
   --night-gold: #b38334;
   --night-gold-bright: #946820;
 
-  background-color: #fbf8f2;
+  background: transparent !important;
+  background-color: transparent !important;
   color: #1c1712;
 }
 

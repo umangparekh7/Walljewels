@@ -135,53 +135,61 @@
 
     // Light Mode: Alabaster Marble Veins
     vec3 renderMarble(vec2 uv, float t) {
-      vec3 marbleBase = vec3(0.985, 0.970, 0.945); // Pure warm alabaster #faf7f1
-      vec3 marbleWarm = vec3(0.940, 0.915, 0.875); // Cream shadow #f0eae0
-      vec3 veinColor  = vec3(0.720, 0.610, 0.470); // Warm gold-amber vein #b89c78
+      vec3 marbleBase = vec3(0.965, 0.948, 0.912); // Warm ivory alabaster #f6f2e9
+      vec3 marbleWarm = vec3(0.910, 0.865, 0.805); // Soft cream shadow #e8ddcd
+      vec3 veinColor  = vec3(0.680, 0.520, 0.320); // Warm gold-amber vein #ad8552
 
-      vec2 p = uv * 1.8 + vec2(t * 0.01, t * 0.008);
+      vec2 p = uv * 1.8 + vec2(t * 0.012, t * 0.009);
       float n = fbm(p + fbm(p * 1.5 + vec2(1.7, 3.2)));
       float vein = abs(sin(p.x * 2.0 + p.y * 1.5 + n * 4.0));
-      vein = smoothstep(0.12, 0.0, vein) * 0.45;
+      vein = smoothstep(0.14, 0.0, vein) * 0.55;
 
       float n2 = fbm(p * 3.0 + 4.0);
-      float fineVein = smoothstep(0.08, 0.0, abs(sin(p.y * 3.0 - p.x * 2.0 + n2 * 3.0))) * 0.25;
+      float fineVein = smoothstep(0.09, 0.0, abs(sin(p.y * 3.0 - p.x * 2.0 + n2 * 3.0))) * 0.35;
 
-      vec3 col = mix(marbleBase, marbleWarm, n * 0.6);
+      vec3 col = mix(marbleBase, marbleWarm, n * 0.5);
       col = mix(col, veinColor, vein + fineVein);
       return col;
     }
 
     // Light Mode: Floating Translucent Liquid Gold Ribbons
     vec3 renderGoldRibbons(vec2 uv, float t, float mouseWave) {
-      vec3 gold1 = vec3(0.96, 0.82, 0.50); // 24K bright gold
-      vec3 gold2 = vec3(0.85, 0.65, 0.32); // Amber gold
-      vec3 highlight = vec3(1.0, 0.95, 0.85); // Sun sheen
+      vec3 gold1 = vec3(0.98, 0.78, 0.35); // 24K rich golden silk
+      vec3 gold2 = vec3(0.85, 0.58, 0.22); // Warm amber bronze
+      vec3 highlight = vec3(1.0, 0.96, 0.88); // Sun glint
 
       vec3 ribbonAccum = vec3(0.0);
 
       // Ribbon 1 (Top sweeping curve)
       float y1 = uv.y - sin(uv.x * 1.4 + t * 0.6) * 0.38 - cos(uv.x * 0.8 - t * 0.4) * 0.2 - 0.35;
       float d1 = abs(y1);
-      float ribbon1 = smoothstep(0.22, 0.01, d1);
-      float sheen1 = pow(1.0 - clamp(d1 / 0.18, 0.0, 1.0), 3.0);
+      float ribbon1 = smoothstep(0.24, 0.01, d1);
+      float sheen1 = pow(1.0 - clamp(d1 / 0.20, 0.0, 1.0), 2.5);
 
       // Ribbon 2 (Bottom diagonal ascending wave)
       float y2 = uv.y + sin(uv.x * 1.2 - t * 0.5) * 0.42 + cos(uv.x * 0.6 + t * 0.3) * 0.18 + 0.4;
       float d2 = abs(y2);
-      float ribbon2 = smoothstep(0.25, 0.01, d2);
-      float sheen2 = pow(1.0 - clamp(d2 / 0.20, 0.0, 1.0), 3.0);
+      float ribbon2 = smoothstep(0.26, 0.01, d2);
+      float sheen2 = pow(1.0 - clamp(d2 / 0.22, 0.0, 1.0), 2.5);
+
+      // Ribbon 3 (Center subtle flowing filament)
+      float y3 = uv.y - sin(uv.x * 2.0 - t * 0.7) * 0.22 + cos(uv.x * 1.1 + t * 0.5) * 0.15;
+      float d3 = abs(y3);
+      float ribbon3 = smoothstep(0.18, 0.01, d3);
+      float sheen3 = pow(1.0 - clamp(d3 / 0.15, 0.0, 1.0), 2.5);
 
       // Liquid silk modulation & caustics
       float caustic = sin(uv.x * 8.0 + uv.y * 6.0 + t * 1.2) * 0.5 + 0.5;
       caustic += sin(uv.x * 12.0 - uv.y * 8.0 - t * 0.8) * 0.5 + 0.5;
-      caustic *= 0.25;
+      caustic *= 0.3;
 
-      vec3 col1 = mix(gold2, gold1, sheen1) + highlight * pow(sheen1, 4.0) * 0.6;
-      vec3 col2 = mix(gold2, gold1, sheen2) + highlight * pow(sheen2, 4.0) * 0.6;
+      vec3 col1 = mix(gold2, gold1, sheen1) + highlight * pow(sheen1, 3.0) * 0.8;
+      vec3 col2 = mix(gold2, gold1, sheen2) + highlight * pow(sheen2, 3.0) * 0.8;
+      vec3 col3 = mix(gold2, gold1, sheen3) + highlight * pow(sheen3, 3.0) * 0.7;
 
-      ribbonAccum += col1 * ribbon1 * (0.35 + caustic * 0.15 + mouseWave * 0.25);
-      ribbonAccum += col2 * ribbon2 * (0.30 + caustic * 0.12 + mouseWave * 0.22);
+      ribbonAccum += col1 * ribbon1 * (0.65 + caustic * 0.25 + mouseWave * 0.4);
+      ribbonAccum += col2 * ribbon2 * (0.60 + caustic * 0.22 + mouseWave * 0.35);
+      ribbonAccum += col3 * ribbon3 * (0.45 + caustic * 0.18 + mouseWave * 0.3);
 
       return ribbonAccum;
     }
