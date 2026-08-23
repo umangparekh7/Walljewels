@@ -590,7 +590,6 @@
   }
 
   /* ---------------- lightbox: any artwork click opens full view ---------------- */
-  const LB_SEL = '.plate__media img, .tile__img img, .space__img img, .volume__media img, .feature__media img, .journey__art img, .hero__media .slide.is-on img, .soon img';
   let lb = null;
   function ensureLB() {
     if (lb) return lb;
@@ -604,42 +603,80 @@
           <path d="M4 4 L16 16 M16 4 L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </button>
-      <figure><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%23191c23'/%3E%3C/svg%3E" alt=""><figcaption></figcaption></figure>`;
+      <figure>
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%23191c23'/%3E%3C/svg%3E" alt="">
+        <figcaption></figcaption>
+        <div style="display:flex; justify-content:center; margin-top:12px;">
+          <a class="lightbox__wa-link btn btn--wa" target="_blank" rel="noopener" href="https://wa.me/919677042903">
+            <span class="dot-a"></span>WhatsApp Design Team for this Wallpaper
+          </a>
+        </div>
+      </figure>`;
     document.body.appendChild(lb);
     lb.addEventListener('click', (e) => {
       if (e.target === lb || e.target.closest('.lightbox__close')) closeLightbox();
     });
     return lb;
   }
+
   function openLightbox(src, alt) {
+    if (!src) return;
     const box = ensureLB();
     const img = $('img', box);
     img.src = src;
-    img.alt = alt || '';
-    $('figcaption', box).textContent = (alt || '').split(' — ')[0];
+    img.alt = alt || 'Wall Jewels Wallpaper Design';
+    const cleanTitle = (alt || '').split(' — ')[0].split(' · ')[0] || 'Wall Jewels Original Wallpaper';
+    $('figcaption', box).textContent = cleanTitle;
+    const waLink = $('.lightbox__wa-link', box);
+    if (waLink) {
+      waLink.href = `https://wa.me/919677042903?text=${encodeURIComponent(`Namaste Wall Jewels — I would like to enquire about the wallpaper: "${cleanTitle}".`)}`;
+    }
     box.classList.add('is-open');
     document.body.style.overflow = 'hidden';
     $('.lightbox__close', box).focus({ preventScroll: true });
   }
+
   function closeLightbox() {
     if (!lb) return;
     lb.classList.remove('is-open');
     document.body.style.overflow = '';
   }
+
+  // Universal click listener for all wallpaper images across landing and collection
   document.addEventListener('click', (e) => {
-    const img = e.target.closest(LB_SEL);
+    // Check if clicked element or inside element is an image
+    const img = e.target.closest('img');
     if (!img) return;
-    if (img.closest('[data-open-catalogue]')) return; /* catalogue viewer owns these */
+
+    // Ignore logos, header icons, brand assets
+    if (img.closest('.wordmark, .header, .drawer__head, .nav, .footer__brand, .sr-only')) return;
+
+    // If clicking flipbook button specifically, let flipbook open
+    if (e.target.closest('.uiverse, .vol-badge')) return;
+
+    const src = img.currentSrc || img.src;
+    if (!src || src.includes('logo-') || src.includes('data:image')) return;
+
     const a = img.closest('a');
-    if (a) e.preventDefault();
-    openLightbox(img.currentSrc || img.src, img.alt);
+    // If it's a wallpaper image card (tile, plate, coverflow, volume cover, etc.)
+    if (img.closest('.tile, .plate, .volume__media, .feature__media, .coverflow-card, .fan-card, .pillar-card, .journey__art, .j2art, .space, .soon, .proof__frame, .cfg__preview')) {
+      e.preventDefault();
+      e.stopPropagation();
+      openLightbox(src, img.alt || img.title || '');
+    }
   });
+
   addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
-  /* hero films open their full still artwork */
+
+  /* hero films click to open full still artwork */
   document.addEventListener('click', (e) => {
-    const v = e.target.closest('.hero__media .slide.is-on video');
-    if (!v || !v.dataset.full) return;
-    openLightbox(v.dataset.full, v.getAttribute('aria-label') || '');
+    const v = e.target.closest('.hero__media .slide.is-on video, .hero__media video');
+    if (!v) return;
+    const full = v.dataset.full || v.poster;
+    if (full) {
+      e.preventDefault();
+      openLightbox(full, v.dataset.title || v.getAttribute('aria-label') || '');
+    }
   });
 
   /* ---------------- catalogue viewer: flip through the volumes ---------------- */

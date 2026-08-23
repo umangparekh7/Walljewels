@@ -3141,25 +3141,48 @@ body.theme-light {
 }
 @media (max-width: 900px) { .journal { grid-template-columns: 1fr; } }
 
-/* ---------- 25. Final CTA (25% reduced) ---------- */
+/* ---------- 25. Final CTA (Ultra-compact) ---------- */
 .finale {
   position: relative;
   text-align: center;
-  padding-block: clamp(46px, 6vw, 84px);
+  padding-block: clamp(18px, 2.8vw, 32px);
   isolation: isolate;
   overflow: clip;
 }
+.finale .wrap {
+  padding: clamp(16px, 2.5vw, 26px) clamp(16px, 3vw, 32px) !important;
+}
 .finale__kolam { position: absolute; inset: 0; z-index: -1; display: grid; place-items: center; pointer-events: none; }
-.finale__kolam svg { width: min(88vw, 620px); height: auto; opacity: .5; overflow: visible; }
+.finale__kolam svg { width: min(80vw, 520px); height: auto; opacity: .4; overflow: visible; }
 .finale__kolam path { fill: none; stroke: rgba(43, 36, 26, .32); stroke-width: 1.1; }
 .finale__kolam circle { fill: rgba(169, 123, 34, .5); }
-.finale .d1 { max-width: 14ch; margin-inline: auto; font-size: clamp(1.9rem, 4.5vw, 3.4rem); }
+.finale .d1, .finale .d2 {
+  max-width: 26ch;
+  margin-inline: auto;
+  font-size: clamp(1.25rem, 2.2vw, 1.85rem);
+  margin-bottom: 4px;
+}
 .finale__steps {
-  margin-top: 18px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 20px;
-  font-size: 13px; color: var(--ink-soft);
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 12px;
+  font-size: 11px;
+  color: var(--ink-soft);
 }
 .finale__steps .sep { color: var(--gold); }
-.finale__cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.finale__cta {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.finale__cta .btn--wa {
+  padding: 8px 18px;
+  font-size: 12px;
+}
 
 /* ---------- 26. Footer (Full-width, 3-zone layout with centered links and right-aligned native social) ---------- */
 .footer {
@@ -3681,10 +3704,6 @@ body.theme-light {
   .fgroup + .fgroup { margin-left: 0; padding-left: 0; border-left: 0; }
   .coll-count { margin-left: 0; width: 100%; }
 }
-@media (max-width: 720px) {
-  .fgroup + .fgroup { margin-left: 0; padding-left: 0; border-left: 0; }
-  .coll-count { margin-left: 0; width: 100%; }
-}
 
 /* ---------- 30. No-JS ---------- */
 .no-js .rv, .no-js .rv--wipe { opacity: 1; transform: none; clip-path: none; }
@@ -3698,7 +3717,10 @@ body.theme-light {
 
 /* ---------- 31. Lightbox — full view on click ---------- */
 .plate__media img, .tile__img img, .space__img img, .volume__media img,
-.journey__art img, .soon img { cursor: zoom-in; }
+.journey__art img, .j2art img, .feature__media img, .coverflow-card img,
+.fan-card img, .pillar-card img, .proof__frame img, .hero__media video, .soon img {
+  cursor: zoom-in;
+}
 .lightbox {
   position: fixed; inset: 0; z-index: 320;
   background: rgba(8, 9, 12, .92);
@@ -3725,7 +3747,8 @@ body.theme-light {
 .lightbox figcaption {
   text-align: center;
   font-size: 12.5px; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--gold-bright, #e6c47f);
+  font-weight: 600;
 }
 .lightbox__close {
   position: absolute; top: clamp(14px, 3vh, 30px); right: clamp(14px, 3vw, 30px);
