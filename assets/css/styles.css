@@ -804,6 +804,12 @@ body.theme-light {
   border-bottom: 1px solid rgba(43, 36, 26, 0.12);
 }
 
+[data-theme="light"] .wordmark img,
+[data-theme="light"] .drawer__head .wordmark img,
+[data-theme="light"] .footer__brand .wordmark img {
+  content: url("../img/brand/logo-light.png");
+}
+
 [data-theme="light"] .header .nav a {
   background: rgba(245, 239, 228, 0.9);
   color: #7a581e;
