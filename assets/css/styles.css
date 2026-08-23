@@ -869,48 +869,106 @@ main::before {
   .tile { min-height: 220px; }
 }
 
-/* ---------- 12. The volumes ---------- */
-.volumes { display: flex; flex-direction: column; gap: clamp(32px, 4.5vw, 60px); }
+/* ---------- 12. The volumes (Sleek landscape ratio, matching cover sizes, single-line titles) ---------- */
+.volumes {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3vw, 36px);
+}
 .volume {
   display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: clamp(28px, 5vw, 64px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(24px, 4vw, 48px);
   align-items: center;
-  background: rgba(30, 24, 18, 0.82);
-  border: 1px solid rgba(244, 239, 228, 0.12);
-  border-radius: 14px;
-  padding: clamp(24px, 3.5vw, 44px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(30, 24, 18, 0.88);
+  border: 1px solid rgba(207, 161, 78, 0.22);
+  border-radius: 16px;
+  padding: clamp(20px, 2.5vw, 32px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
-.volume:nth-child(even) .volume__media { order: 2; }
+.volume:nth-child(even) .volume__media {
+  order: 2;
+  justify-self: end;
+}
+.volume:nth-child(even) .volume__body {
+  order: 1;
+}
+
 .volume__media {
   position: relative;
-  overflow: clip;
-  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  max-height: 290px;
   border-radius: 10px;
-  background: var(--night-2);
+  background: rgba(18, 14, 10, 0.95);
+  border: 1px solid rgba(244, 239, 228, 0.12);
+  cursor: pointer;
 }
 .volume__media img {
-  width: 100%; height: 105%; object-fit: cover;
-  filter: saturate(.95);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(.96);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease;
+  display: block;
 }
-/* no inset lines over artwork — the covers carry their own composition */
-.volume__roman {
-  position: absolute; top: 22px; left: 26px; z-index: 2;
-  font-family: var(--f-display); font-size: 15px; letter-spacing: .3em;
-  color: var(--night-ink);
-  background: rgba(20, 17, 12, 0.85);
-  border: 1px solid rgba(244, 239, 228, 0.14);
-  padding: 8px 14px;
-  backdrop-filter: blur(6px);
+.volume:hover .volume__media img {
+  transform: scale(1.035);
+  filter: saturate(1.05) brightness(1.02);
 }
-.volume__body .cap { margin-bottom: 14px; }
-.volume__name { font-size: clamp(2.1rem, 4vw, 3.2rem); color: var(--night-ink); }
-.volume__tag { font-style: italic; font-weight: 400; color: var(--gold-bright); font-size: clamp(1.05rem, 1.5vw, 1.25rem); margin-top: 10px; }
-.volume__blurb { margin-top: 18px; max-width: 46ch; color: var(--ink-soft); }
-.volume__body .textlink { margin-top: 28px; }
+
+.volume__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.volume__body .cap {
+  margin-bottom: 8px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+}
+.volume__name {
+  font-size: clamp(1.8rem, 2.6vw, 2.4rem);
+  color: var(--night-ink, #f2edde);
+  line-height: 1.15;
+  white-space: nowrap;
+  margin: 0;
+}
+.volume__tag {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--night-gold-bright, #e6c47f);
+  font-size: clamp(0.95rem, 1.25vw, 1.15rem);
+  margin-top: 6px;
+  line-height: 1.3;
+}
+.volume__blurb {
+  margin-top: 10px;
+  max-width: 48ch;
+  color: var(--night-soft, #cfc9b8);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.volume__acts {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+}
+.volume__acts .btn {
+  padding: 9px 18px;
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+}
+.volume__acts .textlink {
+  font-size: 12px;
+  margin-top: 0;
+}
 
 .volume--soon .volume__media { aspect-ratio: auto; min-height: 220px; border: 1px dashed var(--hairline-2); background: transparent; display: grid; place-items: center; }
 .volumes-soon {
