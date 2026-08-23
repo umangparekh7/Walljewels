@@ -133,30 +133,30 @@
       return ring1 * 0.9 + ring2 * 0.75 + ring3 * 0.6 + centerDot * 1.2;
     }
 
-    // Light Mode: Alabaster Marble Veins
+    // Light Mode: Alabaster Marble Veins (Enriched deeper warm tone)
     vec3 renderMarble(vec2 uv, float t) {
-      vec3 marbleBase = vec3(0.965, 0.948, 0.912); // Warm ivory alabaster #f6f2e9
-      vec3 marbleWarm = vec3(0.910, 0.865, 0.805); // Soft cream shadow #e8ddcd
-      vec3 veinColor  = vec3(0.680, 0.520, 0.320); // Warm gold-amber vein #ad8552
+      vec3 marbleBase = vec3(0.895, 0.855, 0.795); // Deeper warm biscuit parchment #e4dacf
+      vec3 marbleWarm = vec3(0.810, 0.745, 0.665); // Antique stone shadow #cfbeaa
+      vec3 veinColor  = vec3(0.550, 0.390, 0.210); // Deep rich gold-bronze vein #8c6335
 
       vec2 p = uv * 1.8 + vec2(t * 0.012, t * 0.009);
       float n = fbm(p + fbm(p * 1.5 + vec2(1.7, 3.2)));
       float vein = abs(sin(p.x * 2.0 + p.y * 1.5 + n * 4.0));
-      vein = smoothstep(0.14, 0.0, vein) * 0.55;
+      vein = smoothstep(0.15, 0.0, vein) * 0.65;
 
       float n2 = fbm(p * 3.0 + 4.0);
-      float fineVein = smoothstep(0.09, 0.0, abs(sin(p.y * 3.0 - p.x * 2.0 + n2 * 3.0))) * 0.35;
+      float fineVein = smoothstep(0.10, 0.0, abs(sin(p.y * 3.0 - p.x * 2.0 + n2 * 3.0))) * 0.45;
 
-      vec3 col = mix(marbleBase, marbleWarm, n * 0.5);
+      vec3 col = mix(marbleBase, marbleWarm, n * 0.65);
       col = mix(col, veinColor, vein + fineVein);
       return col;
     }
 
-    // Light Mode: Floating Translucent Liquid Gold Ribbons
+    // Light Mode: Floating Translucent Liquid Gold Ribbons (Richer golden depth)
     vec3 renderGoldRibbons(vec2 uv, float t, float mouseWave) {
-      vec3 gold1 = vec3(0.98, 0.78, 0.35); // 24K rich golden silk
-      vec3 gold2 = vec3(0.85, 0.58, 0.22); // Warm amber bronze
-      vec3 highlight = vec3(1.0, 0.96, 0.88); // Sun glint
+      vec3 gold1 = vec3(0.95, 0.70, 0.25); // 24K rich deep gold
+      vec3 gold2 = vec3(0.76, 0.48, 0.16); // Deep antique gold bronze
+      vec3 highlight = vec3(0.98, 0.92, 0.80); // Warm gold sheen
 
       vec3 ribbonAccum = vec3(0.0);
 
@@ -187,9 +187,9 @@
       vec3 col2 = mix(gold2, gold1, sheen2) + highlight * pow(sheen2, 3.0) * 0.8;
       vec3 col3 = mix(gold2, gold1, sheen3) + highlight * pow(sheen3, 3.0) * 0.7;
 
-      ribbonAccum += col1 * ribbon1 * (0.65 + caustic * 0.25 + mouseWave * 0.4);
-      ribbonAccum += col2 * ribbon2 * (0.60 + caustic * 0.22 + mouseWave * 0.35);
-      ribbonAccum += col3 * ribbon3 * (0.45 + caustic * 0.18 + mouseWave * 0.3);
+      ribbonAccum += col1 * ribbon1 * (0.80 + caustic * 0.30 + mouseWave * 0.45);
+      ribbonAccum += col2 * ribbon2 * (0.75 + caustic * 0.25 + mouseWave * 0.40);
+      ribbonAccum += col3 * ribbon3 * (0.60 + caustic * 0.20 + mouseWave * 0.35);
 
       return ribbonAccum;
     }
