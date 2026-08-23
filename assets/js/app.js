@@ -30,6 +30,36 @@
     });
   }
 
+  /* ---------------- Scroll Restoration & Logo Navigation ---------------- */
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
+  // Smooth top-level navigation when clicking logo on home page
+  document.addEventListener('click', (e) => {
+    const logo = e.target.closest('.wordmark, a[href="index.html"]');
+    if (logo && (location.pathname.endsWith('index.html') || location.pathname === '/' || location.pathname.endsWith('/'))) {
+      e.preventDefault();
+      if (lenis) {
+        lenis.scrollTo(0, { duration: 1.2 });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      if (location.hash) {
+        history.pushState('', document.title, window.location.pathname + window.location.search);
+      }
+    }
+  });
+
+  // On page refresh / load, reset to top if no deep link hash
+  if (!window.location.hash) {
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }
+
   const slugOf = (d) => d.img.split('/').pop().replace('.jpg', '');
   const bySlug = {};
   if (typeof COLLECTION !== 'undefined') COLLECTION.forEach(d => { bySlug[slugOf(d)] = d; });
