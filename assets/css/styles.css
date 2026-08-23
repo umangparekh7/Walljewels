@@ -1036,6 +1036,135 @@ body.theme-light {
   cursor: pointer;
 }
 
+/* Light Mode Journey Section Typography */
+[data-theme="light"] .journey-box h3,
+[data-theme="light"] .journey-box .d3 {
+  color: #1a1510 !important;
+}
+[data-theme="light"] .journey-box .lead {
+  color: #4a3e31 !important;
+}
+[data-theme="light"] .j2list b {
+  color: #1a1510 !important;
+}
+[data-theme="light"] .j2list li div span {
+  color: #4a3e31 !important;
+}
+[data-theme="light"] .j2list li.is-on b {
+  color: #946016 !important;
+  font-weight: 700 !important;
+}
+[data-theme="light"] .j2dot {
+  border-color: rgba(148, 96, 22, 0.45) !important;
+}
+[data-theme="light"] .j2list li.is-on .j2dot {
+  background: #946016 !important;
+  border-color: #946016 !important;
+  box-shadow: 0 0 8px rgba(148, 96, 22, 0.5) !important;
+}
+[data-theme="light"] .j2list li:hover {
+  background: rgba(212, 167, 83, 0.15) !important;
+}
+
+/* Light Mode About Us Section Typography */
+[data-theme="light"] .about-founding {
+  color: #1a1510 !important;
+}
+[data-theme="light"] .about-founding strong {
+  color: #946016 !important;
+  font-weight: 700 !important;
+}
+[data-theme="light"] .about-paras p {
+  color: #4a3e31 !important;
+}
+[data-theme="light"] .about-paras p strong {
+  color: #1a1510 !important;
+  font-weight: 700 !important;
+}
+[data-theme="light"] .about-quote {
+  background: linear-gradient(145deg, rgba(246, 237, 222, 0.95) 0%, rgba(239, 227, 206, 0.92) 100%) !important;
+  border-left: 4px solid #b88628 !important;
+  border-top-color: rgba(212, 167, 83, 0.3) !important;
+  border-right-color: rgba(212, 167, 83, 0.3) !important;
+  border-bottom-color: rgba(212, 167, 83, 0.3) !important;
+  box-shadow: 0 4px 16px rgba(90, 68, 32, 0.08) !important;
+}
+[data-theme="light"] .about-quote__text {
+  color: #1a1510 !important;
+}
+[data-theme="light"] .about-quote__author {
+  color: #946016 !important;
+  font-weight: 700 !important;
+}
+[data-theme="light"] .legacy-card__head {
+  border-bottom-color: rgba(212, 167, 83, 0.3) !important;
+}
+[data-theme="light"] .legacy-card__head h3 {
+  color: #946016 !important;
+}
+[data-theme="light"] .legacy-badge {
+  background: linear-gradient(135deg, #d4a753 0%, #b88628 100%) !important;
+  color: #120e08 !important;
+  border: 1px solid #b88628 !important;
+  font-weight: 700 !important;
+}
+[data-theme="light"] .legacy-list strong {
+  color: #1a1510 !important;
+}
+[data-theme="light"] .legacy-list p {
+  color: #4a3e31 !important;
+}
+[data-theme="light"] .legacy-list li {
+  border-bottom-color: rgba(212, 167, 83, 0.2) !important;
+}
+
+/* Light Mode Live Visualiser / Configurator */
+[data-theme="light"] .cfg__form h3 {
+  color: #1a1510 !important;
+}
+[data-theme="light"] .cfg__upload {
+  color: #4a3e31 !important;
+  border-color: rgba(212, 167, 83, 0.45) !important;
+}
+[data-theme="light"] .cfg__upload:hover {
+  border-color: #b88628 !important;
+  color: #946016 !important;
+}
+[data-theme="light"] .cfg select {
+  background-color: rgba(251, 244, 232, 0.95) !important;
+  color: #1a1510 !important;
+  border-bottom: 1px solid #b88628 !important;
+}
+[data-theme="light"] .cfg select option {
+  background-color: #fbf4e8 !important;
+  color: #1a1510 !important;
+}
+[data-theme="light"] .cfg__row {
+  color: #4a3e31 !important;
+}
+[data-theme="light"] .cfg__row b {
+  color: #1a1510 !important;
+}
+[data-theme="light"] .cfg__price {
+  color: #946016 !important;
+  font-weight: 700 !important;
+}
+
+/* Light Mode Finishes Section */
+[data-theme="light"] .finish__name {
+  color: #1a1510 !important;
+}
+[data-theme="light"] .finish__desc {
+  color: #4a3e31 !important;
+}
+[data-theme="light"] .finish__rate {
+  color: #946016 !important;
+  font-weight: 700 !important;
+}
+[data-theme="light"] .finish:hover {
+  background: rgba(212, 167, 83, 0.15) !important;
+}
+
 /* Footer: ALWAYS high contrast white & gold text across dark luxury background */
 .footer {
   background: rgba(14, 11, 8, 0.98) !important;
