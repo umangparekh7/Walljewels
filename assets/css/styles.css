@@ -360,28 +360,31 @@ main::before {
 .textlink svg { transition: transform var(--beat) var(--ease); }
 .textlink:hover svg { transform: translateX(6px); }
 
-/* ---------- 8. Announcement bar ---------- */
+/* ---------- 8. Announcement bar (Frozen at top) ---------- */
 .annbar {
-  position: relative;
-  background: var(--ground-deep);
-  border-bottom: 1px solid var(--hairline);
+  position: sticky;
+  top: 0;
+  z-index: 120;
+  background: rgba(14, 11, 8, 0.98);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 56, 35, 0.3);
   height: var(--bar-h);
   display: flex; align-items: center;
   overflow: hidden;
-  z-index: 60;
 }
 .annbar::before {
   content: ''; position: absolute; inset: 0 0 auto 0; height: 2px;
-  background: linear-gradient(90deg, var(--kaavi), var(--gold) 45%, var(--kaavi) 90%);
-  opacity: .85;
+  background: linear-gradient(90deg, #ff3823, var(--gold) 45%, #ff3823 90%);
+  opacity: .95;
 }
 .annbar__track {
   display: flex; gap: 56px; white-space: nowrap;
   padding-inline: var(--frame);
   font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--ink-dim); font-weight: 400;
+  color: #ff3823; font-weight: 600;
 }
-.annbar__track strong { color: var(--ink-soft); font-weight: 500; }
+.annbar__track strong { color: #ff3823; font-weight: 700; }
 .annbar__track .sep { color: var(--gold); }
 .annbar__track { animation: ann-slide 32s linear infinite; }
 @keyframes ann-slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -389,7 +392,7 @@ main::before {
 
 /* ---------- 9. Header ---------- */
 .header {
-  position: sticky; top: 0; z-index: 100;
+  position: sticky; top: var(--bar-h); z-index: 100;
   height: var(--header-h);
   display: flex; align-items: center;
   background: color-mix(in srgb, var(--ground) 82%, transparent);
@@ -3830,9 +3833,9 @@ body.theme-light {
 /* The page is warm paper; the bars, footer, drawer and every cinema surface
    stay night so the artwork and chrome keep their jewel-box depth. */
 
-.annbar { background: var(--night); border-bottom-color: var(--night-hairline); }
-.annbar__track { color: var(--night-dim); }
-.annbar__track strong { color: var(--night-soft); }
+.annbar { background: rgba(14, 11, 8, 0.98); border-bottom-color: rgba(255, 56, 35, 0.25); }
+.annbar__track { color: #ff3823; }
+.annbar__track strong { color: #ff3823; }
 .annbar__track .sep { color: var(--night-gold); }
 
 .header { background: color-mix(in srgb, var(--ground) 86%, transparent); }
