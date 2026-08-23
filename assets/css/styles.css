@@ -404,10 +404,15 @@ main::before {
 .header__in {
   width: 100%; max-width: none; margin-inline: 0;
   padding-inline: 0;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 16px;
+}
+.header__center {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 26px);
 }
 .wordmark--img {
   display: flex;
@@ -424,10 +429,6 @@ main::before {
   clip-path: inset(50%); overflow: hidden; white-space: nowrap;
 }
 @media (max-width: 1080px) {
-  .header__in {
-    display: flex;
-    justify-content: space-between;
-  }
   .wordmark--img img { height: 36px; }
 }
 
@@ -445,7 +446,6 @@ main::before {
   display: flex;
   gap: 6px;
   align-items: center;
-  justify-self: center;
   flex-shrink: 0;
 }
 .nav a {
@@ -485,14 +485,6 @@ main::before {
   font-weight: 600;
   transform: translateY(-1px);
   box-shadow: 0 4px 16px rgba(207, 161, 78, 0.4), 0 0 8px rgba(207, 161, 78, 0.2);
-}
-
-.header__left {
-  display: flex;
-  align-items: center;
-  gap: clamp(14px, 2.2vw, 32px);
-  justify-self: start;
-  flex-shrink: 0;
 }
 
 .header__socials {
@@ -543,25 +535,23 @@ main::before {
   box-shadow: 0 5px 14px rgba(0, 0, 0, 0.5);
 }
 
-/* ---------- Theme Switcher (From Uiverse.io by JkHuger - 30% scaled down) ---------- */
+/* ---------- Theme Switcher (From Uiverse.io by JkHuger) ---------- */
 .theme {
   display: inline-flex;
   align-items: center;
   -webkit-tap-highlight-color: transparent;
-  font-size: 5px !important;
+  font-size: 6.5px;
   --transDur: 0.3s;
   --primary: #cfa14e;
   --primaryT: rgba(207, 161, 78, 0.4);
   flex-shrink: 0;
-  transform: scale(0.7);
-  transform-origin: left center;
 }
 
 .theme *,
 .theme input,
 .theme label,
 .theme span {
-  font-size: 5px !important;
+  font-size: 6.5px;
   box-sizing: border-box;
 }
 
@@ -665,13 +655,13 @@ main::before {
   border-radius: 25% / 50%;
   box-shadow: 0 0 0 0.125em var(--primaryT);
   padding: 0.25em;
-  width: 6em !important;
-  height: 3em !important;
+  width: 6em;
+  height: 3em;
   -webkit-appearance: none;
   appearance: none;
   cursor: pointer;
   margin: 0;
-  font-size: 5px !important;
+  font-size: 6.5px;
   line-height: 1;
   transition: background-color var(--transDur) ease-in-out,
 		box-shadow 0.15s ease-in-out,
@@ -682,8 +672,8 @@ main::before {
   background-color: hsl(48,90%,55%);
   border-radius: 50%;
   content: "";
-  width: 2.5em !important;
-  height: 2.5em !important;
+  width: 2.5em;
+  height: 2.5em;
   transition: 0.3s;
 }
 
