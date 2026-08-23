@@ -25,26 +25,26 @@
 
 /* ---------- 2. Tokens ---------- */
 :root {
-  /* ground — warm handmade paper */
-  --ground:      #f3eee3;
-  --ground-deep: #ebe4d4;
-  --panel:       #faf7ef;
-  --panel-2:     #f0eadb;
-  --hairline:    rgba(43, 36, 26, .14);
-  --hairline-2:  rgba(43, 36, 26, .28);
+  /* ground — deep warm night ground matching WebGL Kolam */
+  --ground:      #14110c;
+  --ground-deep: #1c1711;
+  --panel:       rgba(24, 19, 14, 0.88);
+  --panel-2:     rgba(32, 25, 18, 0.92);
+  --hairline:    rgba(244, 239, 228, .14);
+  --hairline-2:  rgba(244, 239, 228, .26);
 
-  /* iron-gall ink */
-  --ink:      #221c14;
-  --ink-soft: #4d4536;
-  --ink-dim:  #766c58;
+  /* luminous ivory ink for high contrast */
+  --ink:      #f2edde;
+  --ink-soft: #cfc9b8;
+  --ink-dim:  #a49e8d;
 
-  /* the two pigments (deepened for paper) */
-  --gold:        #a97b22;
-  --gold-bright: #8a641a;
-  --kaavi:       #9c3a26;
-  --kaavi-soft:  #b0492f;
+  /* the two pigments (24K gold & sacred kaavi) */
+  --gold:        #cfa14e;
+  --gold-bright: #e6c47f;
+  --kaavi:       #b0492f;
+  --kaavi-soft:  #c7583d;
 
-  /* the night — bars, footer, cinema surfaces */
+  /* the night surfaces */
   --night:      #14110c;
   --night-2:    #1c1811;
   --night-ink:  #f2edde;
@@ -179,18 +179,20 @@ main::before {
 }
 @media (max-width: 900px) { :root { --frame: 6vw; } }
 
-/* Box containers for content sections on the WebGL sunset ground */
+/* Box containers for content sections on the WebGL Kolam ground */
 .section .wrap,
 .showroom .wrap,
 .faq .wrap,
 .collection-main .wrap,
 .filter-bar .wrap {
   position: relative;
-  background: var(--panel, #faf7ef);
-  border: 1px solid var(--hairline, rgba(43, 36, 26, .14));
+  background: rgba(22, 17, 12, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(207, 161, 78, 0.22);
   border-radius: 18px;
   padding: clamp(32px, 4.5vw, 64px) clamp(24px, 4vw, 56px);
-  box-shadow: 0 24px 60px rgba(20, 17, 12, 0.42), 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .footer {
@@ -825,11 +827,13 @@ main::before {
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
   gap: clamp(28px, 5vw, 64px);
   align-items: center;
-  background: var(--ground-deep, #ebe4d4);
-  border: 1px solid var(--hairline, rgba(43, 36, 26, .14));
+  background: rgba(30, 24, 18, 0.82);
+  border: 1px solid rgba(244, 239, 228, 0.12);
   border-radius: 14px;
   padding: clamp(24px, 3.5vw, 44px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 .volume:nth-child(even) .volume__media { order: 2; }
 .volume__media {
@@ -837,7 +841,7 @@ main::before {
   overflow: clip;
   aspect-ratio: 16 / 9;
   border-radius: 10px;
-  background: var(--panel);
+  background: var(--night-2);
 }
 .volume__media img {
   width: 100%; height: 105%; object-fit: cover;
@@ -847,13 +851,14 @@ main::before {
 .volume__roman {
   position: absolute; top: 22px; left: 26px; z-index: 2;
   font-family: var(--f-display); font-size: 15px; letter-spacing: .3em;
-  color: var(--ink);
-  background: color-mix(in srgb, var(--ground-deep) 72%, transparent);
+  color: var(--night-ink);
+  background: rgba(20, 17, 12, 0.85);
+  border: 1px solid rgba(244, 239, 228, 0.14);
   padding: 8px 14px;
   backdrop-filter: blur(6px);
 }
 .volume__body .cap { margin-bottom: 14px; }
-.volume__name { font-size: clamp(2.1rem, 4vw, 3.2rem); }
+.volume__name { font-size: clamp(2.1rem, 4vw, 3.2rem); color: var(--night-ink); }
 .volume__tag { font-style: italic; font-weight: 400; color: var(--gold-bright); font-size: clamp(1.05rem, 1.5vw, 1.25rem); margin-top: 10px; }
 .volume__blurb { margin-top: 18px; max-width: 46ch; color: var(--ink-soft); }
 .volume__body .textlink { margin-top: 28px; }
@@ -865,15 +870,17 @@ main::before {
 }
 .soon {
   position: relative;
-  border: 1px solid var(--hairline);
+  border: 1px solid rgba(244, 239, 228, 0.12);
   padding: clamp(24px, 3vw, 36px);
-  background: var(--ground-deep, #ebe4d4);
+  background: rgba(28, 22, 16, 0.75);
   border-radius: 12px;
   overflow: clip;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 .soon__mark {
   position: static;
@@ -2144,10 +2151,10 @@ main::before {
   max-width: 100%;
   width: 100%;
   box-sizing: border-box;
-  background: #ffffff;
-  border: 1px solid rgba(43, 36, 26, 0.14);
+  background: rgba(30, 24, 18, 0.9);
+  border: 1px solid rgba(207, 161, 78, 0.22);
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(43, 36, 26, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   padding: 10px 10px 12px;
   display: flex;
   flex-direction: column;
@@ -2157,8 +2164,8 @@ main::before {
 }
 .map-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(234, 88, 12, 0.4);
-  box-shadow: 0 14px 30px rgba(234, 88, 12, 0.12);
+  border-color: rgba(207, 161, 78, 0.5);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5);
 }
 .map-card__header {
   display: flex;
@@ -2183,7 +2190,7 @@ main::before {
   font-family: var(--f-display);
   font-size: 0.78rem;
   font-weight: 600;
-  color: var(--ink);
+  color: var(--night-ink);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2197,9 +2204,9 @@ main::before {
   font-size: 8.5px;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: #7c3aed;
-  background: rgba(124, 58, 237, 0.08);
-  border: 1px solid rgba(124, 58, 237, 0.25);
+  color: #e6c47f;
+  background: rgba(207, 161, 78, 0.15);
+  border: 1px solid rgba(207, 161, 78, 0.35);
   padding: 2.5px 8px;
   border-radius: 999px;
   white-space: nowrap;
@@ -2208,9 +2215,9 @@ main::before {
   transition: all var(--beat) var(--ease);
 }
 .map-open-btn:hover {
-  color: #ffffff;
-  background: #7c3aed;
-  border-color: #7c3aed;
+  color: #14110c;
+  background: #cfa14e;
+  border-color: #cfa14e;
 }
 .map-card__frame {
   position: relative;
@@ -2218,8 +2225,8 @@ main::before {
   aspect-ratio: 16 / 10;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid rgba(43, 36, 26, 0.1);
-  background: #e5e3df;
+  border: 1px solid rgba(244, 239, 228, 0.1);
+  background: #1c1811;
 }
 .map-card__frame iframe {
   width: 100%;
@@ -2238,14 +2245,14 @@ main::before {
   font-family: var(--f-display);
   font-size: 0.88rem;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--night-ink);
   margin: 0;
   line-height: 1.2;
 }
 .map-card__sub {
   font-size: 9px;
   line-height: 1.3;
-  color: var(--ink-soft);
+  color: var(--night-dim);
   margin: 1px 0 0;
   white-space: nowrap;
   overflow: hidden;
@@ -2265,17 +2272,17 @@ main::before {
   font-weight: 600;
   padding: 4px 8px;
   border-radius: 6px;
-  border: 1px solid var(--hairline-2);
-  color: var(--ink);
-  background: var(--panel);
+  border: 1px solid rgba(244, 239, 228, 0.14);
+  color: var(--night-ink);
+  background: rgba(38, 30, 22, 0.9);
   text-decoration: none;
   transition: all var(--beat) var(--ease);
   flex: 1;
 }
 .map-act:hover {
-  background: var(--ink);
-  color: #ffffff;
-  border-color: var(--ink);
+  background: var(--night-gold);
+  color: #14110c;
+  border-color: var(--night-gold);
 }
 .map-act--wa {
   background: rgba(37, 211, 102, 0.08);
