@@ -879,7 +879,7 @@ main::before {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
   gap: clamp(24px, 4vw, 48px);
-  align-items: center;
+  align-items: start;
   background: rgba(30, 24, 18, 0.88);
   border: 1px solid rgba(207, 161, 78, 0.22);
   border-radius: 16px;
@@ -906,6 +906,7 @@ main::before {
   background: rgba(18, 14, 10, 0.95);
   border: 1px solid rgba(244, 239, 228, 0.12);
   cursor: pointer;
+  margin-top: 0;
 }
 .volume__media img {
   width: 100%;
@@ -920,15 +921,53 @@ main::before {
   transform: scale(1.035);
   filter: saturate(1.05) brightness(1.02);
 }
+.volume__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 11, 7, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.volume:hover .volume__overlay {
+  opacity: 1;
+}
+.vol-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(22, 17, 12, 0.88);
+  border: 1px solid #cfa14e;
+  border-radius: 30px;
+  color: #e6c47f;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  transform: translateY(4px);
+  transition: transform 0.3s ease;
+}
+.volume:hover .vol-badge {
+  transform: translateY(0);
+}
 
 .volume__body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-top: 0;
+  padding-top: 0;
 }
 .volume__body .cap {
-  margin-bottom: 8px;
+  margin-top: 0;
+  margin-bottom: 6px;
   font-size: 11px;
+  line-height: 1.2;
   letter-spacing: 0.14em;
 }
 .volume__name {
@@ -958,12 +997,39 @@ main::before {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px 20px;
+  gap: 14px 22px;
 }
-.volume__acts .btn {
-  padding: 9px 18px;
-  font-size: 11.5px;
-  letter-spacing: 0.1em;
+
+/* Highly luminous, prominent 'Browse the catalogue' button */
+.btn--browse {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 22px !important;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #e6c47f 0%, #cfa14e 50%, #b38334 100%) !important;
+  color: #120e0a !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 245, 225, 0.45) !important;
+  box-shadow: 0 4px 18px rgba(207, 161, 78, 0.45), 0 0 12px rgba(230, 196, 127, 0.3) !important;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+.btn--browse svg {
+  stroke: #120e0a;
+  transition: transform 0.25s ease;
+}
+.btn--browse:hover {
+  background: linear-gradient(135deg, #fff7e6 0%, #e6c47f 50%, #cfa14e 100%) !important;
+  color: #0b0906 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(207, 161, 78, 0.65), 0 0 18px rgba(230, 196, 127, 0.5) !important;
+}
+.btn--browse:hover svg {
+  transform: scale(1.15);
 }
 .volume__acts .textlink {
   font-size: 12px;
