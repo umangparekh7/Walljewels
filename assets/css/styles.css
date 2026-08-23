@@ -397,12 +397,14 @@ main::before {
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid transparent;
   transition: border-color var(--beat) var(--ease), background-color var(--beat) var(--ease);
+  padding-left: clamp(12px, 1.6vw, 24px);
+  padding-right: clamp(12px, 1.6vw, 24px);
 }
 .header.is-scrolled { border-bottom-color: var(--hairline); }
 .header__in {
-  width: 100%; max-width: none; margin-inline: var(--frame);
+  width: 100%; max-width: none; margin-inline: 0;
   padding-inline: 0;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: clamp(10px, 1.4vw, 20px);
 }
 .wordmark--img {
   display: flex;
@@ -478,7 +480,7 @@ main::before {
 .header__left {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: clamp(18px, 2.8vw, 40px);
   flex-shrink: 0;
 }
 
@@ -530,12 +532,12 @@ main::before {
   box-shadow: 0 5px 14px rgba(0, 0, 0, 0.5);
 }
 
-/* ---------- Theme Switcher (From Uiverse.io by JkHuger) ---------- */
+/* ---------- Theme Switcher (From Uiverse.io by JkHuger - 30% smaller) ---------- */
 .theme {
   display: inline-flex;
   align-items: center;
   -webkit-tap-highlight-color: transparent;
-  font-size: 7.5px;
+  font-size: 5.25px; /* 30% reduction from 7.5px */
   --transDur: 0.3s;
   --primary: #cfa14e;
   --primaryT: rgba(207, 161, 78, 0.4);
