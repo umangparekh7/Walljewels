@@ -77,8 +77,8 @@
       document.body.classList.remove('theme-light');
       if (themeToggle) themeToggle.checked = true;
     }
-    // Switch brand logo dynamically
-    document.querySelectorAll('.wordmark img, .drawer__head .wordmark img, .footer__brand .wordmark img').forEach(img => {
+    // Switch header & drawer logo dynamically (Footer always stays dark)
+    document.querySelectorAll('.header .wordmark img, .drawer__head .wordmark img').forEach(img => {
       img.src = isLight ? 'assets/img/brand/logo-light.png' : 'assets/img/brand/logo-dark.png';
     });
   };

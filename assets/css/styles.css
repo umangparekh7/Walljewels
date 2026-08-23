@@ -809,9 +809,8 @@ body.theme-light {
   border-bottom: 1px solid rgba(212, 167, 83, 0.32);
 }
 
-[data-theme="light"] .wordmark img,
-[data-theme="light"] .drawer__head .wordmark img,
-[data-theme="light"] .footer__brand .wordmark img {
+[data-theme="light"] .header .wordmark img,
+[data-theme="light"] .drawer__head .wordmark img {
   content: url("../img/brand/logo-light.png");
 }
 
@@ -842,14 +841,27 @@ body.theme-light {
   color: #946016;
 }
 
-/* Tile overlay text must ALWAYS be white over photos in all themes */
-.tile__name {
+/* Tile overlay text & Feature plate text must ALWAYS be crisp white over dark photos */
+.tile__name,
+.feature .d2,
+.feature .feature__in .d2 {
   color: #ffffff !important;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85), 0 1px 2px rgba(0, 0, 0, 0.9);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85), 0 1px 3px rgba(0, 0, 0, 0.95);
+}
+.feature .lead,
+.feature .feature__in .lead {
+  color: rgba(242, 237, 222, 0.95) !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+}
+.feature .cap {
+  color: #ffd77e !important;
+}
+.feature .textlink {
+  color: #e6c47f !important;
 }
 
 [data-theme="light"] .d1,
-[data-theme="light"] .d2,
+[data-theme="light"] .d2:not(.feature .d2),
 [data-theme="light"] .d3,
 [data-theme="light"] .volume__name,
 [data-theme="light"] .headgroup h2,
@@ -860,13 +872,15 @@ body.theme-light {
 [data-theme="light"] .steps5 h3,
 [data-theme="light"] .legacy-title,
 [data-theme="light"] .pillar-card h3,
+[data-theme="light"] .pillar-title,
+[data-theme="light"] .card-name,
 [data-theme="light"] .faq-q,
 [data-theme="light"] .docket__head h2,
 [data-theme="light"] .docket__iname {
   color: #1a1510 !important;
 }
 
-[data-theme="light"] .lead,
+[data-theme="light"] .lead:not(.feature .lead),
 [data-theme="light"] .volume__blurb,
 [data-theme="light"] .case-desc,
 [data-theme="light"] .fan-desc,
@@ -875,6 +889,8 @@ body.theme-light {
 [data-theme="light"] .steps5 p,
 [data-theme="light"] .legacy-desc,
 [data-theme="light"] .pillar-card p,
+[data-theme="light"] .pillar-desc,
+[data-theme="light"] .card-blurb,
 [data-theme="light"] .map-card p,
 [data-theme="light"] .faq-a,
 [data-theme="light"] .docket__head .small,
@@ -885,8 +901,30 @@ body.theme-light {
 
 [data-theme="light"] .steps5__n,
 [data-theme="light"] .plate__vol,
-[data-theme="light"] .coll-count {
+[data-theme="light"] .coll-count,
+[data-theme="light"] .card-badge,
+[data-theme="light"] .card-view {
   color: #946016 !important;
+  font-weight: 700;
+}
+
+[data-theme="light"] .card-vol {
+  color: #c44005 !important;
+  font-weight: 700;
+}
+
+[data-theme="light"] .card-row {
+  border-top-color: rgba(212, 167, 83, 0.25) !important;
+}
+
+[data-theme="light"] .pillar-tag {
+  background: linear-gradient(135deg, #d4a753 0%, #b88628 100%) !important;
+  color: #120e08 !important;
+  border-color: #b88628 !important;
+  font-weight: 700;
+}
+[data-theme="light"] .pillar-divider {
+  background: #b88628 !important;
 }
 
 [data-theme="light"] .coverflow-card,
@@ -951,6 +989,31 @@ body.theme-light {
 [data-theme="light"] .dfield textarea {
   color: #1a1510;
   border-bottom-color: rgba(212, 167, 83, 0.4);
+}
+
+/* Footer: ALWAYS high contrast white & gold text across dark luxury background */
+.footer {
+  background: rgba(14, 11, 8, 0.98) !important;
+}
+.footer__brand p {
+  color: #cfc9b8 !important;
+}
+.fcol .cap,
+.footer__connect .cap {
+  color: #e6c47f !important;
+  font-weight: 700;
+}
+.fcol a {
+  color: #e2dcce !important;
+}
+.fcol a:hover {
+  color: #ffd77e !important;
+}
+.footer__bottom {
+  color: #cfc9b8 !important;
+}
+.footer__bottom a {
+  color: #e6c47f !important;
 }
 
 [data-theme="light"] .rep-strip {
