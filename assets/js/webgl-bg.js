@@ -1,9 +1,10 @@
 /**
  * ============================================================================
- * WALL JEWELS — WebGL Ambient Luxury Canvas
+ * WALL JEWELS — Dual-Mode Dynamic WebGL Background Engine
  * ============================================================================
- * Dark Mode: Sacred Kolam Geometry & Rice-Flour Light Grid (100% Preserved)
- * Light Mode: Alabaster Marble & Translucent Liquid Gold Silk Ribbons
+ * Dark Mode:  Sacred Kolam Geometry & 24K Gold Wire Lattice (100% UNTOUCHED).
+ * Light Mode: Alabaster Marble & Translucent Liquid Gold Ribbons.
+ * Smooth GPU-accelerated theme transition with zero layout reflow.
  * Strictly background layer (z-index: -1, pointer-events: none).
  */
 
@@ -45,7 +46,7 @@
   }
 
   // =========================================================================
-  // SHADER SOURCE
+  // SHADER SOURCES
   // =========================================================================
   const vsSource = `
     attribute vec2 a_position;
@@ -63,7 +64,7 @@
     uniform float u_time;
     uniform vec2 u_mouse;
     uniform float u_mouse_speed;
-    uniform float u_theme; // 0.0 = Dark Mode (Kolam), 1.0 = Light Mode (Alabaster & Gold Ribbons)
+    uniform float u_is_light; // 0.0 = Dark Mode (Untouched), 1.0 = Light Mode (Alabaster & Gold Ribbons)
 
     #define PI 3.14159265359
     #define TWO_PI 6.28318530718
@@ -73,7 +74,31 @@
       return mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
     }
 
-    // Sacred Kolam Knot (Dark Mode)
+    // Hash & Noise for Marble Veining
+    float hash(vec2 p) {
+      return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+    }
+
+    float noise2D(vec2 p) {
+      vec2 i = floor(p);
+      vec2 f = fract(p);
+      vec2 u = f * f * (3.0 - 2.0 * f);
+      return mix(mix(hash(i + vec2(0.0,0.0)), hash(i + vec2(1.0,0.0)), u.x),
+                 mix(hash(i + vec2(0.0,1.0)), hash(i + vec2(1.0,1.0)), u.x), u.y);
+    }
+
+    float fbm(vec2 p) {
+      float v = 0.0;
+      float a = 0.5;
+      for (int i = 0; i < 4; i++) {
+        v += a * noise2D(p);
+        p = rotate2D(0.45) * p * 2.0;
+        a *= 0.5;
+      }
+      return v;
+    }
+
+    // Sacred Kolam Knot (Dark Mode - Untouched)
     float kolamKnot(vec2 p, float scale, float t) {
       vec2 grid = fract(p * scale) - 0.5;
       float dotDist = length(grid);
@@ -91,7 +116,7 @@
       return pulli * 1.5 + loopGlow * 0.85 + diagGlow * 0.45;
     }
 
-    // Mandala Floral Radial Kolam (Dark Mode)
+    // Mandala Floral Radial Kolam (Dark Mode - Untouched)
     float mandalaKolam(vec2 p, float t) {
       float r = length(p);
       float a = atan(p.y, p.x);
@@ -108,67 +133,77 @@
       return ring1 * 0.9 + ring2 * 0.75 + ring3 * 0.6 + centerDot * 1.2;
     }
 
-    // Smooth Noise for Marble Veins
-    float hash21(vec2 p) {
-      p = fract(p * vec2(234.34, 435.345));
-      p += dot(p, p + 34.23);
-      return fract(p.x * p.y);
-    }
-    float noise2D(vec2 p) {
-      vec2 i = floor(p);
-      vec2 f = fract(p);
-      f = f * f * (3.0 - 2.0 * f);
-      float a = hash21(i);
-      float b = hash21(i + vec2(1.0, 0.0));
-      float c = hash21(i + vec2(0.0, 1.0));
-      float d = hash21(i + vec2(1.0, 1.0));
-      return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
-    }
-    float fbm(vec2 p) {
-      float v = 0.0;
-      float a = 0.5;
-      for (int i = 0; i < 4; i++) {
-        v += a * noise2D(p);
-        p = p * 2.0 + vec2(100.0);
-        a *= 0.5;
-      }
-      return v;
+    // Light Mode: Alabaster Marble Veins
+    vec3 renderMarble(vec2 uv, float t) {
+      vec3 marbleBase = vec3(0.985, 0.970, 0.945); // Pure warm alabaster #faf7f1
+      vec3 marbleWarm = vec3(0.940, 0.915, 0.875); // Cream shadow #f0eae0
+      vec3 veinColor  = vec3(0.720, 0.610, 0.470); // Warm gold-amber vein #b89c78
+
+      vec2 p = uv * 1.8 + vec2(t * 0.01, t * 0.008);
+      float n = fbm(p + fbm(p * 1.5 + vec2(1.7, 3.2)));
+      float vein = abs(sin(p.x * 2.0 + p.y * 1.5 + n * 4.0));
+      vein = smoothstep(0.12, 0.0, vein) * 0.45;
+
+      float n2 = fbm(p * 3.0 + 4.0);
+      float fineVein = smoothstep(0.08, 0.0, abs(sin(p.y * 3.0 - p.x * 2.0 + n2 * 3.0))) * 0.25;
+
+      vec3 col = mix(marbleBase, marbleWarm, n * 0.6);
+      col = mix(col, veinColor, vein + fineVein);
+      return col;
     }
 
-    // Liquid Gold Silk Ribbon Generator (Light Mode)
-    vec4 goldRibbon(vec2 uv, float offset, float freq, float speed, float width, float t, vec2 mouseNorm) {
-      float wave = sin(uv.x * freq + t * speed + offset) * 0.38
-                 + cos(uv.x * (freq * 0.6) - t * (speed * 0.8) + offset * 1.5) * 0.18;
-      
-      // Interactive mouse wave
-      float mDist = length(uv - mouseNorm);
-      wave += exp(-mDist * 2.5) * 0.12 * sin(t * 3.0);
+    // Light Mode: Floating Translucent Liquid Gold Ribbons
+    vec3 renderGoldRibbons(vec2 uv, float t, float mouseWave) {
+      vec3 gold1 = vec3(0.96, 0.82, 0.50); // 24K bright gold
+      vec3 gold2 = vec3(0.85, 0.65, 0.32); // Amber gold
+      vec3 highlight = vec3(1.0, 0.95, 0.85); // Sun sheen
 
-      float dist = abs(uv.y - wave);
-      float ribbonMask = smoothstep(width, 0.001, dist);
-      float edgeHighlight = smoothstep(width * 0.12, 0.001, abs(dist - width * 0.85));
-      
-      float gradient = (uv.y - wave) / max(width, 0.001);
-      float sheen = pow(1.0 - abs(gradient), 2.5);
+      vec3 ribbonAccum = vec3(0.0);
 
-      return vec4(ribbonMask, edgeHighlight, sheen, gradient);
+      // Ribbon 1 (Top sweeping curve)
+      float y1 = uv.y - sin(uv.x * 1.4 + t * 0.6) * 0.38 - cos(uv.x * 0.8 - t * 0.4) * 0.2 - 0.35;
+      float d1 = abs(y1);
+      float ribbon1 = smoothstep(0.22, 0.01, d1);
+      float sheen1 = pow(1.0 - clamp(d1 / 0.18, 0.0, 1.0), 3.0);
+
+      // Ribbon 2 (Bottom diagonal ascending wave)
+      float y2 = uv.y + sin(uv.x * 1.2 - t * 0.5) * 0.42 + cos(uv.x * 0.6 + t * 0.3) * 0.18 + 0.4;
+      float d2 = abs(y2);
+      float ribbon2 = smoothstep(0.25, 0.01, d2);
+      float sheen2 = pow(1.0 - clamp(d2 / 0.20, 0.0, 1.0), 3.0);
+
+      // Liquid silk modulation & caustics
+      float caustic = sin(uv.x * 8.0 + uv.y * 6.0 + t * 1.2) * 0.5 + 0.5;
+      caustic += sin(uv.x * 12.0 - uv.y * 8.0 - t * 0.8) * 0.5 + 0.5;
+      caustic *= 0.25;
+
+      vec3 col1 = mix(gold2, gold1, sheen1) + highlight * pow(sheen1, 4.0) * 0.6;
+      vec3 col2 = mix(gold2, gold1, sheen2) + highlight * pow(sheen2, 4.0) * 0.6;
+
+      ribbonAccum += col1 * ribbon1 * (0.35 + caustic * 0.15 + mouseWave * 0.25);
+      ribbonAccum += col2 * ribbon2 * (0.30 + caustic * 0.12 + mouseWave * 0.22);
+
+      return ribbonAccum;
     }
 
     void main() {
+      // Aspect ratio correction
       vec2 uv = (gl_FragCoord.xy * 2.0 - u_resolution.xy) / min(u_resolution.x, u_resolution.y);
       vec2 mouseNorm = (u_mouse * 2.0 - u_resolution.xy) / min(u_resolution.x, u_resolution.y);
 
       float t = u_time * 0.45;
+
+      // Distance to mouse for interactive light wave
       float distToMouse = length(uv - mouseNorm);
       float mouseWave = exp(-distToMouse * 2.0) * (0.8 + u_mouse_speed * 1.2);
       float ripple = sin(distToMouse * 12.0 - u_time * 2.5) * exp(-distToMouse * 1.5) * 0.15;
 
-      // =====================================================================
-      // 1. DARK MODE SHADER (Sacred Kolam Geometry — 100% Locked)
-      // =====================================================================
+      // ===================================================================
+      // 1. DARK MODE (100% UNTOUCHED ORIGINAL PIGMENTS & MESH)
+      // ===================================================================
       vec3 groundBase = vec3(0.08, 0.07, 0.05); // #14110c
       vec3 groundWarm = vec3(0.12, 0.09, 0.06); // #1f170f
-      vec3 kaaviShade = vec3(0.22, 0.08, 0.05); // #38140d
+      vec3 kaaviShade = vec3(0.22, 0.08, 0.05); // Kaavi terracotta warmth (#38140d)
 
       float vignette = 1.0 - length(v_uv - 0.5) * 0.65;
       vec3 colDark = mix(groundBase, groundWarm, vignette);
@@ -191,10 +226,10 @@
 
       float totalKolam = k1 * 0.65 + k2 * 0.45 + mandala1 * 0.55 + mandala2 * 0.45;
 
-      vec3 goldBright = vec3(0.96, 0.82, 0.50);
-      vec3 goldWarm   = vec3(0.81, 0.63, 0.31);
-      vec3 riceFlour  = vec3(0.95, 0.93, 0.88);
-      vec3 kaaviColor = vec3(0.70, 0.26, 0.17);
+      vec3 goldBright = vec3(0.96, 0.82, 0.50); // 24K Gold Wire (#f5d180)
+      vec3 goldWarm   = vec3(0.81, 0.63, 0.31); // Warm Antique Gold (#cfa14e)
+      vec3 riceFlour  = vec3(0.95, 0.93, 0.88); // Rice Flour White (#f2ede0)
+      vec3 kaaviColor = vec3(0.70, 0.26, 0.17); // Sacred Kaavi (#b3422b)
 
       vec3 lineCol = mix(goldWarm, goldBright, sin(t + uv.x * 2.0) * 0.5 + 0.5);
       lineCol = mix(lineCol, riceFlour, 0.25);
@@ -207,50 +242,18 @@
       float ambientLamp = exp(-length(uv - vec2(0.0, 0.6)) * 1.2) * 0.18;
       colDark += goldWarm * ambientLamp;
 
-      // =====================================================================
-      // 2. LIGHT MODE SHADER (Alabaster Marble & Translucent Liquid Gold Ribbons)
-      // =====================================================================
-      vec3 alabasterBase = vec3(0.985, 0.975, 0.955); // Pure warm alabaster #fcf9f4
-      vec3 marbleVeinCol = vec3(0.89, 0.83, 0.74);   // Soft warm sandalwood vein #e3d4bd
-      vec3 marbleAmber   = vec3(0.84, 0.75, 0.62);   // Amber mineral accent #d6c09e
+      // ===================================================================
+      // 2. LIGHT MODE (Alabaster Marble & Translucent Liquid Gold Ribbons)
+      // ===================================================================
+      vec3 colLight = renderMarble(uv, t);
+      vec3 ribbons = renderGoldRibbons(uv, t, mouseWave);
+      colLight += ribbons;
+      colLight += (noise - 0.5) * 0.012;
 
-      vec2 marbleUV = uv * 1.5;
-      float veinNoise = fbm(marbleUV + vec2(fbm(marbleUV * 2.0 + t * 0.015), fbm(marbleUV * 1.8)));
-      float veinPattern = smoothstep(0.48, 0.54, sin(marbleUV.x * 1.8 + marbleUV.y * 1.2 + veinNoise * 4.0));
-      
-      vec3 colLight = mix(alabasterBase, marbleVeinCol, veinPattern * 0.45);
-      colLight = mix(colLight, marbleAmber, fbm(marbleUV * 3.5) * 0.12);
+      // Seamless interpolation between Dark (0.0) and Light (1.0)
+      vec3 finalColor = mix(colDark, colLight, clamp(u_is_light, 0.0, 1.0));
 
-      vec4 r1 = goldRibbon(uv, 0.2, 1.4, 0.4, 0.22, t, mouseNorm);
-      vec4 r2 = goldRibbon(uv, 2.4, 1.1, -0.32, 0.28, t, mouseNorm);
-      vec4 r3 = goldRibbon(uv, 4.6, 1.8, 0.25, 0.18, t * 1.2, mouseNorm);
-
-      vec3 ribbonGoldDeep = vec3(0.82, 0.63, 0.28);
-      vec3 ribbonGoldPure = vec3(0.95, 0.80, 0.44);
-      vec3 ribbonGoldRim  = vec3(0.99, 0.92, 0.70);
-
-      vec3 rCol1 = mix(ribbonGoldDeep, ribbonGoldPure, r1.z);
-      rCol1 = mix(rCol1, ribbonGoldRim, r1.y * 0.9);
-      colLight = mix(colLight, rCol1, r1.x * 0.55);
-
-      vec3 rCol2 = mix(ribbonGoldDeep, ribbonGoldPure, r2.z);
-      rCol2 = mix(rCol2, ribbonGoldRim, r2.y * 0.85);
-      colLight = mix(colLight, rCol2, r2.x * 0.48);
-
-      vec3 rCol3 = mix(ribbonGoldDeep, ribbonGoldPure, r3.z);
-      rCol3 = mix(rCol3, ribbonGoldRim, r3.y * 0.8);
-      colLight = mix(colLight, rCol3, r3.x * 0.40);
-
-      float caustic = sin(uv.x * 14.0 + t * 1.2) * cos(uv.y * 14.0 - t * 0.9) * 0.035;
-      colLight += vec3(caustic * 0.6, caustic * 0.5, caustic * 0.2);
-      colLight += ribbonGoldPure * (mouseWave * 0.14 + ripple * 0.08);
-      colLight += (noise - 0.5) * 0.01;
-
-      // =====================================================================
-      // INTERPOLATE THEME
-      // =====================================================================
-      vec3 finalCol = mix(colDark, colLight, clamp(u_theme, 0.0, 1.0));
-      gl_FragColor = vec4(finalCol, 1.0);
+      gl_FragColor = vec4(finalColor, 1.0);
     }
   `;
 
@@ -300,7 +303,9 @@
   let mouseSpeed = 0;
   let lastMouseTime = performance.now();
   let startTime = performance.now();
-  let currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 1.0 : 0.0;
+
+  let currentLight = document.documentElement.getAttribute('data-theme') === 'light' ? 1.0 : 0.0;
+  let targetLight = currentLight;
 
   function resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -332,9 +337,9 @@
     mouse.y += (targetMouse.y - mouse.y) * 0.08;
     mouseSpeed *= 0.92;
 
-    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    const targetTheme = isLight ? 1.0 : 0.0;
-    currentTheme += (targetTheme - currentTheme) * 0.08;
+    const isLightMode = document.documentElement.getAttribute('data-theme') === 'light';
+    targetLight = isLightMode ? 1.0 : 0.0;
+    currentLight += (targetLight - currentLight) * 0.08;
 
     const time = prefersReducedMotion ? (now - startTime) * 0.0001 : (now - startTime) * 0.001;
 
@@ -350,14 +355,14 @@
       const uTime = gl.getUniformLocation(program, 'u_time');
       const uMouse = gl.getUniformLocation(program, 'u_mouse');
       const uMouseSpd = gl.getUniformLocation(program, 'u_mouse_speed');
-      const uTheme = gl.getUniformLocation(program, 'u_theme');
+      const uIsLight = gl.getUniformLocation(program, 'u_is_light');
 
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.uniform1f(uTime, time);
       gl.uniform2f(uMouse, mouse.x * dpr, (window.innerHeight - mouse.y) * dpr);
       gl.uniform1f(uMouseSpd, mouseSpeed);
-      gl.uniform1f(uTheme, currentTheme);
+      gl.uniform1f(uIsLight, currentLight);
 
       gl.drawArrays(gl.TRIANGLES, 0, 6);
     }

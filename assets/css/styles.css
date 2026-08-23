@@ -758,10 +758,10 @@ main::before {
    ========================================================================== */
 [data-theme="light"],
 body.theme-light {
-  --ground: transparent;
-  --ground-deep: transparent;
-  --panel: rgba(255, 252, 246, 0.88);
-  --panel-2: rgba(248, 242, 232, 0.92);
+  --ground: #fbf8f2;
+  --ground-deep: #f5efe4;
+  --panel: rgba(255, 252, 246, 0.94);
+  --panel-2: rgba(248, 242, 232, 0.96);
   --hairline: rgba(43, 36, 26, 0.14);
   --hairline-2: rgba(43, 36, 26, 0.28);
   
@@ -778,13 +778,8 @@ body.theme-light {
   --night-gold: #b38334;
   --night-gold-bright: #946820;
 
-  background-color: transparent !important;
+  background-color: #fbf8f2;
   color: #1c1712;
-}
-
-[data-theme="light"] body,
-body.theme-light {
-  background-color: transparent !important;
 }
 
 [data-theme="light"] .section .wrap,
@@ -793,23 +788,20 @@ body.theme-light {
 [data-theme="light"] .collection-main .wrap,
 [data-theme="light"] .filter-bar .wrap,
 [data-theme="light"] .finale .wrap {
-  background: rgba(255, 252, 246, 0.84);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 252, 246, 0.95);
   border-color: rgba(179, 131, 52, 0.3);
   box-shadow: 0 16px 45px rgba(43, 36, 26, 0.08), 0 2px 8px rgba(43, 36, 26, 0.04);
 }
 
 [data-theme="light"] .volume {
-  background: rgba(255, 252, 246, 0.88);
+  background: rgba(255, 252, 246, 0.94);
   border-color: rgba(179, 131, 52, 0.3);
   box-shadow: 0 10px 30px rgba(43, 36, 26, 0.08);
 }
 
 [data-theme="light"] .header {
-  background: rgba(234, 224, 209, 0.95) !important;
-  border-bottom: 1px solid rgba(179, 131, 52, 0.35) !important;
-  box-shadow: 0 4px 20px rgba(43, 36, 26, 0.08);
+  background: rgba(251, 248, 242, 0.92);
+  border-bottom: 1px solid rgba(43, 36, 26, 0.12);
 }
 
 [data-theme="light"] .wordmark img,
@@ -819,16 +811,16 @@ body.theme-light {
 }
 
 [data-theme="light"] .header .nav a {
-  background: rgba(246, 240, 230, 0.95);
-  color: #4a361a;
-  border-color: rgba(179, 131, 52, 0.38);
+  background: rgba(245, 239, 228, 0.9);
+  color: #7a581e;
+  border-color: rgba(179, 131, 52, 0.35);
 }
 
 [data-theme="light"] .header .nav a:hover,
 [data-theme="light"] .header .nav a[aria-current="page"] {
-  background: rgba(179, 131, 52, 0.2);
-  color: #382406 !important;
-  border-color: #9c6e23;
+  background: rgba(179, 131, 52, 0.16);
+  color: #5c3e0e !important;
+  border-color: #b38334;
 }
 
 [data-theme="light"] .d1,
