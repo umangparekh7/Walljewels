@@ -648,25 +648,33 @@
 
   // Universal click listener for all wallpaper images across landing and collection
   document.addEventListener('click', (e) => {
-    // Check if clicked element or inside element is an image
+    // If clicking flipbook or specific buttons, let them handle their action
+    if (e.target.closest('button, .uiverse, .vol-badge, .flipbook-trigger, .lightbox__close, .lightbox__wa-link')) return;
+
+    // Check if clicked element is an image or inside an image container
     const img = e.target.closest('img');
-    if (!img) return;
-
-    // Ignore logos, header icons, brand assets
-    if (img.closest('.wordmark, .header, .drawer__head, .nav, .footer__brand, .sr-only')) return;
-
-    // If clicking flipbook button specifically, let flipbook open
-    if (e.target.closest('.uiverse, .vol-badge')) return;
-
-    const src = img.currentSrc || img.src;
-    if (!src || src.includes('logo-') || src.includes('data:image')) return;
-
-    const a = img.closest('a');
-    // If it's a wallpaper image card (tile, plate, coverflow, volume cover, etc.)
-    if (img.closest('.tile, .plate, .volume__media, .feature__media, .coverflow-card, .fan-card, .pillar-card, .journey__art, .j2art, .space, .soon, .proof__frame, .cfg__preview')) {
+    if (img) {
+      if (img.closest('.wordmark, .header, .drawer__head, .nav, .footer__brand, .sr-only')) return;
+      const src = img.dataset.full || img.currentSrc || img.src;
+      if (!src || src.includes('logo-') || src.includes('data:image')) return;
       e.preventDefault();
       e.stopPropagation();
       openLightbox(src, img.alt || img.title || '');
+      return;
+    }
+
+    // Check if clicking on wallpaper containers (.feature, .tile, .plate, .coverflow-card, etc.)
+    const card = e.target.closest('.feature, .tile, .plate, .volume__media, .coverflow-card, .fan-card, .journey__art, .j2art, .space, .soon, .proof__frame, .cfg__preview');
+    if (card && !e.target.closest('a:not(.textlink), button')) {
+      const cardImg = card.querySelector('img');
+      if (cardImg) {
+        const src = cardImg.dataset.full || cardImg.currentSrc || cardImg.src;
+        if (src && !src.includes('logo-') && !src.includes('data:image')) {
+          e.preventDefault();
+          e.stopPropagation();
+          openLightbox(src, cardImg.alt || cardImg.title || '');
+        }
+      }
     }
   });
 
