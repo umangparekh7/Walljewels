@@ -924,9 +924,16 @@ body.theme-light {
 .hero__media .slide {
   position: absolute; inset: 0;
   opacity: 0;
-  transition: opacity 1.8s cubic-bezier(.4, 0, .2, 1);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 1.8s cubic-bezier(.4, 0, .2, 1), visibility 0s linear 1.8s;
 }
-.hero__media .slide.is-on { opacity: 1; }
+.hero__media .slide.is-on {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transition: opacity 1.8s cubic-bezier(.4, 0, .2, 1), visibility 0s linear 0s;
+}
 /* cinema hero — full-bleed with a slow perpetual drift, like a looping film */
 .hero__media { background: var(--night); }
 .hero__media .slide video {

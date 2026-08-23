@@ -668,13 +668,24 @@
 
   addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 
-  /* hero films click to open full still artwork */
+  /* hero films click to open full still artwork of the currently visible active slide */
   document.addEventListener('click', (e) => {
-    const v = e.target.closest('.hero__media .slide.is-on video, .hero__media video');
+    // Ignore clicks on header, nav, hero control buttons, dots, or text links
+    if (e.target.closest('.hero__bar, .hero__dots, .header, button, a')) return;
+
+    const hero = e.target.closest('.hero');
+    if (!hero) return;
+
+    const activeSlide = hero.querySelector('.slide.is-on');
+    if (!activeSlide) return;
+
+    const v = activeSlide.querySelector('video') || activeSlide.querySelector('img');
     if (!v) return;
-    const full = v.dataset.full || v.poster;
+
+    const full = v.dataset.full || v.poster || v.src;
     if (full) {
       e.preventDefault();
+      e.stopPropagation();
       openLightbox(full, v.dataset.title || v.getAttribute('aria-label') || '');
     }
   });
