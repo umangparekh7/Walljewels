@@ -3191,7 +3191,7 @@ body.theme-light {
   font-size: 12px;
 }
 
-/* ---------- 26. Footer (Unified 6-column grid matching reference) ---------- */
+/* ---------- 26. Footer (Brand +20%, compact unified columns) ---------- */
 .footer {
   position: relative;
   background: rgba(14, 11, 8, 0.98);
@@ -3207,16 +3207,16 @@ body.theme-light {
   color: var(--night-ink, #f2edde);
   border: none;
   border-radius: 0;
-  margin-inline: 0 !important;
-  max-width: 100% !important;
+  margin-inline: auto !important;
+  max-width: 1360px !important;
   width: 100% !important;
-  padding: 16px clamp(16px, 3.5vw, 48px) 10px !important;
+  padding: 18px clamp(16px, 2.5vw, 32px) 10px !important;
   box-shadow: none;
 }
 .footer__main {
   display: grid;
-  grid-template-columns: 1.8fr 1fr 1fr 1fr 1fr 1.1fr;
-  gap: clamp(14px, 2.2vw, 32px);
+  grid-template-columns: 2.4fr repeat(4, 1fr) 1.2fr;
+  gap: clamp(14px, 2vw, 26px);
   padding-bottom: 12px;
   align-items: start;
 }
@@ -3224,7 +3224,7 @@ body.theme-light {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
+  gap: 8px;
 }
 .footer__brand .wordmark {
   margin: 0;
@@ -3233,7 +3233,7 @@ body.theme-light {
   align-items: flex-start;
 }
 .footer__brand .wordmark img {
-  height: 30px !important;
+  height: 36px !important;
   width: auto;
   display: block;
   margin: 0;
@@ -3241,12 +3241,12 @@ body.theme-light {
 .footer__brand p {
   margin: 0;
   color: var(--night-dim, #a49e8d);
-  font-size: 10.5px;
-  line-height: 1.4;
-  max-width: 32ch;
+  font-size: 12.5px;
+  line-height: 1.45;
+  max-width: 36ch;
 }
 
-/* Unroll links wrapper so the 4 fcol elements participate directly in the unified 6-col grid */
+/* Unroll links wrapper so the 4 fcol elements participate directly in the unified grid */
 .footer__links {
   display: contents;
 }
@@ -3258,9 +3258,9 @@ body.theme-light {
 .fcol .cap {
   display: block;
   margin-bottom: 6px;
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--night-gold, #cfa14e);
   line-height: 1.2;
@@ -3279,6 +3279,7 @@ body.theme-light {
   line-height: 1.35;
   text-decoration: none;
   transition: color 0.2s ease;
+  white-space: nowrap;
 }
 .fcol a:hover {
   color: var(--night-gold-bright, #e6c47f);
@@ -3294,9 +3295,9 @@ body.theme-light {
 }
 .footer__connect .cap {
   display: block;
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--night-gold, #cfa14e);
   line-height: 1.2;
@@ -3367,7 +3368,7 @@ body.theme-light {
   gap: 4px 16px;
   align-items: center;
   justify-content: space-between;
-  font-size: 10px;
+  font-size: 10.5px;
   color: var(--night-dim, #a49e8d);
 }
 .footer__bottom a { color: var(--night-gold, #cfa14e); }
