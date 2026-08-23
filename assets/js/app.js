@@ -65,6 +65,35 @@
   if (typeof COLLECTION !== 'undefined') COLLECTION.forEach(d => { bySlug[slugOf(d)] = d; });
   const volName = (id) => (typeof VOLUMES !== 'undefined' && (VOLUMES.find(v => v.id === id) || {}).name) || '';
 
+  /* ---------------- Light / Dark Theme Switcher (Dark default) ---------------- */
+  const themeToggle = $('#theme-toggle');
+  const applyTheme = (isLight) => {
+    if (isLight) {
+      document.documentElement.setAttribute('data-theme', 'light');
+      document.body.classList.add('theme-light');
+      if (themeToggle) themeToggle.checked = false;
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      document.body.classList.remove('theme-light');
+      if (themeToggle) themeToggle.checked = true;
+    }
+  };
+
+  const savedTheme = localStorage.getItem('wj-theme');
+  if (savedTheme === 'light') {
+    applyTheme(true);
+  } else {
+    applyTheme(false); // default dark
+  }
+
+  if (themeToggle) {
+    themeToggle.addEventListener('change', (e) => {
+      const isLight = !e.target.checked;
+      applyTheme(isLight);
+      localStorage.setItem('wj-theme', isLight ? 'light' : 'dark');
+    });
+  }
+
   /* ---------------- header ---------------- */
   const header = $('.header');
   addEventListener('scroll', () => {
