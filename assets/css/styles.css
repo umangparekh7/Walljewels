@@ -787,20 +787,26 @@ body.theme-light {
 [data-theme="light"] .collection-main .wrap,
 [data-theme="light"] .filter-bar .wrap,
 [data-theme="light"] .finale .wrap {
-  background: rgba(255, 252, 246, 0.95);
-  border-color: rgba(179, 131, 52, 0.3);
-  box-shadow: 0 16px 45px rgba(43, 36, 26, 0.08), 0 2px 8px rgba(43, 36, 26, 0.04);
+  background: linear-gradient(145deg, rgba(246, 237, 222, 0.88) 0%, rgba(238, 225, 203, 0.82) 55%, rgba(231, 215, 188, 0.86) 100%);
+  backdrop-filter: blur(20px) saturate(135%);
+  -webkit-backdrop-filter: blur(20px) saturate(135%);
+  border: 1px solid rgba(212, 167, 83, 0.42);
+  box-shadow: 0 16px 45px rgba(90, 68, 32, 0.12), 0 2px 8px rgba(90, 68, 32, 0.06), inset 0 1px 2px rgba(255, 255, 255, 0.75);
 }
 
 [data-theme="light"] .volume {
-  background: rgba(255, 252, 246, 0.94);
-  border-color: rgba(179, 131, 52, 0.3);
-  box-shadow: 0 10px 30px rgba(43, 36, 26, 0.08);
+  background: linear-gradient(145deg, rgba(246, 237, 222, 0.88) 0%, rgba(238, 225, 203, 0.82) 55%, rgba(231, 215, 188, 0.86) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 167, 83, 0.42);
+  box-shadow: 0 12px 36px rgba(90, 68, 32, 0.10), inset 0 1px 2px rgba(255, 255, 255, 0.75);
 }
 
 [data-theme="light"] .header {
-  background: rgba(251, 248, 242, 0.92);
-  border-bottom: 1px solid rgba(43, 36, 26, 0.12);
+  background: linear-gradient(180deg, rgba(246, 237, 222, 0.94) 0%, rgba(239, 227, 206, 0.90) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(212, 167, 83, 0.32);
 }
 
 [data-theme="light"] .wordmark img,
@@ -828,6 +834,12 @@ body.theme-light {
   color: #0b0906 !important;
   border: 1.5px solid #fff2c4;
   box-shadow: 0 4px 16px rgba(207, 161, 78, 0.55);
+}
+
+[data-theme="light"] .coverflow-pill {
+  background: linear-gradient(135deg, rgba(212, 167, 83, 0.22) 0%, rgba(184, 134, 40, 0.15) 100%);
+  border: 1px solid rgba(212, 167, 83, 0.5);
+  color: #946016;
 }
 
 [data-theme="light"] .d1,
@@ -862,9 +874,9 @@ body.theme-light {
 [data-theme="light"] .pillar-card,
 [data-theme="light"] .plate,
 [data-theme="light"] .cfg {
-  background: rgba(255, 252, 246, 0.95) !important;
-  border-color: rgba(179, 131, 52, 0.28) !important;
-  box-shadow: 0 8px 24px rgba(43, 36, 26, 0.08) !important;
+  background: linear-gradient(145deg, rgba(251, 244, 232, 0.94) 0%, rgba(243, 232, 214, 0.90) 100%) !important;
+  border: 1px solid rgba(212, 167, 83, 0.35) !important;
+  box-shadow: 0 8px 24px rgba(90, 68, 32, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.65) !important;
 }
 
 [data-theme="light"] .rep-strip {
