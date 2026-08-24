@@ -59,7 +59,7 @@ const COLLECTION = [
     img: 'assets/img/collection/kala-parampara/kp-plate-08.jpg', tag: 'Bestseller' },
   { n: 'The Radiant Flutist', no: 'WJWP-DVN-005', v: 'kala-parampara', c: 'heritage', s: 'bedroom',
     b: 'Krishna beneath the kadamba tree — flute frequencies in emerald and gold.',
-    img: 'assets/img/collection/kala-parampara/kp-plate-09.jpg', tag: 'Curated' },
+    img: 'assets/img/collection/divine-kadamba-melody.jpg', tag: 'Curated' },
   { n: 'The Devoted Breath', no: 'WJWP-DVN-006', v: 'kala-parampara', c: 'heritage', s: 'temple',
     b: 'Hanuman in saffron brushwork; unshakeable strength drawn in stillness.',
     img: 'assets/img/collection/kala-parampara/kp-plate-10.jpg', tag: 'Signature' },
