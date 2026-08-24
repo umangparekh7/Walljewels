@@ -707,10 +707,56 @@
     hero && hero.addEventListener('pointerleave', restart);
   }
 
-  /* ---------------- lightbox: any artwork click opens full view ---------------- */
+  /* ---------------- lightbox: full gallery navigation with Next / Prev arrows ---------------- */
   let lb = null;
   let currentLbSrc = '';
   let currentLbTitle = '';
+  let activeGalleryItems = [];
+  let currentGalleryIndex = 0;
+
+  function buildGalleryList() {
+    // 1. If on collection.html with .card elements
+    const visibleCards = Array.from(document.querySelectorAll('.card:not([hidden]), .plate, .tile, .feature'));
+    if (visibleCards.length > 0) {
+      const items = [];
+      visibleCards.forEach(card => {
+        const img = card.querySelector('img');
+        if (!img) return;
+        const s = img.dataset.full || img.currentSrc || img.getAttribute('src') || '';
+        if (!s || s.includes('logo-') || s.includes('data:image')) return;
+        const titleEl = card.querySelector('h3, h2, .card__title, .plate__title, .tile__name');
+        const codeEl = card.querySelector('.chip, .plate__no, .card__no');
+        const descEl = card.querySelector('p:not(.chip), .card__desc, .plate__desc');
+        const title = (titleEl ? titleEl.textContent : (img.alt || img.title || '')).split(' — ')[0].split(' · ')[0].trim();
+        const code = codeEl ? codeEl.textContent.trim() : '';
+        const desc = descEl ? descEl.textContent.trim() : '';
+        items.push({ src: s, title: title || 'Wall Jewels Original Wallpaper', code, desc });
+      });
+      if (items.length > 0) return items;
+    }
+
+    // 2. Fallback to COLLECTION array if available
+    if (typeof COLLECTION !== 'undefined' && Array.isArray(COLLECTION) && COLLECTION.length > 0) {
+      return COLLECTION.map(c => ({
+        src: c.img,
+        title: c.n,
+        code: c.no || '',
+        desc: c.b || ''
+      }));
+    }
+
+    // 3. Fallback to all artwork images on page
+    const allImgs = Array.from(document.querySelectorAll('img')).filter(i => {
+      const s = i.currentSrc || i.src || '';
+      return s && !s.includes('logo-') && !s.includes('data:image') && !i.closest('.wordmark, .header, .nav, .footer');
+    });
+    return allImgs.map(i => ({
+      src: i.dataset.full || i.currentSrc || i.src,
+      title: (i.alt || i.title || 'Wall Jewels Wallpaper').split(' — ')[0].split(' · ')[0].trim(),
+      code: '',
+      desc: ''
+    }));
+  }
 
   function ensureLB() {
     if (lb) return lb;
@@ -724,12 +770,28 @@
           <path d="M4 4 L16 16 M16 4 L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </button>
+      <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Previous design">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Next design">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
       <div class="lightbox__dialog">
         <div class="lightbox__media">
           <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%23191c23'/%3E%3C/svg%3E" alt="">
         </div>
         <div class="lightbox__panel">
-          <span class="lightbox__tag"><span class="dot-a"></span> WALL JEWELS · ORIGINAL DESIGN</span>
+          <div class="lightbox__header-meta">
+            <span class="lightbox__tag"><span class="dot-a"></span> WALL JEWELS · ORIGINAL DESIGN</span>
+            <div class="lightbox__indicators">
+              <span class="lightbox__code" style="display:none;"></span>
+              <span class="lightbox__counter"></span>
+            </div>
+          </div>
           <h2 class="lightbox__title"></h2>
           <p class="lightbox__desc">
             Custom scaled and printed to your room proportions on your choice of 5 luxury architectural substrates. In-house manufactured in Chennai since 1978.
@@ -755,9 +817,41 @@
         </div>
       </div>`;
     document.body.appendChild(lb);
+
     lb.addEventListener('click', (e) => {
       if (e.target === lb || e.target.closest('.lightbox__close')) closeLightbox();
     });
+
+    const prevBtn = $('.lightbox__nav--prev', lb);
+    prevBtn && prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      renderGalleryItem(currentGalleryIndex - 1);
+    });
+
+    const nextBtn = $('.lightbox__nav--next', lb);
+    nextBtn && nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      renderGalleryItem(currentGalleryIndex + 1);
+    });
+
+    // Touch swipe support on dialog
+    let touchStartX = 0;
+    let touchStartY = 0;
+    lb.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    lb.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].screenX;
+      const touchEndY = e.changedTouches[0].screenY;
+      const dx = touchEndX - touchStartX;
+      const dy = touchEndY - touchStartY;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        if (dx < 0) renderGalleryItem(currentGalleryIndex + 1);
+        else renderGalleryItem(currentGalleryIndex - 1);
+      }
+    }, { passive: true });
 
     const calcBtn = $('.lightbox__calc-btn', lb);
     calcBtn && calcBtn.addEventListener('click', () => {
@@ -772,30 +866,78 @@
     return lb;
   }
 
-  function openLightbox(src, alt) {
-    if (!src) return;
-    currentLbSrc = src;
-    const cleanTitle = (alt || '').split(' — ')[0].split(' · ')[0] || 'Wall Jewels Original Wallpaper';
-    currentLbTitle = cleanTitle;
+  function renderGalleryItem(index) {
+    if (!activeGalleryItems || activeGalleryItems.length === 0) return;
+    currentGalleryIndex = ((index % activeGalleryItems.length) + activeGalleryItems.length) % activeGalleryItems.length;
+    const item = activeGalleryItems[currentGalleryIndex];
+    if (!item) return;
+
+    currentLbSrc = item.src;
+    currentLbTitle = item.title;
 
     const box = ensureLB();
     const img = $('.lightbox__media img', box);
     if (img) {
-      img.src = src;
-      img.alt = alt || 'Wall Jewels Wallpaper Design';
+      img.style.transition = 'opacity 0.2s ease';
+      img.style.opacity = '0.4';
+      img.src = item.src;
+      img.alt = item.title;
+      img.onload = () => { img.style.opacity = '1'; };
     }
     const titleEl = $('.lightbox__title', box);
-    if (titleEl) titleEl.textContent = cleanTitle;
+    if (titleEl) titleEl.textContent = item.title;
+
+    const codeEl = $('.lightbox__code', box);
+    if (codeEl) {
+      if (item.code) {
+        codeEl.textContent = item.code;
+        codeEl.style.display = 'inline-block';
+      } else {
+        codeEl.style.display = 'none';
+      }
+    }
+
+    const counterEl = $('.lightbox__counter', box);
+    if (counterEl) {
+      counterEl.textContent = `${currentGalleryIndex + 1} / ${activeGalleryItems.length}`;
+    }
+
+    const descEl = $('.lightbox__desc', box);
+    if (descEl) {
+      if (item.desc && item.desc.length > 5) {
+        descEl.textContent = item.desc;
+      } else {
+        descEl.textContent = 'Custom scaled and printed to your room proportions on your choice of 5 luxury architectural substrates. In-house manufactured in Chennai since 1978.';
+      }
+    }
 
     const waLink = $('.lightbox__wa-link', box);
     if (waLink) {
-      const absSrc = src.startsWith('http') ? src : (window.location.origin + (src.startsWith('/') ? '' : '/') + src);
+      const absSrc = item.src.startsWith('http') ? item.src : (window.location.origin + (item.src.startsWith('/') ? '' : '/') + item.src);
       const msg = `Namaste Wall Jewels — I would like to enquire about this wallpaper.\n\n` +
-        `Design Name: ${cleanTitle}\n` +
+        `Design Name: ${item.title}` + (item.code ? ` (${item.code})` : '') + `\n` +
         `Image Preview: ${absSrc}\n\n` +
         `Please advise on sizing, finishes and pricing for my wall.`;
       waLink.href = `https://wa.me/919677042903?text=${encodeURIComponent(msg)}`;
     }
+  }
+
+  function openLightbox(src, alt) {
+    if (!src) return;
+    activeGalleryItems = buildGalleryList();
+
+    // Find clicked index in active gallery
+    const cleanTitle = (alt || '').split(' — ')[0].split(' · ')[0].trim();
+    let foundIdx = activeGalleryItems.findIndex(i => i.src === src || (cleanTitle && i.title.toLowerCase() === cleanTitle.toLowerCase()));
+    if (foundIdx === -1) {
+      // Add current item as single fallback
+      activeGalleryItems.unshift({ src, title: cleanTitle || 'Wall Jewels Original Wallpaper', code: '', desc: '' });
+      foundIdx = 0;
+    }
+
+    const box = ensureLB();
+    renderGalleryItem(foundIdx);
+
     box.classList.add('is-open');
     document.body.style.overflow = 'hidden';
     $('.lightbox__close', box).focus({ preventScroll: true });
@@ -810,7 +952,7 @@
   // Universal click listener for all wallpaper images across landing and collection
   document.addEventListener('click', (e) => {
     // If clicking flipbook or specific buttons, let them handle their action
-    if (e.target.closest('button, .uiverse, .vol-badge, .flipbook-trigger, .lightbox__close, .lightbox__wa-link')) return;
+    if (e.target.closest('button, .uiverse, .vol-badge, .flipbook-trigger, .lightbox__close, .lightbox__nav, .lightbox__wa-link')) return;
 
     // Check if clicked element is an image or inside an image container
     const img = e.target.closest('img');
@@ -825,7 +967,7 @@
     }
 
     // Check if clicking on wallpaper containers (.feature, .tile, .plate, .coverflow-card, etc.)
-    const card = e.target.closest('.feature, .tile, .plate, .volume__media, .coverflow-card, .fan-card, .journey__art, .j2art, .space, .soon, .proof__frame, .cfg__preview');
+    const card = e.target.closest('.feature, .tile, .plate, .volume__media, .coverflow-card, .fan-card, .journey__art, .j2art, .space, .soon, .proof__frame, .cfg__preview, .card');
     if (card && !e.target.closest('a:not(.textlink), button')) {
       const cardImg = card.querySelector('img');
       if (cardImg) {
@@ -839,7 +981,12 @@
     }
   });
 
-  addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+  addEventListener('keydown', (e) => {
+    if (!lb || !lb.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    else if (e.key === 'ArrowLeft') renderGalleryItem(currentGalleryIndex - 1);
+    else if (e.key === 'ArrowRight') renderGalleryItem(currentGalleryIndex + 1);
+  });
 
   /* hero films click to open full still artwork of the currently visible active slide */
   document.addEventListener('click', (e) => {
