@@ -393,12 +393,15 @@
     const waBtn = $('[data-cfg-wa]', cfg), note = $('[data-cfg-note]', cfg);
     const wLabel = $('[data-cfg-wlabel]', cfg), hLabel = $('[data-cfg-hlabel]', cfg);
     let uploaded = false;
+    let currentUploadedFile = null;
     let uploadedFileName = '';
     let pastedLink = '';
+    let lastGeneratedMsg = '';
 
     fileIn && fileIn.addEventListener('change', () => {
       const f = fileIn.files && fileIn.files[0];
       if (!f) return;
+      currentUploadedFile = f;
       img.src = URL.createObjectURL(f);
       uploaded = true;
       uploadedFileName = f.name;
@@ -411,6 +414,7 @@
     urlIn && urlIn.addEventListener('change', () => {
       const u = urlIn.value.trim();
       if (!u) return;
+      currentUploadedFile = null;
       uploaded = false;
       uploadedFileName = '';
       pastedLink = u;
@@ -463,6 +467,7 @@
           `Estimated Total: ${inr(total)} (incl. 18% GST)\n\n` +
           `Please confirm my quote and advise next steps.`;
 
+        lastGeneratedMsg = msg;
         waBtn.href = `https://wa.me/919677042903?text=${encodeURIComponent(msg)}`;
         waBtn.hidden = false;
         note.hidden = !uploaded;
@@ -479,9 +484,37 @@
     }
     [wIn, hIn, fin].forEach(el => el && el.addEventListener('input', update));
 
-    waBtn && waBtn.addEventListener('click', () => {
-      if (uploaded) {
-        toast('Opening WhatsApp — please remember to attach your uploaded photo in the chat!');
+    waBtn && waBtn.addEventListener('click', async (e) => {
+      // 1. If user uploaded a photo and native file sharing is supported (Mobile/Tablet/Supported Desktops)
+      if (uploaded && currentUploadedFile) {
+        if (navigator.canShare && navigator.canShare({ files: [currentUploadedFile] })) {
+          e.preventDefault();
+          try {
+            await navigator.share({
+              files: [currentUploadedFile],
+              title: 'Wall Jewels Custom Wallpaper Enquiry',
+              text: lastGeneratedMsg
+            });
+            return;
+          } catch (err) {
+            if (err.name === 'AbortError') return;
+            console.warn('Native share error, falling back:', err);
+          }
+        }
+
+        // 2. Fallback for desktop: Copy image to clipboard so user can just Ctrl+V paste into WhatsApp
+        try {
+          if (navigator.clipboard && window.ClipboardItem) {
+            await navigator.clipboard.write([
+              new ClipboardItem({ [currentUploadedFile.type || 'image/png']: currentUploadedFile })
+            ]);
+            toast('Image copied! Paste (Ctrl+V) directly into your WhatsApp chat.');
+          } else {
+            toast('Opening WhatsApp — please attach your uploaded photo in the chat.');
+          }
+        } catch (cbErr) {
+          toast('Opening WhatsApp — please attach your uploaded photo in the chat.');
+        }
       }
     });
 
