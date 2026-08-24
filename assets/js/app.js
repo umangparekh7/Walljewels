@@ -7,6 +7,22 @@
    ========================================================================== */
 (function () {
   'use strict';
+  // Permanent WJ Diamond Favicon Lock
+  (function lockWJFavicon() {
+    try {
+      const uri = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADxElEQVR4nN1WTYgcRRR+9b2qnh9nMtlNYlwNRoRcPERkRQlR8CJ4iafsTdGgBxG85SYheApegooQEQTBk4oKoqISUNSLsprc/EEUkRU0i9nM7s5MT1f1k9dTHRo17szuzh580FRXvVff+3/dRP8XOk0EXYXI7KReI1HxpgFoa3dFXxaJ3N5O50Aty25zIsmefv9dIspN5E/LALq4f/91s2trt0qe39LK/d21IAcTymeczx9UbEMUNsKwkyrVHKtnv7bbh8zq6tFmlh1uh/AQSLre4G0Cf24oz2VMbExqQHln92Bw5/Vp+mwjzzNLMgDRLm/MbAA+jnJhKgYYoqBRaGXZW4boBBtz8wB8kcjsM8as19P0FyHicfK/bdSr148MrH2tmyTHryUjIhCR7W1RIWJ9ohEHPfCFB85fajRulEqL6jrRfJARMErweGbKfeQXgELkVHZo7SmBETFGhpZfjTy71TlB/2V51cuetUcE8GKMD8D6cqNxoJRbc+6OP2dmOhvhUQnWd+6EBz7sJclC6cnS3FwzZX7BAxeGzK90W6195R1FfGNhgT3wvUZAAOlb+wSJmNS5c7r3wGfjGGB0pmfMPyhQYKR/NJtzyhta+0EBHhV45guXO53dMVVOZVLms8oTY4IHvk6tPV/KZ8zPV528lgFW14G1JwXIBSbXSKjHYgpgCUBfgFTznTKfifdqWherzh0OQBBj9G4hn4+UP1Mq3zACRERX2u09Abis+YweFY8HPrnSbh/ywHcCEwLw2/Ls7K6yOFPnHg1AVtwzJgvAz4MkObah5/8WhZT5uah8tSgs5qUyHSnzixod5afOPaZnA5ucumos1PAiQmcjZo3GpdOjMOH3ZvOGwPyjAgUg7ddq90UwrCfJsUqul4bWflQq90BfuyC+v1edFWOTxFRopfece3jNudvjeQGkLeWBlVGui1qRaOi3K83mvAcWowFfVvE2ZURJlalWGDG09qnC6/hk1r6utVPwgPfVgAz4Rvebnr8yGjT/mGalcT1rj6bA4z1r76mwjQc+jREoe39r03DMCBW5Xm40bvJAV4s0Yz4XeRP/d4xFUamNa6JnqXMvFTMDkF69fm8pR9MkiZNwPUmOh9H3QIbAm1ML/99rRN9XarUHAnityD3zV9opE3+GJ6FqWHvOPaIjV8M+tPadsb58WyGJwIvz8y5j+7IqDsClobVPVmQwzbCbfq12v2f+KQCDjPlMOaanHXboum7tXRnz4tDap7ut1t4Kf7rVXlLZcpX91V+0HSUZzYCdV7yd9BdkGd/XhbBmKgAAAABJRU5ErkJggg==";
+      let links = document.querySelectorAll("link[rel*='icon']");
+      links.forEach(l => l.href = uri);
+      if (links.length === 0) {
+        const l = document.createElement('link');
+        l.rel = 'icon';
+        l.type = 'image/png';
+        l.href = uri;
+        document.head.appendChild(l);
+      }
+    } catch (e) {}
+  })();
+
   const $ = (s, c) => (c || document).querySelector(s);
   const $$ = (s, c) => [...(c || document).querySelectorAll(s)];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
