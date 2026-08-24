@@ -392,24 +392,28 @@
     const areaOut = $('[data-cfg-area]', cfg), priceOut = $('[data-cfg-price]', cfg);
     const waBtn = $('[data-cfg-wa]', cfg), note = $('[data-cfg-note]', cfg);
     const wLabel = $('[data-cfg-wlabel]', cfg), hLabel = $('[data-cfg-hlabel]', cfg);
-    let source = 'our collection (Pichwai: Eternal Melody)';
     let uploaded = false;
+    let uploadedFileName = '';
+    let pastedLink = '';
 
     fileIn && fileIn.addEventListener('change', () => {
       const f = fileIn.files && fileIn.files[0];
       if (!f) return;
       img.src = URL.createObjectURL(f);
-      source = `my uploaded reference (${f.name})`;
       uploaded = true;
+      uploadedFileName = f.name;
+      pastedLink = '';
       if (urlIn) urlIn.value = '';
       update();
       toast('Reference loaded — set your wall size to see it at scale');
     });
+
     urlIn && urlIn.addEventListener('change', () => {
       const u = urlIn.value.trim();
       if (!u) return;
-      source = `this link: ${u}`;
       uploaded = false;
+      uploadedFileName = '';
+      pastedLink = u;
       const probe = new Image();
       probe.onload = () => { img.src = u; };
       probe.onerror = () => toast('That site blocks previews — the link will still be sent with your enquiry');
@@ -437,14 +441,28 @@
         preview.style.aspectRatio = Math.min(2.6, Math.max(0.45, w / h));
         wLabel.textContent = `${w} in`;
         hLabel.textContent = `${h} in`;
-        let msg = `Namaste Wall Jewels — I'd like a custom wallpaper.\n` +
-          `Design: ${source}\n` +
-          `Wall: ${w} × ${h} inches (${sqft.toFixed(1)} sq.ft)\n` +
-          `Finish: ${finName} @ ₹${rate}/sq.ft\n` +
-          `Wallpaper: ${inr(base)}\n` +
-          `GST 18%: ${inr(gst)}\n` +
-          `Total incl. GST: ${inr(total)}\n` +
-          `Please confirm my exact quote.`;
+
+        let imageDetails = '';
+        if (uploaded) {
+          imageDetails = `Reference Image: [User uploaded: "${uploadedFileName}" — attaching photo in this chat]\n`;
+        } else if (pastedLink) {
+          imageDetails = `Reference Image Link: ${pastedLink}\n`;
+        } else {
+          const rawSrc = img.dataset.full || img.currentSrc || img.getAttribute('src') || '';
+          const absSrc = rawSrc.startsWith('http') ? rawSrc : (window.location.origin + (rawSrc.startsWith('/') ? '' : '/') + rawSrc);
+          const designName = (img.alt || 'Wall Jewels Bespoke Wallpaper').replace("Wallpaper preview at your wall's proportions", 'Lord Ganesha · Bespoke Collection');
+          imageDetails = `Design Name: ${designName}\nDesign Image Preview: ${absSrc}\n`;
+        }
+
+        let msg = `Namaste Wall Jewels — I'd like a custom wallpaper quote.\n\n` +
+          `${imageDetails}` +
+          `Wall Size: ${w}″ Width × ${h}″ Height (${sqft.toFixed(1)} sq.ft)\n` +
+          `Selected Finish: ${finName} @ ₹${rate}/sq.ft\n` +
+          `Base Wallpaper: ${inr(base)}\n` +
+          `GST (18%): ${inr(gst)}\n` +
+          `Estimated Total: ${inr(total)} (incl. 18% GST)\n\n` +
+          `Please confirm my quote and advise next steps.`;
+
         waBtn.href = `https://wa.me/919677042903?text=${encodeURIComponent(msg)}`;
         waBtn.hidden = false;
         note.hidden = !uploaded;
@@ -460,6 +478,12 @@
       }
     }
     [wIn, hIn, fin].forEach(el => el && el.addEventListener('input', update));
+
+    waBtn && waBtn.addEventListener('click', () => {
+      if (uploaded) {
+        toast('Opening WhatsApp — please remember to attach your uploaded photo in the chat!');
+      }
+    });
 
     const finishRows = $$('[data-pick-finish]', cfg);
     finishRows.forEach((row, idx) => {
@@ -633,7 +657,12 @@
     $('figcaption', box).textContent = cleanTitle;
     const waLink = $('.lightbox__wa-link', box);
     if (waLink) {
-      waLink.href = `https://wa.me/919677042903?text=${encodeURIComponent(`Namaste Wall Jewels — I would like to enquire about the wallpaper: "${cleanTitle}".`)}`;
+      const absSrc = src.startsWith('http') ? src : (window.location.origin + (src.startsWith('/') ? '' : '/') + src);
+      const msg = `Namaste Wall Jewels — I would like to enquire about this wallpaper.\n\n` +
+        `Design Name: ${cleanTitle}\n` +
+        `Image Preview: ${absSrc}\n\n` +
+        `Please advise on sizing, finishes and pricing for my wall.`;
+      waLink.href = `https://wa.me/919677042903?text=${encodeURIComponent(msg)}`;
     }
     box.classList.add('is-open');
     document.body.style.overflow = 'hidden';
