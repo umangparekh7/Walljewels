@@ -731,8 +731,20 @@
   let currentGalleryIndex = 0;
 
   function buildGalleryList() {
-    // 1. If on collection.html with .card elements
-    const visibleCards = Array.from(document.querySelectorAll('.card:not([hidden]), .plate, .tile, .feature'));
+    // 1. If COLLECTION dataset is available, use it directly as primary source!
+    if (typeof COLLECTION !== 'undefined' && Array.isArray(COLLECTION) && COLLECTION.length > 0) {
+      return COLLECTION.map(c => ({
+        src: c.img,
+        title: c.n,
+        code: c.no || '',
+        vol: (typeof VOLUMES !== 'undefined' ? ((VOLUMES.find(v => v.id === c.v) || {}).name) : '') || (c.v === 'kala-rasa' ? 'Kala Rasa' : 'Kala Parampara'),
+        sub: c.sub || '',
+        desc: c.b || ''
+      }));
+    }
+
+    // 2. Fallback: Parse visible plate elements on page
+    const visibleCards = Array.from(document.querySelectorAll('.plate, .card, .tile, .feature'));
     if (visibleCards.length > 0) {
       const items = [];
       visibleCards.forEach(card => {
@@ -740,25 +752,18 @@
         if (!img) return;
         const s = img.dataset.full || img.currentSrc || img.getAttribute('src') || '';
         if (!s || s.includes('logo-') || s.includes('data:image')) return;
-        const titleEl = card.querySelector('h3, h2, .card__title, .plate__title, .tile__name');
-        const codeEl = card.querySelector('.chip, .plate__no, .card__no');
-        const descEl = card.querySelector('p:not(.chip), .card__desc, .plate__desc');
-        const title = (titleEl ? titleEl.textContent : (img.alt || img.title || '')).split(' — ')[0].split(' · ')[0].trim();
-        const code = codeEl ? codeEl.textContent.trim() : '';
-        const desc = descEl ? descEl.textContent.trim() : '';
-        items.push({ src: s, title: title || 'Wall Jewels Original Wallpaper', code, desc });
+        const titleEl = card.querySelector('h3, h2, .plate__name, .card__title');
+        const codeEl = card.querySelector('.plate__vol, .chip, .plate__no, .card__no');
+        const subEl = card.querySelector('.plate__sub');
+        const descEl = card.querySelector('.plate__blurb, .card__desc, p:not(.plate__vol):not(.plate__sub)');
+        const title = (titleEl ? titleEl.textContent : (img.alt || '')).split(' — ')[0].trim();
+        const code = card.dataset.code || (codeEl ? codeEl.textContent.trim() : '');
+        const vol = card.dataset.vol || 'Kala Parampara';
+        const sub = card.dataset.sub || (subEl ? subEl.textContent.trim() : '');
+        const desc = card.dataset.desc || (descEl ? descEl.textContent.trim() : '');
+        items.push({ src: s, title, code, vol, sub, desc });
       });
       if (items.length > 0) return items;
-    }
-
-    // 2. Fallback to COLLECTION array if available
-    if (typeof COLLECTION !== 'undefined' && Array.isArray(COLLECTION) && COLLECTION.length > 0) {
-      return COLLECTION.map(c => ({
-        src: c.img,
-        title: c.n,
-        code: c.no || '',
-        desc: c.b || ''
-      }));
     }
 
     // 3. Fallback to all artwork images on page
@@ -770,6 +775,8 @@
       src: i.dataset.full || i.currentSrc || i.src,
       title: (i.alt || i.title || 'Wall Jewels Wallpaper').split(' — ')[0].split(' · ')[0].trim(),
       code: '',
+      vol: 'Wall Jewels',
+      sub: '',
       desc: ''
     }));
   }
@@ -809,9 +816,8 @@
             </div>
           </div>
           <h2 class="lightbox__title"></h2>
-          <p class="lightbox__desc">
-            Custom scaled and printed to your room proportions on your choice of 5 luxury architectural substrates. In-house manufactured in Chennai since 1978.
-          </p>
+          <div class="lightbox__subline"></div>
+          <p class="lightbox__desc"></p>
 
           <div class="lightbox__badges">
             <span class="lightbox__badge">📐 Exact Room Sizing</span>
@@ -903,6 +909,13 @@
     const titleEl = $('.lightbox__title', box);
     if (titleEl) titleEl.textContent = item.title;
 
+    const subEl = $('.lightbox__subline', box);
+    if (subEl) {
+      const vol = item.vol || 'Kala Parampara';
+      const code = item.code || '';
+      subEl.textContent = `${vol}${code ? ' · ' + code : ''}`;
+    }
+
     const codeEl = $('.lightbox__code', box);
     if (codeEl) {
       if (item.code) {
@@ -920,11 +933,7 @@
 
     const descEl = $('.lightbox__desc', box);
     if (descEl) {
-      if (item.desc && item.desc.length > 5) {
-        descEl.textContent = item.desc;
-      } else {
-        descEl.textContent = 'Custom scaled and printed to your room proportions on your choice of 5 luxury architectural substrates. In-house manufactured in Chennai since 1978.';
-      }
+      descEl.textContent = item.desc || 'Custom scaled and printed to your room proportions on your choice of 5 luxury architectural substrates. In-house manufactured in Chennai since 1978.';
     }
 
     const waLink = $('.lightbox__wa-link', box);
@@ -946,13 +955,13 @@
     const cleanTitle = (alt || '').split(' — ')[0].split(' · ')[0].trim();
     let foundIdx = activeGalleryItems.findIndex(i => i.src === src || (cleanTitle && i.title.toLowerCase() === cleanTitle.toLowerCase()));
     if (foundIdx === -1) {
-      // Add current item as single fallback
-      activeGalleryItems.unshift({ src, title: cleanTitle || 'Wall Jewels Original Wallpaper', code: '', desc: '' });
+      activeGalleryItems.unshift({ src, title: cleanTitle || 'Wall Jewels Original Wallpaper', code: '', vol: 'Wall Jewels', sub: '', desc: '' });
       foundIdx = 0;
     }
+    currentGalleryIndex = foundIdx;
 
     const box = ensureLB();
-    renderGalleryItem(foundIdx);
+    renderGalleryItem(currentGalleryIndex);
 
     box.classList.add('is-open');
     document.body.style.overflow = 'hidden';

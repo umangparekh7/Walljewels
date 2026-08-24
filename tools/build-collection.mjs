@@ -7,20 +7,21 @@ const ctx = {};
 new Function(`${dataSrc}; this.VOLUMES=VOLUMES; this.SPACES=SPACES; this.CATEGORIES=CATEGORIES; this.COLLECTION=COLLECTION;`).call(ctx);
 const { VOLUMES, SPACES, CATEGORIES, COLLECTION } = ctx;
 
-const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const esc = (s) => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 const slugOf = (d) => d.img.split('/').pop().replace('.jpg', '');
-const volName = (id) => (VOLUMES.find(v => v.id === id) || {}).name || '';
+const volName = (id) => (VOLUMES.find(v => v.id === id) || {}).name || 'Wall Jewels';
 
 const plates = COLLECTION.map((d, i) => {
   const slug = slugOf(d);
-  return `          <article class="plate" id="${slug}" data-slug="${slug}">
+  return `          <article class="plate" id="${slug}" data-slug="${slug}" data-vol="${esc(volName(d.v))}" data-code="${esc(d.no)}" data-sub="${esc(d.sub || '')}" data-desc="${esc(d.b || '')}">
             <div class="plate__media">
-              <img src="${d.img}" alt="${esc(d.n)} — ${esc(d.b)}" loading="lazy">
+              <img src="${d.img}" alt="${esc(d.n)} — ${esc(d.no)}" loading="lazy">
               ${d.tag ? `<span class="plate__tag">${esc(d.tag)}</span>` : ''}
             </div>
             <div class="plate__body">
-              <p class="plate__vol">${esc(volName(d.v))} · ${d.no}</p>
+              <p class="plate__vol">${esc(volName(d.v))} · ${esc(d.no)}</p>
               <h3 class="plate__name">${esc(d.n)}</h3>
+              ${d.sub ? `<p class="plate__sub" style="font-size:0.82rem; color:var(--c-gold,#c89d5c); margin-top:-2px; margin-bottom:6px;">${esc(d.sub)}</p>` : ''}
               <p class="plate__blurb">${esc(d.b)}</p>
               <div class="plate__row">
                 <a class="plate__view" href="https://wa.me/919677042903?text=${encodeURIComponent(`Namaste Wall Jewels — I'd like to enquire about "${d.n}" (${d.no}).`)}" rel="noopener">Enquire</a>
@@ -57,15 +58,14 @@ const html = `<!DOCTYPE html>
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?v=20260824d">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260824d">
   <link rel="manifest" href="site.webmanifest?v=20260824d">
-  <meta name="description" content="Browse the Wall Jewels collections — Kala Parampara, Kala Rasa and Vishwa Darshan. ${COLLECTION.length} plates of heritage, tropical, botanical, abstract, kids and world designs, every one printable to your wall's exact measure.">
+  <meta name="description" content="Browse the Wall Jewels collections — Kala Parampara and Kala Rasa. ${COLLECTION.length} master plates of authentic heritage, botanical, abstract and world designs, printable to your wall's exact measure.">
   <link rel="canonical" href="https://www.walljewels.in/collection.html">
   <meta name="theme-color" content="#0b0d11">
   <link rel="preload" href="assets/fonts/marcellus-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/styles.css?v=2026-08-16b">
+  <link rel="stylesheet" href="assets/css/styles.css?v=2026-08-24-exactkp">
 </head>
 <body>
-<!-- Generated grid: regenerate with tools/build-collection.mjs after editing data.js. World: see index.html contract. -->
 
   <a class="skip" href="#main">Skip to content</a>
 
@@ -98,168 +98,84 @@ const html = `<!DOCTYPE html>
         <a href="index.html#journal">Journal</a>
         <a href="index.html#visit">Visit</a>
       </nav>
-      <div class="header__tools">
-        <button class="tool" type="button" data-open-search aria-label="Search the collection">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M15.5 15.5 L20.5 20.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <circle cx="10.5" cy="10.5" r="1.3" fill="currentColor"/>
-          </svg>
-        </button>
-        <a class="tool" href="collection.html" aria-label="Your wishlist — marked designs">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="7.2" stroke="currentColor" stroke-width="1.5"/>
-            <circle cx="12" cy="12" r="2.4" fill="currentColor"/>
-            <circle cx="12" cy="2.6" r="1.1" fill="currentColor"/>
-            <circle cx="21.4" cy="12" r="1.1" fill="currentColor"/>
-            <circle cx="12" cy="21.4" r="1.1" fill="currentColor"/>
-            <circle cx="2.6" cy="12" r="1.1" fill="currentColor"/>
-          </svg>
-          <span class="tool__count" data-count-wish></span>
-        </a>
-        <button class="tool" type="button" data-open-docket aria-label="Your enquiry docket">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 3.5 H18 V20.5 L15.5 19 L13 20.5 L10.5 19 L8 20.5 L6 19.2 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-            <path d="M9 8.5 H15 M9 12 H15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-          </svg>
-          <span class="tool__count" data-count-basket></span>
-        </button>
-        <button class="tool burger" type="button" data-open-drawer aria-label="Open menu">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M4 7.5 H20 M4 12 H20 M4 16.5 H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
+      <a class="btn btn--ghost header__cta" href="index.html#visualiser"><span class="dot-a"></span>Visualise on Wall</a>
     </div>
   </header>
 
-  <nav class="drawer" aria-label="Menu" inert>
-    <div class="drawer__head">
-      <a class="wordmark wordmark--img" href="index.html"><img src="assets/img/brand/logo-light.png" alt="Wall Jewels Wallpaper World"></a>
-      <button class="tool" type="button" data-close-drawer aria-label="Close menu">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M6 6 L18 18 M18 6 L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </button>
-    </div>
-    <div class="drawer__nav">
-      <a href="collection.html">Collection <span class="num">${COLLECTION.length} plates</span></a>
-      <a href="index.html#visualiser">Custom Printing <span class="num">Your wall</span></a>
-      <a href="index.html#record">Our Work <span class="num">Since 1978</span></a>
-      <a href="index.html#why">The House</a>
-      <a href="index.html#journal">Journal</a>
-      <a href="index.html#visit">Visit <span class="num">3 showrooms</span></a>
-    </div>
-    <div class="drawer__foot">
-      <a class="btn btn--wa" href="https://wa.me/919677042903" rel="noopener"><span class="dot-a"></span>WhatsApp the design team</a>
-      <p class="small">Parry’s · OMR · T. Nagar — Chennai<br><a href="tel:+919840064205">+91 98400 64205</a> · <a href="mailto:info@walljewels.com">info@walljewels.com</a></p>
-    </div>
-  </nav>
-
   <main id="main">
-    <section class="coll-hero">
-      <div class="wrap">
-        <div class="threshold" data-kolam="gate"><span class="rule"></span></div>
-        <div class="headgroup">
-          <h1 class="d2">The collection</h1>
-          <p class="lead">${COLLECTION.length} plates from the Wall Jewels volumes — every one recomposed, recoloured
-            and printed to your wall's exact measure. No prices here by design: a wall deserves a conversation,
-            and the conversation is free.</p>
-        </div>
+    <section class="c-hero">
+      <div class="c-hero__in">
+        <p class="c-hero__eyebrow"><span class="dot-a"></span> THE COMPLETE CATALOGUE · SINCE 1978</p>
+        <h1 class="c-hero__title">The Collection</h1>
+        <p class="c-hero__lede">Every plate in our library is manufactured in-house in Chennai and custom-scaled to the exact dimensions of your wall. Select a design to preview, calculate pricing, or enquire directly via WhatsApp.</p>
       </div>
     </section>
 
-    <div class="coll-filters">
-      <div class="wrap coll-filters__in">
-        <div class="fgroup" role="group" aria-label="Filter by volume">
+    <section class="filters-wrap" aria-label="Filter the collection">
+      <div class="filters">
+        <div class="filters__group">
+          <span class="filters__label">Volume</span>
+          <div class="filters__chips">
+            <button class="fchip is-active" type="button" data-filter="all" aria-pressed="true"><span class="mark"></span>All Volumes</button>
 ${volChips}
+          </div>
         </div>
-        <div class="fgroup" role="group" aria-label="Filter by category">
+        <div class="filters__group">
+          <span class="filters__label">Theme</span>
+          <div class="filters__chips">
 ${catChips}
+          </div>
         </div>
-        <div class="fgroup" role="group" aria-label="Filter by space">
+        <div class="filters__group">
+          <span class="filters__label">Space</span>
+          <div class="filters__chips">
 ${spaceChips}
+          </div>
         </div>
-        <span class="coll-count" data-coll-count>${COLLECTION.length} designs</span>
-      </div>
-    </div>
-
-    <section aria-label="All designs">
-      <div class="wrap">
-        <div class="coll-grid" data-coll-grid>
-${plates}
-        </div>
-        <p class="coll-empty" style="display:none">Nothing answers that combination yet — loosen a filter, or
-          <a href="https://wa.me/919677042903" rel="noopener">WhatsApp us</a>; if it exists, we can print it.</p>
       </div>
     </section>
 
-    <section class="finale" aria-labelledby="coll-cta">
-      <div class="finale__kolam" aria-hidden="true"><svg></svg></div>
-      <div class="wrap">
-        <h2 class="d2" id="coll-cta">Seen something your wall would love?</h2>
-        <p class="finale__steps">
-          <span>Mark it</span><span class="sep">·</span>
-          <span>Add it to your docket</span><span class="sep">·</span>
-          <span>Send it with your wall size</span>
-        </p>
-        <div class="finale__cta">
-          <a class="btn btn--wa" href="https://wa.me/919677042903?text=${encodeURIComponent('Namaste Wall Jewels — I have been browsing the collection.')}" rel="noopener"><span class="dot-a"></span>WhatsApp our design team</a>
-        </div>
+    <section class="grid-wrap" aria-label="Wallpaper designs">
+      <div class="grid" id="collection-grid">
+${plates}
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="wrap">
-      <div class="footer__bottom" style="border-top:0">
-        <span>© Wall Jewels Wallpaper World Pvt. Ltd. · Chennai · Since 1978</span>
-        <span><a href="index.html">Home</a> · <a href="tel:+919840064205">+91 98400 64205</a> · <a href="mailto:info@walljewels.com">info@walljewels.com</a></span>
+    <div class="footer__in">
+      <div class="footer__brand">
+        <img src="assets/img/brand/logo-light.png" alt="Wall Jewels" width="180">
+        <p>South India's pioneer in luxury wallpapers and in-house bespoke manufacturing since 1978.</p>
       </div>
+      <div class="footer__col">
+        <h4>Showrooms</h4>
+        <ul>
+          <li><a href="showrooms/parrys-flagship.html">Parry's Flagship (Park Town)</a></li>
+          <li><a href="showrooms/omr-experience-centre.html">OMR Experience Centre</a></li>
+          <li><a href="showrooms/tnagar-boutique.html">T. Nagar Boutique</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Direct Hotline</h4>
+        <ul>
+          <li><a href="https://wa.me/919677042903">WhatsApp: +91 96770 42903</a></li>
+          <li><a href="tel:+919840064205">Phone: +91 98400 64205</a></li>
+          <li><a href="mailto:info@walljewels.com">info@walljewels.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bar">
+      <p>© 2026 Wall Jewels Wallpaper World Pvt. Ltd. · All Rights Reserved.</p>
     </div>
   </footer>
 
-  <div class="docket-scrim"></div>
-  <aside class="docket" aria-label="Your enquiry docket" inert>
-    <div class="docket__head">
-      <div>
-        <span class="docket__no">Commission docket</span>
-        <h2>Your enquiry</h2>
-        <p class="small">Nothing here is an order — it is a conversation, prepared.</p>
-      </div>
-      <button class="tool" type="button" data-close-docket aria-label="Close the docket">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6 L18 18 M18 6 L6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-    <div class="docket__list" aria-live="polite"></div>
-    <div class="docket__fields">
-      <div class="dfield"><label for="dk-w">Wall width · ft</label><input id="dk-w" type="number" min="1" max="200" inputmode="decimal" placeholder="12"></div>
-      <div class="dfield"><label for="dk-h">Wall height · ft</label><input id="dk-h" type="number" min="1" max="60" inputmode="decimal" placeholder="9"></div>
-      <div class="dfield dfield--full"><label for="dk-name">Your name</label><input id="dk-name" type="text" autocomplete="name" placeholder="How shall we address you?"></div>
-      <div class="dfield dfield--full"><label for="dk-notes">Notes</label><textarea id="dk-notes" rows="2" placeholder="The room, the light, the deadline — anything that helps."></textarea></div>
-    </div>
-    <div class="docket__send">
-      <button class="btn btn--wa" type="button" data-send-docket><span class="dot-a"></span>Send via WhatsApp</button>
-      <p class="small">Or write to <a href="mailto:info@walljewels.com">info@walljewels.com</a> — no enquiry goes unanswered.</p>
-    </div>
-  </aside>
-
-  <div class="search-veil" inert>
-    <div class="search-box" role="search">
-      <input type="search" placeholder="Search designs — “pichwai”, “marble”, “kids”…" aria-label="Search the collection">
-      <p class="small">Enter at least two letters. Every result is a Wall Jewels plate.</p>
-      <div class="search-results"></div>
-    </div>
-  </div>
-
-  <script src="assets/js/vendor/lenis.min.js?v=2026-08-16b" defer></script>
-  <script src="assets/js/data.js?v=2026-08-16b" defer></script>
-  <script src="assets/js/kolam.js?v=2026-08-16b" defer></script>
+  <script src="assets/js/data.js?v=2026-08-24-exactkp"></script>
+  <script src="assets/js/app.js?v=2026-08-24-exactkp" defer></script>
   <script src="assets/js/webgl-bg.js?v=2026-08-24" defer></script>
-  <script src="assets/js/app.js?v=2026-08-24-imagecachewa" defer></script>
 </body>
 </html>
 `;
 
-writeFileSync(`${SITE}\\collection.html`, html);
-console.log('collection.html written:', COLLECTION.length, 'plates');
+writeFileSync(`${SITE}/collection.html`, html, 'utf8');
+console.log(`collection.html written: ${COLLECTION.length} plates`);

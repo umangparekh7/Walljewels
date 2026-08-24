@@ -4265,6 +4265,35 @@ body.theme-light {
   letter-spacing: 0.04em;
 }
 
+.lightbox__subline {
+  font-family: var(--font-sans, "Jost", sans-serif);
+  font-size: 0.95rem;
+  color: var(--gold-bright, #e6c47f);
+  letter-spacing: 0.03em;
+  margin-top: -0.25rem;
+  margin-bottom: 0.65rem;
+  font-weight: 500;
+}
+
+.lightbox__desc {
+  font-family: var(--font-sans, "Jost", sans-serif);
+  font-size: 0.93rem;
+  line-height: 1.6;
+  color: rgba(242, 237, 222, 0.85);
+  margin-bottom: 1.15rem;
+  max-height: 150px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.lightbox__desc::-webkit-scrollbar {
+  width: 4px;
+}
+.lightbox__desc::-webkit-scrollbar-thumb {
+  background: rgba(207, 161, 78, 0.4);
+  border-radius: 2px;
+}
+
 .lightbox__close {
   position: absolute;
   top: clamp(12px, 2vh, 24px);
