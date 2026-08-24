@@ -470,6 +470,37 @@
     const baseOut = $('[data-cfg-base]', cfg), gstOut = $('[data-cfg-gst]', cfg);
     const GST = 0.18;
     const inr = (n) => `₹${Math.round(n).toLocaleString('en-IN')}`;
+    let customDesignName = '';
+
+    window.loadDesignIntoVisualiser = function(src, name) {
+      if (!src) return;
+      uploaded = false;
+      currentUploadedFile = null;
+      uploadedFileName = '';
+      uploadedImageHostedUrl = '';
+      pastedLink = '';
+      customDesignName = name || '';
+      img.src = src;
+      img.alt = name || 'Wall Jewels Wallpaper Design';
+      if (fileIn) fileIn.value = '';
+      if (urlIn) urlIn.value = '';
+      update();
+      cfg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      cfg.classList.add('is-highlighted');
+      setTimeout(() => cfg.classList.remove('is-highlighted'), 2000);
+      toast(`Loaded "${name || 'Wallpaper'}" into wall price calculator!`);
+    };
+
+    // Auto-load design into visualiser if passed in URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('visualise')) {
+      const vSrc = urlParams.get('visualise');
+      const vName = urlParams.get('name') || 'Selected Wallpaper';
+      setTimeout(() => {
+        window.loadDesignIntoVisualiser(vSrc, vName);
+      }, 350);
+    }
+
     function update() {
       const w = parseFloat(wIn.value) || 0;
       const h = parseFloat(hIn.value) || 0;
@@ -500,7 +531,7 @@
         } else {
           const rawSrc = img.dataset.full || img.currentSrc || img.getAttribute('src') || '';
           const absSrc = rawSrc.startsWith('http') ? rawSrc : (window.location.origin + (rawSrc.startsWith('/') ? '' : '/') + rawSrc);
-          const designName = (img.alt || 'Wall Jewels Collection').replace("Wallpaper preview at your wall's proportions", 'Lord Ganesha · Bespoke Collection');
+          const designName = customDesignName || (img.alt || 'Wall Jewels Collection').replace("Wallpaper preview at your wall's proportions", 'Lord Ganesha · Bespoke Collection');
           designLine = `Design: ${designName}\nPreview: ${absSrc}\n`;
         }
 
@@ -678,42 +709,84 @@
 
   /* ---------------- lightbox: any artwork click opens full view ---------------- */
   let lb = null;
+  let currentLbSrc = '';
+  let currentLbTitle = '';
+
   function ensureLB() {
     if (lb) return lb;
     lb = document.createElement('div');
     lb.className = 'lightbox';
     lb.setAttribute('role', 'dialog');
-    lb.setAttribute('aria-label', 'Design full view');
+    lb.setAttribute('aria-label', 'Design preview and quote');
     lb.innerHTML = `
-      <button class="lightbox__close" type="button" aria-label="Close full view">
+      <button class="lightbox__close" type="button" aria-label="Close preview dialog">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
           <path d="M4 4 L16 16 M16 4 L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </button>
-      <figure>
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%23191c23'/%3E%3C/svg%3E" alt="">
-        <figcaption></figcaption>
-        <div style="display:flex; justify-content:center; margin-top:12px;">
-          <a class="lightbox__wa-link btn btn--wa" target="_blank" rel="noopener" href="https://wa.me/919677042903">
-            <span class="dot-a"></span>WhatsApp Design Team for this Wallpaper
-          </a>
+      <div class="lightbox__dialog">
+        <div class="lightbox__media">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'%3E%3Crect width='4' height='3' fill='%23191c23'/%3E%3C/svg%3E" alt="">
         </div>
-      </figure>`;
+        <div class="lightbox__panel">
+          <span class="lightbox__tag"><span class="dot-a"></span> WALL JEWELS · ORIGINAL DESIGN</span>
+          <h2 class="lightbox__title"></h2>
+          <p class="lightbox__desc">
+            Custom scaled and printed to your room proportions on your choice of 5 luxury architectural substrates. In-house manufactured in Chennai since 1978.
+          </p>
+
+          <div class="lightbox__badges">
+            <span class="lightbox__badge">📐 Exact Room Sizing</span>
+            <span class="lightbox__badge">✨ 5 Substrates from ₹120/sq.ft</span>
+            <span class="lightbox__badge">⚡ 4-Hour Installation</span>
+          </div>
+
+          <div class="lightbox__actions">
+            <button class="lightbox__calc-btn btn btn--fill" type="button">
+              <span class="dot-a"></span>Visualise on My Wall &amp; Get Price
+            </button>
+            <a class="lightbox__wa-link btn btn--wa" target="_blank" rel="noopener" href="https://wa.me/919677042903">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right:6px;"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 6.46 17.5 2 12.04 2ZM12.04 20.15C10.56 20.15 9.11 19.76 7.85 19.01L7.55 18.83L4.44 19.65L5.27 16.61L5.07 16.29C4.24 14.97 3.8 13.46 3.8 11.91C3.8 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.32 4.53 17.88 6.09C19.44 7.65 20.3 9.72 20.3 11.92C20.29 16.46 16.59 20.15 12.04 20.15ZM16.56 14.39C16.31 14.27 15.09 13.67 14.86 13.58C14.63 13.5 14.47 13.46 14.3 13.7C14.14 13.95 13.67 14.5 13.53 14.67C13.38 14.83 13.24 14.85 12.99 14.73C12.74 14.6 11.95 14.34 11.01 13.5C10.28 12.85 9.78 12.04 9.64 11.8C9.5 11.55 9.62 11.41 9.75 11.29C9.86 11.17 10 10.99 10.12 10.85C10.25 10.71 10.29 10.61 10.37 10.44C10.45 10.28 10.41 10.13 10.35 10.01C10.29 9.89 9.8 8.68 9.59 8.19C9.4 7.71 9.2 7.77 9.05 7.76H8.58C8.42 7.76 8.15 7.82 7.93 8.07C7.7 8.31 7.07 8.9 7.07 10.12C7.07 11.33 7.95 12.5 8.08 12.67C8.2 12.83 9.82 15.34 12.3 16.41C12.89 16.66 13.35 16.82 13.71 16.93C14.3 17.12 14.84 17.09 15.27 17.03C15.74 16.96 16.73 16.43 16.93 15.86C17.14 15.29 17.14 14.8 17.08 14.7C17.01 14.6 16.81 14.52 16.56 14.39Z"/></svg>
+              WhatsApp Design Team for this Wallpaper
+            </a>
+          </div>
+
+          <span class="lightbox__note">✦ Free on-site measurement &amp; white-glove installation support</span>
+        </div>
+      </div>`;
     document.body.appendChild(lb);
     lb.addEventListener('click', (e) => {
       if (e.target === lb || e.target.closest('.lightbox__close')) closeLightbox();
     });
+
+    const calcBtn = $('.lightbox__calc-btn', lb);
+    calcBtn && calcBtn.addEventListener('click', () => {
+      closeLightbox();
+      if (window.loadDesignIntoVisualiser) {
+        window.loadDesignIntoVisualiser(currentLbSrc, currentLbTitle);
+      } else {
+        window.location.href = `index.html?visualise=${encodeURIComponent(currentLbSrc)}&name=${encodeURIComponent(currentLbTitle)}#visualiser`;
+      }
+    });
+
     return lb;
   }
 
   function openLightbox(src, alt) {
     if (!src) return;
-    const box = ensureLB();
-    const img = $('img', box);
-    img.src = src;
-    img.alt = alt || 'Wall Jewels Wallpaper Design';
+    currentLbSrc = src;
     const cleanTitle = (alt || '').split(' — ')[0].split(' · ')[0] || 'Wall Jewels Original Wallpaper';
-    $('figcaption', box).textContent = cleanTitle;
+    currentLbTitle = cleanTitle;
+
+    const box = ensureLB();
+    const img = $('.lightbox__media img', box);
+    if (img) {
+      img.src = src;
+      img.alt = alt || 'Wall Jewels Wallpaper Design';
+    }
+    const titleEl = $('.lightbox__title', box);
+    if (titleEl) titleEl.textContent = cleanTitle;
+
     const waLink = $('.lightbox__wa-link', box);
     if (waLink) {
       const absSrc = src.startsWith('http') ? src : (window.location.origin + (src.startsWith('/') ? '' : '/') + src);
