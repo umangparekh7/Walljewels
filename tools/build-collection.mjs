@@ -50,17 +50,19 @@ const html = `<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Collection — Wall Jewels Wallpaper World · Chennai, Since 1978</title>
+  <!-- Favicon & Brand Icons -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2026-08-24-wj">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=2026-08-24-wj">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=2026-08-24-wj">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?v=2026-08-24-wj">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=2026-08-24-wj">
+  <link rel="manifest" href="site.webmanifest?v=2026-08-24-wj">
   <meta name="description" content="Browse the Wall Jewels collections — Kala Parampara, Kala Rasa and Vishwa Darshan. ${COLLECTION.length} plates of heritage, tropical, botanical, abstract, kids and world designs, every one printable to your wall's exact measure.">
   <link rel="canonical" href="https://www.walljewels.in/collection.html">
   <meta name="theme-color" content="#0b0d11">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0d11'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%23cfa14e' stroke-width='1.4'/%3E%3Ccircle cx='16' cy='16' r='2.2' fill='%23cfa14e'/%3E%3Ccircle cx='16' cy='5' r='1.4' fill='%23f2edde'/%3E%3Ccircle cx='27' cy='16' r='1.4' fill='%23f2edde'/%3E%3Ccircle cx='16' cy='27' r='1.4' fill='%23f2edde'/%3E%3Ccircle cx='5' cy='16' r='1.4' fill='%23f2edde'/%3E%3C/svg%3E">
   <link rel="preload" href="assets/fonts/marcellus-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/styles.css?v=2026-08-16b">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 </head>
 <body>
 <!-- Generated grid: regenerate with tools/build-collection.mjs after editing data.js. World: see index.html contract. -->
