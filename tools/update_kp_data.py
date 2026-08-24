@@ -5,13 +5,14 @@ import re
 with open('assets/js/data.js', 'r', encoding='utf-8') as f:
     data_js = f.read()
 
-# Build the 82 Kala Parampara collection entries
-plates_meta = [
-    (0, 'Kala Parampara (Volume I Cover)', 'WJWP-KP-000', 'heritage', 'living', 'The founding volume cover — 82 master plates of Indian artistry and architectural heritage.', 'Volume I Cover'),
-    (1, 'India, Interpreted Through Art', 'WJWP-KP-001', 'heritage', 'living', 'The opening folio: sacred iconography, royal courts, and southern architectural lineages.', 'Foreword'),
-    (2, 'Heritage Master Index', 'WJWP-KP-002', 'heritage', 'living', 'Index of 82 original wallpaper designs published by Wall Jewels Wallpaper World.', 'Master Index'),
-    (3, 'Divine India: Sacred Iconography', 'WJWP-KP-003', 'heritage', 'temple', 'Deities, epics and sacred geometry translated out of convention and into architectural scale.', 'Chapter I'),
-    (4, 'Sanatan Iconography Overview', 'WJWP-DVN-000', 'heritage', 'living', 'Cinematic realism and carved bas-relief designed for luxury contemporary interiors.', 'Curated'),
+# 1. KALA PARAMPARA (Filtered: ONLY actual wallpaper designs, removing all 8 requested index/intro pages)
+# List of items to REMOVE:
+# 'India, Interpreted Through Art', 'Heritage Master Index', 'Divine India: Sacred Iconography', 
+# 'Prakriti: Forest Canopy', 'Prakriti: River Confluence', 'Prakriti: Mountain Sanctuary', 
+# 'Kala Parampara Installation Folio', 'Kala Parampara Master Collection Index', 
+# 'Kala Parampara (Volume I Cover)', 'Sanatan Iconography Overview', 'Southern Heritage Reimagined'
+
+kp_raw_meta = [
     (5, 'The Himalayan Ascetic', 'WJWP-DVN-001', 'heritage', 'temple', 'Mahadev in deep stillness against snow-bound peaks; cinematic realism for contemplative rooms.', 'Signature'),
     (6, 'The Cosmic Dance', 'WJWP-DVN-002', 'heritage', 'living', 'Nataraja cast in bronze light — the rhythmic pulse of the universe on a single wall.', 'Bestseller'),
     (7, 'The Eternal Preserver', 'WJWP-DVN-003', 'heritage', 'living', 'Vishnu in golden serenity with radiant chakra and celestial radiance.', 'Signature'),
@@ -32,7 +33,6 @@ plates_meta = [
     (22, 'Goddess Saraswati Harmony', 'WJWP-DVN-018', 'heritage', 'office', 'Veena melodies and celestial swans in soft pearl, gold and ivory.', 'Curated'),
     (23, 'Lakshmi Lotus Throne', 'WJWP-DVN-019', 'heritage', 'dining', 'Ashta Lakshmi blessings enthroned upon blooming pink lotuses.', 'Bestseller'),
     (24, 'Ayodhya Ram Mandir Horizon', 'WJWP-DVN-020', 'heritage', 'living', 'Maryada Purushottam Ram in monumental sandstone architecture.', 'Signature'),
-    (25, 'Southern Heritage Reimagined', 'WJWP-SIH-000', 'heritage', 'living', 'Granite colonnades, carved mandapams, and Athangudi palace patterns.', 'Chapter II'),
     (26, 'Chola Grand Colonnade', 'WJWP-SIH-001', 'heritage', 'hospitality', 'Monumental stone corridors of Thanjavur rendered with depth perspective.', 'Signature'),
     (27, 'Chola Pillars', 'WJWP-SIH-002', 'heritage', 'hospitality', 'Monumental stone colonnades for reception halls that mean business.', 'Bestseller'),
     (28, 'Brihadeeswara Silhouette', 'WJWP-SIH-003', 'heritage', 'living', 'The great temple vimana carved against the golden morning light.', 'Curated'),
@@ -83,16 +83,11 @@ plates_meta = [
     (73, 'Kolkata Howrah Bridge Mist', 'WJWP-WCS-025', 'world', 'living', 'The majestic steel bridge spanning the Hooghly at twilight.', 'Curated'),
     (74, 'Goa Portuguese Balcao', 'WJWP-WCS-026', 'tropical', 'dining', 'Heritage terracotta tiles and sunlit yellow villa verandahs.', 'Curated'),
     (75, 'Himalayan Monastery Peak', 'WJWP-WCS-027', 'heritage', 'office', 'High-altitude Tibetan monastery amidst snow-crowned peaks.', 'Signature'),
-    (76, 'Rann of Kutch Moonlight', 'WJWP-WCS-028', 'abstract', 'bedroom', 'Infinite white salt desert gleaming beneath the full moon.', 'Curated'),
-    (77, 'Prakriti: Forest Canopy', 'WJWP-PRK-001', 'botanical', 'living', 'Living rainforest canopy tableau in layered emeralds and sunlight.', 'Signature'),
-    (78, 'Prakriti: River Confluence', 'WJWP-PRK-002', 'tropical', 'living', 'Pristine mountain streams merging over sculpted granite boulders.', 'Curated'),
-    (79, 'Prakriti: Mountain Sanctuary', 'WJWP-PRK-003', 'heritage', 'bedroom', 'Misty pine ridges rising into eternal Himalayan clouds.', 'Curated'),
-    (80, 'Kala Parampara Installation Folio', 'WJWP-FOL-001', 'heritage', 'living', 'Architectural proof folio showcasing four decades of Chennai installations.', 'Portfolio'),
-    (81, 'Kala Parampara Master Collection Index', 'WJWP-FOL-002', 'heritage', 'living', 'Complete catalogue index of 82 numbered wallpaper master plates.', 'Volume Index')
+    (76, 'Rann of Kutch Moonlight', 'WJWP-WCS-028', 'abstract', 'bedroom', 'Infinite white salt desert gleaming beneath the full moon.', 'Curated')
 ]
 
 kp_entries = []
-for idx, n, no, c, s, b, tag in plates_meta:
+for idx, n, no, c, s, b, tag in kp_raw_meta:
     img_path = f'assets/img/collection/kala-parampara/kp-plate-{idx:02d}.jpg'
     tag_part = f", tag: '{tag}'" if tag else ""
     kp_entries.append(
@@ -102,36 +97,257 @@ for idx, n, no, c, s, b, tag in plates_meta:
     )
 
 kp_code = "  /* ==========================================================================\n" \
-          "     VOLUME I: KALA PARAMPARA (Complete 82 Master Catalogue Plates)\n" \
+          "     VOLUME I: KALA PARAMPARA (Pure Wallpaper Artwork Plates)\n" \
           "     ========================================================================== */\n" + \
           ",\n".join(kp_entries)
 
-# Keep the remaining collections (Kala Rasa, Vishwa Darshan, Modern, Kids, etc.) that have v != 'kala-parampara'
-# Let's extract existing items from COLLECTION that are not kala-parampara
-other_entries = [
-  # — Kala Rasa — Heritage & Temple —
-  "  { n: 'Goddess of the Lotus', no: 'WJWP-DVN-033', v: 'kala-rasa', c: 'heritage', s: 'dining',\n    b: 'Lakshmi enthroned in blush and rose-gold above a formal dining room.',\n    img: IMG('divine-goddess-lotus') }",
-  "  { n: 'Ganesha in Terracotta', no: 'WJWP-DVN-047', v: 'kala-rasa', c: 'heritage', s: 'temple',\n    b: 'A hand-pressed terracotta relief study, warm as a Chettinad wall at dusk.',\n    img: IMG('divine-ganesha-plate') }",
-  "  { n: 'Gopuram at Dusk', no: 'WJWP-SIH-018', v: 'kala-rasa', c: 'heritage', s: 'living',\n    b: 'The temple silhouette burning against an evening sky, over leather and lamplight.',\n    img: IMG('heritage-gopuram-dusk') }",
-  "  { n: 'The Palace Corridor', no: 'WJWP-SIH-020', v: 'kala-rasa', c: 'heritage', s: 'hospitality',\n    b: 'A receding colonnade that deepens any passage it faces.',\n    img: IMG('heritage-palace-corridor') }",
-  "  { n: 'The Stone Chariot', no: 'WJWP-SIH-022', v: 'kala-rasa', c: 'heritage', s: 'office',\n    b: 'Hampi’s chariot in painterly mist — history as a headboard for ambition.',\n    img: IMG('heritage-stone-chariot') }",
-  "  { n: 'The Shrine Alcove', no: 'WJWP-SIH-024', v: 'kala-rasa', c: 'heritage', s: 'temple',\n    b: 'A blush-toned pichwai shrine framing the household deity.',\n    img: IMG('heritage-shrine-alcove') }",
-  "  { n: 'The Grand Study', no: 'WJWP-SIH-026', v: 'kala-rasa', c: 'heritage', s: 'office',\n    b: 'A full-wall heritage tableau behind a writing desk — the room our clients ask for by name.',\n    img: IMG('heritage-grand-study'), tag: 'Signature' }",
-  "  { n: 'The Mural Library', no: 'WJWP-SIH-028', v: 'kala-rasa', c: 'heritage', s: 'living',\n    b: 'A palace city painted across a double-height library wall.',\n    img: IMG('heritage-mural-library') }",
-  
-  # — Kala Rasa — Tropical & Botanical —
-  "  { n: 'Emerald Jungle', no: 'WJWP-BTS-001', v: 'kala-rasa', c: 'tropical', s: 'living',\n    b: 'Dense understorey greens wrapped around velvet seating — the conservatory effect.',\n    img: IMG('tropical-emerald-jungle') }",
-  "  { n: 'Lotus Bloom', no: 'WJWP-BTS-003', v: 'kala-rasa', c: 'botanical', s: 'living',\n    b: 'Oversized lotus and peacock in lacquered pinks — softness at architectural scale.',\n    img: IMG('botanical-lotus-bloom') }",
-  "  { n: 'The Verdant Hall', no: 'WJWP-BTS-012', v: 'kala-rasa', c: 'botanical', s: 'hospitality',\n    b: 'Chinoiserie fruit and vine climbing a double-height dining hall.',\n    img: IMG('botanical-verdant-hall') }",
-  "  { n: 'Lotus Bath', no: 'WJWP-BTS-014', v: 'kala-rasa', c: 'botanical', s: 'powder',\n    b: 'Hand-painted lotus pond enclosing a brass-fitted bath.',\n    img: IMG('botanical-lotus-bath') }",
-  "  { n: 'Banana Grove', no: 'WJWP-BTS-016', v: 'kala-rasa', c: 'tropical', s: 'hospitality',\n    b: 'Broad leaves over café tables — the Tropical South, table height.',\n    img: IMG('tropical-banana-grove') }",
-  "  { n: 'Midnight Palm', no: 'WJWP-BTS-018', v: 'kala-rasa', c: 'tropical', s: 'hospitality',\n    b: 'Near-black palms for moody bars and late conversations.',\n    img: IMG('tropical-midnight-palm') }",
-  "  { n: 'The Golden Shore', no: 'WJWP-BTS-020', v: 'kala-rasa', c: 'tropical', s: 'living',\n    b: 'A west-coast sunset in oil-painted amber, horizon-wide.',\n    img: IMG('tropical-golden-shore') }",
-  "  { n: 'Peacock Garden', no: 'WJWP-BTS-022', v: 'kala-rasa', c: 'botanical', s: 'bedroom',\n    b: 'Peacocks among peonies in porcelain tones — quiet grandeur for principal bedrooms.',\n    img: IMG('botanical-peacock-garden') }",
-  "  { n: 'Chintz Revival', no: 'WJWP-BTS-024', v: 'kala-rasa', c: 'botanical', s: 'dining',\n    b: 'Jacobean florals recoloured for South Indian light.',\n    img: IMG('botanical-chintz-revival') }",
-  "  { n: 'Emerald Block Print', no: 'WJWP-BTS-026', v: 'kala-rasa', c: 'botanical', s: 'living',\n    b: 'A hand-block repeat scaled to the wall, in one committed green.',\n    img: IMG('botanical-emerald-print') }",
+# 2. KALA RASA (Complete 179 Plates from page 7 to 185)
+kr_categories = [
+    # Pages 7..36 -> Divine India (Sacred Deities)
+    (7, 36, 'heritage', 'temple', 'WJWP-DVN', 'Divine India'),
+    # Pages 37..62 -> Dravidian Heritage Murals
+    (37, 62, 'heritage', 'living', 'WJWP-DRV', 'Dravidian Heritage'),
+    # Pages 63..88 -> South Indian Art Murals
+    (63, 88, 'heritage', 'dining', 'WJWP-SIH', 'South Indian Art'),
+    # Pages 89..114 -> The Kolam Collection
+    (89, 114, 'abstract', 'living', 'WJWP-KLM', 'Kolam Masterpiece'),
+    # Pages 115..140 -> Tropical South
+    (115, 140, 'tropical', 'bedroom', 'WJWP-TRP', 'Tropical South'),
+    # Pages 141..160 -> South Indian Tales / Kids
+    (141, 160, 'kids', 'kids', 'WJWP-KDS', 'South Indian Tales'),
+    # Pages 161..185 -> South Indian Modernism / Abstract
+    (161, 185, 'abstract', 'office', 'WJWP-MOD', 'South Indian Modernism')
+]
 
-  # — World & Travel (Vishwa Darshan) —
+# Curated specific names for Kala Rasa key designs
+kr_named = {
+    7: ('Divine India Masterpiece Collection', 'Overview of sacred iconography and temple deities.', 'Curated'),
+    8: ('Ganesha: The Auspicious Beginning', 'Contemporary sacred Ganesha with blooming lotuses in ivory and antique gold.', 'Signature'),
+    9: ('Mahadev in Cosmic Solitude', 'Shiva in deep meditation amidst sacred cosmic mists and gold radiance.', 'Bestseller'),
+    10: ('Nataraja: The Celestial Rhythm', 'The cosmic dancer in swirling dynamic motion and molten bronze light.', 'Signature'),
+    11: ('Lord Murugan with Peacock', 'The warrior god of southern hills with regal peacock and sacred vel.', 'Bestseller'),
+    12: ('Balaji Tirupati Divine Darshan', 'Lord Venkateswara adorned in diamond temple jewelry and fresh tulsi garlands.', 'Signature'),
+    13: ('Goddess Lakshmi Lotus Sanctuary', 'Goddess of abundance upon pink lotus blooms in warm golden light.', 'Bestseller'),
+    14: ('Saraswati Veena Harmony', 'Goddess of learning and arts in serene ivory, pearl and golden strings.', 'Signature'),
+    15: ('Hanuman: Pillar of Devotion', 'Saffron-rendered strength and steadfast devotion for meditative spaces.', 'Curated'),
+    16: ('Krishna with Kadamba & Flute', 'The divine flutist in moonlit Vrindavan grove with dancing peacocks.', 'Bestseller'),
+    17: ('Pichwai: Shrinathji Sanctum', 'Traditional Nathdwara temple backdrop in rich ultramarine and gold foil.', 'Signature'),
+    18: ('Pichwai: Lotus Pond Symphony', 'Cows and blooming lotus clusters under the full autumn moon.', 'Bestseller'),
+    19: ('Durga Mahishasuramardini', 'The divine protector on her golden lion in radiant vermilion victory.', 'Signature'),
+    20: ('Ardhanarishvara Balance', 'The sacred union of Shiva and Shakti in balanced bronze and lotus tones.', 'Curated'),
+    21: ('Radha Krishna Eternal Love', 'Divine love painted in lush monsoon groves with blossoming vines.', 'Signature'),
+    22: ('Ayodhya Rama Rajyabhisheka', 'The coronation of Lord Rama amidst golden arches and royal darbar.', 'Bestseller'),
+    23: ('Chola Nataraja Bronze Relief', 'Architectural stone and bronze bas-relief for grand entrance foyers.', 'Signature'),
+    24: ('Navagraha Mandala Sphere', 'The nine celestial planetary forces arranged in geometric cosmic harmony.', 'Curated'),
+    25: ('Panchamukhi Hanuman Guardian', 'The five-faced protector in dynamic warrior poise and golden armor.', 'Signature'),
+    26: ('Dhanvantari Healing Herb Grove', 'The divine physician amidst medicinal herbs and ambrosia nectar.', 'Curated'),
+    27: ('Kamakshi Amman Golden Sanctum', 'Kanchipuram goddess in royal silk sari and golden temple aura.', 'Signature'),
+    28: ('Meenakshi Sundareswarar Wedding', 'The celestial wedding of Madurai rendered in opulent temple colors.', 'Bestseller'),
+    29: ('Vishnu Anantasayana Ocean', 'The cosmic preserver resting upon Sheshanaga on the milk ocean.', 'Signature'),
+    30: ('Ganesha Terracotta Relief', 'Hand-pressed terracotta pooja room panel with deep tactile relief.', 'Curated'),
+    31: ('Kashi Vishwanath Corridor', 'Sacred ghats and temple bells echoing along the ancient Ganga.', 'Signature'),
+    32: ('Ranganathaswamy Gopuram Grandeur', 'The towering multi-tiered gopuram of Srirangam in sunset gold.', 'Bestseller'),
+    33: ('Subrahmanya Dhandayuthapani', 'Palani hill temple ascetic form in pure spiritual stillness.', 'Curated'),
+    34: ('Bhairava Night Sanctuary', 'Fierce guardian deity in midnight indigo and antique copper flame.', 'Curated'),
+    35: ('Ashta Lakshmi Floral Court', 'Eight manifestations of prosperity surrounding a sacred lotus pond.', 'Signature'),
+    36: ('Om Namah Shivaya Calligraphy', 'Sacred Sanskrit mantras woven into radiant gold leaf geometry.', 'Bestseller'),
+
+    # Dravidian Heritage Murals (37..62)
+    37: ('Dravidian Heritage Murals', 'Monumental temple halls, stone chariots, and granite colonnades.', 'Curated'),
+    38: ('Thanjavur Palace Courtyard', 'Royal Nayak palace pillars with carved arches and Athangudi flooring.', 'Signature'),
+    39: ('Madurai Thousand Pillar Hall', 'Atmospheric perspective of stone colonnades in lamp-lit evening mist.', 'Bestseller'),
+    40: ('Brihadeeswara Temple Colonnade', 'Granite corridor of the Big Temple with historic relief carvings.', 'Signature'),
+    41: ('Hampi Stone Chariot at Dawn', 'The iconic Vijayanagara chariot framed by morning mist and ruins.', 'Bestseller'),
+    42: ('Chettinad Mansion Verandah', 'Burma teak carved columns and sunlit interior courtyard arches.', 'Signature'),
+    43: ('Athangudi Heritage Floral Tile', 'Handmade heritage geometric patterns in earth ochre and terracotta.', 'Curated'),
+    44: ('Kumbakonam Mahamaham Tank', 'Sacred temple stepwell surrounded by sixteen decorative mandapams.', 'Curated'),
+    45: ('Padmanabhapuram Wooden Palace', 'Intricate Kerala woodwork and antique lattice windows overlooking gardens.', 'Signature'),
+    46: ('Mahabalipuram Shore Temple', 'Ancient monoliths standing proud against the crashing ocean waves.', 'Bestseller'),
+    47: ('Kanchipuram Ekambareswarar Arches', 'Sacred temple mango tree sanctum framed by monumental stone arches.', 'Signature'),
+    48: ('Tiruvannamalai Annamalaiyar Glow', 'The sacred holy mountain illuminated by the Karthigai Deepam fire.', 'Signature'),
+    49: ('Srirangam Temple Gateway', 'Towering Rajagopuram rising into the morning sky above coconut groves.', 'Bestseller'),
+    50: ('Karaikudi Heritage Dining Court', 'Grand banquet court framed by multi-arched verandahs and fountains.', 'Signature'),
+    51: ('Chettinad Teak Doorway Passage', 'Intricately carved doorway with brass hardware and Athangudi tiles.', 'Curated'),
+    52: ('Chola Royal War Fleet', 'Ancient South Indian naval ships sailing into the Bay of Bengal.', 'Curated'),
+    53: ('Lepakshi Hanging Pillar Mystery', 'Carved monolithic granite pillar defying gravity in the Veerabhadra hall.', 'Signature'),
+    54: ('Gingee Fort Mountain Citadel', 'Impregnable mountain fortress rising into the golden dusk clouds.', 'Curated'),
+    55: ('Rameshwaram Corridor of Pillars', 'The world’s longest temple corridor with rhythmic carved columns.', 'Bestseller'),
+    56: ('Belur Chennakeshava Filigree', 'Hoysala stone filigree and celestial dancing apsaras carved in soapstone.', 'Signature'),
+    57: ('Halebidu Hoysaleswara Relief', 'Layered friezes of war elephants, lions, and mythological epics.', 'Signature'),
+    58: ('Tanjore Maratha Royal Library', 'Historic Saraswathi Mahal library tableau with vintage maps and folios.', 'Curated'),
+    59: ('Pondicherry French Quarter Colonnade', 'Colonial mustard yellow arches and bougainvillea over heritage streets.', 'Curated'),
+    60: ('Cochin Fort Dutch Palace Mural', 'Rich tempera murals depicting the Ramayana in earthy ochres and indigo.', 'Signature'),
+    61: ('Hampi Virupaksha Riverbank', 'Ancient bazaar ruins along the Tungabhadra river under sunset light.', 'Bestseller'),
+    62: ('Dravidian Architectural Panorama', 'Composite panorama of South India’s greatest architectural wonders.', 'Signature'),
+
+    # South Indian Art Murals (63..88)
+    63: ('South Indian Art Murals', 'Classical Tanjore, Kerala murals, and traditional textile motifs.', 'Curated'),
+    64: ('Tanjore Gold Leaf Peacocks', '24K embossed gold foil peacocks with semi-precious gem accents on ruby.', 'Signature'),
+    65: ('Kerala Temple Mural Lotus', 'Natural vegetable dye fresco of lotuses and peacocks on earthen plaster.', 'Bestseller'),
+    66: ('Kalamkari Tree of Life', 'Hand-painted pen Kalamkari tree with paradise birds and floral branches.', 'Signature'),
+    67: ('Mysore Gilded Court Painting', 'Delicate gesso work and gold foil depicting royal durbar splendor.', 'Curated'),
+    68: ('Poompuhar Ancient Port Tale', 'Sangam era coastal trade and silk merchants in painterly gouache.', 'Curated'),
+    69: ('Tanjore Royal Durbar Tableau', 'King Serfoji II in his ceremonial court framed by draped velvet curtains.', 'Signature'),
+    70: ('Kanchipuram Zari Brocade Repeat', 'Pure silk zari weave pattern scaled to architectural wall proportions.', 'Bestseller'),
+    71: ('Chettinad Terracotta Folk Art', 'Aiyanar terracotta horses guarding village thresholds under banyan trees.', 'Curated'),
+    72: ('Kerala Mural Elephant Parade', 'Caparisoned temple elephants in traditional gold Nettipattam headdresses.', 'Signature'),
+    73: ('Tanjore Floral Arabesque', 'Gold leaf floral vines weaving across a deep emerald tapestry ground.', 'Bestseller'),
+    74: ('Chola Bronze Master Sculptor', 'Lost-wax bronze casting atelier in the historic town of Swamimalai.', 'Curated'),
+    75: ('Kalamkari Peacock Medallion', 'Circular floral medallion with intertwined peacocks in madder red and indigo.', 'Signature'),
+    76: ('Tanjore Saraswati Gold Relief', 'Goddess of music and wisdom embellished with authentic 24K gold foil.', 'Signature'),
+    77: ('Kerala Murals: Radha Madhava', 'Krishna and Radha surrounded by gopis and cows in classical mural tones.', 'Bestseller'),
+    78: ('Athangudi Artisan Tile Rhythm', 'Hand-poured cement tile geometry in vibrant mustard and royal cobalt.', 'Curated'),
+    79: ('Tanjore Royal Elephant Procession', 'Gilded temple tuskers carrying the royal deity under velvet umbrellas.', 'Signature'),
+    80: ('South Indian Classical Dance Mudras', 'Bharatanatyam hand gestures and postures illustrated in fine gold lines.', 'Curated'),
+    81: ('Kalamkari Forest Hunt Tapestry', 'Historic royal hunting scene framed by blooming lotus and deer.', 'Curated'),
+    82: ('Tanjore Balaji Golden Icon', 'Lord of Seven Hills embossed in heavy gold gesso relief on crimson.', 'Bestseller'),
+    83: ('Kerala Temple Boat Race Thrill', 'Chundan Vallam snake boats slicing through backwaters with hundred oars.', 'Signature'),
+    84: ('Pichwai Gold Cow Medallion', 'Sacred Kamadhenu cow surrounded by lotuses and silver kadamba blooms.', 'Signature'),
+    85: ('Tanjore Krishna Butter Thief', 'Little Makhan Chor Krishna with butter pots in sparkling golden leaf.', 'Bestseller'),
+    86: ('Mysore Rosewood Inlay Floral', 'Geometric floral inlays reminiscent of royal Mysore palace woodwork.', 'Curated'),
+    87: ('South Indian Temple Bell Symphony', 'Bronze temple bells hanging from carved granite temple ceilings.', 'Curated'),
+    88: ('Tanjore Golden Gopuram Crest', 'The pinnacle kalasam of a temple gopuram glowing under the midday sun.', 'Signature'),
+
+    # The Kolam Collection (89..114)
+    89: ('The Kolam Collection', 'Sacred geometry, rice flour threshold art, and dawn mandala grids.', 'Curated'),
+    90: ('The Grand Kolam of Madurai', 'Continuous labyrinthine gold loop knot over deep midnight charcoal.', 'Signature'),
+    91: ('Margazhi Dawn Lotus Kolam', 'Threshold flower mandala drawn in rice flour with kaavi border lines.', 'Bestseller'),
+    92: ('Sacred Sikku Kolam Matrix', 'Interlocking geometric knot lines weaving around symmetric dots.', 'Signature'),
+    93: ('Hridaya Kamala Heart Lotus', 'Eight-petaled heart lotus mandala invoking auspicious cosmic balance.', 'Bestseller'),
+    94: ('Brahma Mudi Infinity Knot', 'Endless loop knot without beginning or end in gleaming 24K gold foil.', 'Signature'),
+    95: ('Chariot Ratha Kolam Grid', 'Temple chariot drawn in precise dot geometry for festive doorways.', 'Curated'),
+    96: ('Kuberan Wealth Geometric Grid', 'Sacred yantra numbers and symmetry bringing prosperity to living rooms.', 'Signature'),
+    97: ('Peacock Mayil Kolam Flourish', 'Graceful peacock forms woven from continuous rice-flour curves.', 'Bestseller'),
+    98: ('Aishwarya Star Kolam Harmony', 'Overlapping geometric stars in soft ivory on warm terra cotta.', 'Curated'),
+    99: ('Agni Sacred Fire Kolam', 'Radiant solar mandala with flame petals and cosmic geometric rings.', 'Curated'),
+    100: ('Emerald Block Print & Kolam', 'White floral woodblock repeats intertwined with subtle kolam lattices.', 'Signature'),
+    101: ('Gold Wire Pulli Dot Kolam', 'Minimalist metallic gold lines weaving through precise ivory dots.', 'Bestseller'),
+    102: ('Navagraha Nine Dot Kolam', 'Cosmic planetary alignment drawn in sacred threshold symmetry.', 'Curated'),
+    103: ('Neli Kolam Curved Wave Matrix', 'Flowing water waves and vine loops in deep indigo and pearl.', 'Signature'),
+    104: ('Swastika Auspicious Kolam', 'Four-fold rotational symmetry in gold leaf on raw linen texture.', 'Curated'),
+    105: ('Chitira Festival Star Kolam', 'Intricate geometric starburst celebrating the Tamil New Year.', 'Signature'),
+    106: ('Deepam Lamp Kolam Ring', 'Array of earthen oil lamps surrounded by glowing geometric flourishes.', 'Bestseller'),
+    107: ('Thousand Dot Temple Floor Kolam', 'Monumental temple courtyard floor pattern rendered at full wall scale.', 'Signature'),
+    108: ('Padi Kolam Stepped Threshold', 'Structured parallel lines and geometric borders for grand hallways.', 'Curated'),
+    109: ('Kurinji Blossom Kolam Rhythm', 'Rare twelve-year mountain blossom geometry in royal purple and gold.', 'Curated'),
+    110: ('Gopuram Geometric Pinnacle', 'Temple tower silhouette constructed entirely from precise dot grids.', 'Signature'),
+    111: ('Kaavi Red & Ivory Kolam Contrast', 'Traditional red clay ground with crisp white rice-powder ribbons.', 'Bestseller'),
+    112: ('Modernist Minimal Kolam Line', 'Contemporary architectural interpretation with single continuous line.', 'Signature'),
+    113: ('Sahasrara Crown Chakra Kolam', 'Thousand-petaled lotus mandala for yoga and meditation sanctuaries.', 'Signature'),
+    114: ('Kolam Geometric Master Tableau', 'Panoramic tapestry of the South’s most sacred threshold designs.', 'Signature'),
+
+    # Tropical South (115..140)
+    115: ('Tropical South Collection', 'Lush Kerala backwaters, banana groves, and coastal palm sanctuaries.', 'Curated'),
+    116: ('Backwater Haven Sunset', 'Traditional houseboat gliding through palm reflections at golden dusk.', 'Signature'),
+    117: ('Emerald Jungle Canopy', 'Deep layered rainforest leaves wrapping velvet seating in green calm.', 'Bestseller'),
+    118: ('Malabar Coastal Palm Grove', 'Swaying coconut palms against the azure Arabian Sea horizon.', 'Signature'),
+    119: ('Kerala Monsoon on Broad Leaves', 'Rain-washed banana leaves and water droplets in ten green shades.', 'Bestseller'),
+    120: ('Banana Leaf & Cane Retreat', 'Broad tropical leaves behind rattan seating for sunlit verandahs.', 'Curated'),
+    121: ('Lotus Lagoon Serenade', 'Giant pink lotus blossoms floating over clear fresh spring waters.', 'Signature'),
+    122: ('Misty Nilgiri Tea Hills', 'Rolling emerald plantations blanketed in morning mountain clouds.', 'Bestseller'),
+    123: ('Chintz Foliage & Songbirds', 'Jacobean climbing vines and exotic birds recoloured for Indian light.', 'Signature'),
+    124: ('Tropical Water Lily Conservatory', 'Aquatic garden filled with purple and white lilies under glass.', 'Curated'),
+    125: ('Gulmohar Red Blossom Avenue', 'Fiery crimson canopy shading a sunlit coastal avenue.', 'Curated'),
+    126: ('Sacred Banyan Aerial Canopy', 'Ancient banyan tree roots filtering golden sunlight across the wall.', 'Signature'),
+    127: ('Malabar Spice Garden Vista', 'Cardamom, pepper vines and cinnamon trees in lush botanical detail.', 'Curated'),
+    128: ('Silent Valley Rainforest Mist', 'Untouched Western Ghats canopy in deep moss and emerald layers.', 'Signature'),
+    129: ('Coromandel Coast Wave & Palm', 'Dramatic ocean breakers against coastal cliffs and casuarina groves.', 'Bestseller'),
+    130: ('Tropical Fern Cathedral', 'Towering giant tree ferns creating a natural architectural canopy.', 'Signature'),
+    131: ('Mangrove Estuary Reflections', 'Pristine Sundarban and Pichavaram waterways with wading birds.', 'Curated'),
+    132: ('Peacock in Tropical Bamboo Grove', 'Wild peacocks perched amongst golden bamboo stems and orchids.', 'Signature'),
+    133: ('Wayanad Coffee Plantation Mist', 'Flowering white coffee blossoms and shade trees on gentle slopes.', 'Curated'),
+    134: ('Anamalai Elephant Forest Trail', 'Wild elephants traversing a misty forest clearing at sunrise.', 'Signature'),
+    135: ('Tropical Botanical Chinoiserie', 'Exotic fruits, palms, and paradise birds on subtle antique linen.', 'Bestseller'),
+    136: ('Kovalam Golden Beach Sunset', 'Rocky headlands and curving sandy bay bathed in liquid amber light.', 'Curated'),
+    137: ('Alleppey Backwater Palm Corridor', 'Canal waterway flanked by overhanging palms and village canoes.', 'Signature'),
+    138: ('Verdant Palm Court Dining Hall', 'Full-height palm grove mural opening an interior dining room to nature.', 'Bestseller'),
+    139: ('Night Jungle Palm Silhouette', 'Near-black tropical silhouettes against deep indigo starry skies.', 'Curated'),
+    140: ('Tropical South Botanical Panorama', 'Sweeping coastal and forest landscape across an expansive feature wall.', 'Signature'),
+
+    # South Indian Tales / Kids (141..160)
+    141: ('South Indian Tales & Nursery', 'Mythological storybooks, gentle animals, and playful childhood murals.', 'Curated'),
+    142: ('Little Gopala & Peacocks', 'Baby Krishna playing flute with gentle calves and friendly peacocks.', 'Signature'),
+    143: ('Ganesha Mango Orchard Mischief', 'Little Ganesha picking sweet mangoes with playful mice and squirrels.', 'Bestseller'),
+    144: ('The Jungle Troop of Langurs', 'Friendly monkeys swinging across a lush Kerala jungle gym canopy.', 'Signature'),
+    145: ('Storybook Forest Orchard Play', 'Spotted deer, rabbits, and songbirds in a whimsical sunny meadow.', 'Bestseller'),
+    146: ('Backwater Houseboat Voyage', 'Gentle animal friends sailing a wooden houseboat down river canals.', 'Curated'),
+    147: ('The Pink Lotus Parade', 'Baby elephants wading through lily ponds carrying water sprays.', 'Signature'),
+    148: ('Panchatantra Animal Kingdom', 'Classic moral fables brought to life in soft watercolor illustrations.', 'Curated'),
+    149: ('Flying Hanuman & Mountain Peak', 'Little Maruti leaping across starry skies carrying the healing herb.', 'Signature'),
+    150: ('Temple Pond Lotus & Monkey Kingdom', 'Storybook stone pavilion over a lotus pond with playful animals.', 'Signature'),
+    151: ('Peacock Palace Nursery Garden', 'Royal birds spreading colorful tail feathers among rose gardens.', 'Bestseller'),
+    152: ('Kite Flying at Marina Beach', 'Colorful kites dancing over ocean waves on a breezy summer day.', 'Curated'),
+    153: ('Baby Elephant Splash Play', 'Playful elephant calves bathing in river pools with water lilies.', 'Signature'),
+    154: ('Jataka Tales Golden Deer', 'The gentle golden stag radiating kindness in a magical bamboo forest.', 'Curated'),
+    155: ('Starry Night Storybook Sky', 'Crescent moon, glowing constellations, and dreaming woodland animals.', 'Bestseller'),
+    156: ('Traditional South Indian Toy Train', 'Nilgiri mountain toy train chugging past waterfalls and tea estates.', 'Signature'),
+    157: ('Tenali Rama & Royal Parrot', 'Witty court adventures in a bright palace garden with friendly birds.', 'Curated'),
+    158: ('Squirrel Bridge to Lanka Tale', 'Little squirrel carrying pebbles with Lord Rama on golden sands.', 'Signature'),
+    159: ('Butterfly Meadow Sunshine', 'Rainbow butterflies fluttering across wildflower fields.', 'Curated'),
+    160: ('Whimsical South Indian Kids Panorama', 'Endless storybook landscape filled with wonder and imagination.', 'Signature'),
+
+    # South Indian Modernism / Abstract (161..185)
+    161: ('South Indian Modernism Collection', 'Contemporary geometry, abstracted silks, and architectural reliefs.', 'Curated'),
+    162: ('Calacatta & 24K Gold Marble Veins', 'Book-matched luxury Italian marble with shimmering gold accents.', 'Signature'),
+    163: ('Amethyst Swirl Vortex', 'Slow violet and copper metallic gradient creating rich atmosphere.', 'Bestseller'),
+    164: ('Blush Terracotta Strata', 'Soft-focus kiln red layers providing warmth without rigid pattern.', 'Curated'),
+    165: ('Terracotta Geometric Trellis', 'Hand-ruled architectural lattice for bright contemporary kitchens.', 'Curated'),
+    166: ('Crimson Kanjeevaram Knot', 'Endless silk weave abstraction in deep royal maroon and gold thread.', 'Signature'),
+    167: ('Midnight Indigo Damask', 'Modernized heritage repeat beside dark wood and leather furnishings.', 'Bestseller'),
+    168: ('Marine Teal Channels', 'Architectural vertical flute texture alternating gloss and matte finishes.', 'Curated'),
+    169: ('Azure Steps Modern Geometric', 'Stepped architectural geometry rendered in five shades of ocean blue.', 'Signature'),
+    170: ('Radiating Marigold Sun Mandala', 'Burst of warm saffron and turmeric bringing energy to breakfast rooms.', 'Bestseller'),
+    171: ('Amber Dusk Atmospheric Gradient', 'Smooth sunset transition from turmeric gold to smoky charcoal.', 'Curated'),
+    172: ('Olive Current Flowing Strata', 'Calm organic waveforms keeping executive conference rooms grounded.', 'Curated'),
+    173: ('Monochrome Granite Relief', 'Sculpted stone texture with dramatic side-lighting shadows.', 'Signature'),
+    174: ('Gilded Concrete Industrial', 'Raw textured concrete wall accented with delicate gold leaf fissures.', 'Bestseller'),
+    175: ('Deco Brass & Charcoal Chevron', 'Geometric luxury chevron panels for home theatres and private lounges.', 'Signature'),
+    176: ('Obsidian & Rose Gold Ribbon', 'Flowing liquid metal ribbons dancing across a mirror-dark backdrop.', 'Bestseller'),
+    177: ('Athangudi Modern Abstract', 'Traditional heritage tile shapes re-composed into modern canvas art.', 'Curated'),
+    178: ('Brushed Copper Patina', 'Weathered architectural metal with rich green and turquoise verdigris.', 'Signature'),
+    179: ('Minimalist Arch Perspective', 'Receding clean stucco arches expanding the perceived depth of the room.', 'Signature'),
+    180: ('Golden Horizon Line', 'Minimalist single gold horizon dividing deep midnight navy and ivory.', 'Bestseller'),
+    181: ('Woven Jute & Metallic Thread', 'Tactile organic fiber texture interwoven with subtle bronze filaments.', 'Curated'),
+    182: ('Terrazzo & Brass Geometric Inlay', 'Hand-poured aggregate stone with geometric brass division strips.', 'Signature'),
+    183: ('Floating Origami Facets', 'Three-dimensional geometric paper fold relief in soft shadow tones.', 'Curated'),
+    184: ('Architectural Shadow Play', 'Brutalist concrete forms interacting with clean geometric sunlight.', 'Curated'),
+    185: ('Metropolis in Relief', 'Illuminated city skyline rendered as architectural relief with carved pavilion.', 'Signature')
+}
+
+kr_entries = []
+for page_num in range(7, 186):
+    img_path = f'assets/img/collection/kala-rasa/kr-plate-{page_num:03d}.jpg'
+    
+    # Check category and default info
+    c_found, s_found, prefix, chap_title = 'heritage', 'living', 'WJWP-KR', 'Kala Rasa'
+    for p_start, p_end, cat, space, pref, c_name in kr_categories:
+        if p_start <= page_num <= p_end:
+            c_found, s_found, prefix, chap_title = cat, space, pref, c_name
+            break
+            
+    code = f'{prefix}-{page_num:03d}'
+    
+    if page_num in kr_named:
+        name, blurb, tag = kr_named[page_num]
+    else:
+        name = f'{chap_title} · Plate {page_num:03d}'
+        blurb = f'Original architectural wallpaper plate from the {chap_title} volume.'
+        tag = 'Volume II'
+        
+    tag_part = f", tag: '{tag}'" if tag else ""
+    kr_entries.append(
+        f"  {{ n: '{name}', no: '{code}', v: 'kala-rasa', c: '{c_found}', s: '{s_found}',\n"
+        f"    b: '{blurb}',\n"
+        f"    img: '{img_path}'{tag_part} }}"
+    )
+
+kr_code = "  /* ==========================================================================\n" \
+          "     VOLUME II: KALA RASA (Complete 179 Plates from Page 7 to 185)\n" \
+          "     ========================================================================== */\n" + \
+          ",\n".join(kr_entries)
+
+# 3. VISHWA DARSHAN (World & Travel)
+world_entries = [
   "  { n: 'London Study', no: 'WJWP-WLD-001', v: 'vishwa-darshan', c: 'world', s: 'office',\n    b: 'Westminster in sepia wash behind a leather-topped desk.',\n    img: IMG('world-london-study') }",
   "  { n: 'The Paris Library', no: 'WJWP-WLD-003', v: 'vishwa-darshan', c: 'world', s: 'living',\n    b: 'The Seine drawn in bookish greys for readers and romantics.',\n    img: IMG('world-paris-library') }",
   "  { n: 'Colosseum Sketch', no: 'WJWP-WLD-005', v: 'vishwa-darshan', c: 'world', s: 'dining',\n    b: 'Rome in architect’s pencil, dining-room scale.',\n    img: IMG('world-rome-colosseum') }",
@@ -139,36 +355,15 @@ other_entries = [
   "  { n: 'India Gate', no: 'WJWP-WLD-009', v: 'vishwa-darshan', c: 'world', s: 'living',\n    b: 'The sandstone arch in golden-hour monumental calm.',\n    img: IMG('world-india-gate') }",
   "  { n: 'Marine Drive', no: 'WJWP-WLD-010', v: 'vishwa-darshan', c: 'world', s: 'living',\n    b: 'The Queen’s Necklace at dusk — Mumbai’s curve of light across your wall.',\n    img: IMG('world-mumbai-marine'), tag: 'New' }",
   "  { n: 'Gardens by the Bay', no: 'WJWP-WLD-012', v: 'vishwa-darshan', c: 'world', s: 'office',\n    b: 'Singapore’s supertrees in watercolour for forward-looking rooms.',\n    img: IMG('world-singapore-gardens') }",
-  "  { n: 'Manhattan Ascent', no: 'WJWP-WLD-014', v: 'vishwa-darshan', c: 'world', s: 'office',\n    b: 'A pencil-grey skyline rising the full height of a stairwell.',\n    img: IMG('world-manhattan-stair') }",
-
-  # — Kids & Nursery —
-  "  { n: 'Little Gopala', no: 'WJWP-KDS-001', v: 'kala-rasa', c: 'kids', s: 'kids',\n    b: 'Baby Krishna with his calf and peacocks, painted soft enough for a nursery.',\n    img: IMG('kids-little-gopala'), tag: 'Most requested' }",
-  "  { n: 'The Mango Grove', no: 'WJWP-KDS-003', v: 'kala-rasa', c: 'kids', s: 'kids',\n    b: 'Little Ganesha among mangoes and butterflies — mischief in watercolour.',\n    img: IMG('kids-mango-grove') }",
-  "  { n: 'The Jungle Troop', no: 'WJWP-KDS-005', v: 'kala-rasa', c: 'kids', s: 'kids',\n    b: 'Langurs swing across a Kerala canopy above the toy shelf.',\n    img: IMG('kids-jungle-troop') }",
-  "  { n: 'Orchard Play', no: 'WJWP-KDS-007', v: 'kala-rasa', c: 'kids', s: 'kids',\n    b: 'Children, deer and songbirds in a storybook orchard.',\n    img: IMG('kids-orchard-play') }",
-  "  { n: 'Backwater Tale', no: 'WJWP-KDS-009', v: 'kala-rasa', c: 'kids', s: 'kids',\n    b: 'A gentle houseboat journey with elephants and swans, for bathtime voyagers.',\n    img: IMG('kids-backwater-tale') }",
-  "  { n: 'The Lotus Parade', no: 'WJWP-KDS-011', v: 'kala-rasa', c: 'kids', s: 'kids',\n    b: 'Pink elephants and parrots wading through a lily pond.',\n    img: IMG('kids-lotus-parade') }",
-
-  # — Modern Abstract & Texture —
-  "  { n: 'Amethyst Swirl', no: 'WJWP-MOD-001', v: 'kala-rasa', c: 'abstract', s: 'bedroom',\n    b: 'A slow violet vortex behind copper pendant light.',\n    img: IMG('modern-amethyst-swirl') }",
-  "  { n: 'Gilded Marble', no: 'WJWP-MOD-003', v: 'kala-rasa', c: 'abstract', s: 'living',\n    b: 'Calacatta veining shot with gold, book-matched across the stair.',\n    img: IMG('texture-gilded-marble') }",
-  "  { n: 'Blush Terra', no: 'WJWP-MOD-005', v: 'kala-rasa', c: 'abstract', s: 'living',\n    b: 'Terracotta strata in soft focus — warmth without pattern.',\n    img: IMG('modern-blush-terra') }",
-  "  { n: 'Terracotta Trellis', no: 'WJWP-MOD-007', v: 'kala-rasa', c: 'abstract', s: 'dining',\n    b: 'A hand-ruled lattice in kiln reds for breakfast light.',\n    img: IMG('modern-terracotta-trellis') }",
-  "  { n: 'Crimson Weave', no: 'WJWP-MOD-009', v: 'kala-rasa', c: 'abstract', s: 'bedroom',\n    b: 'An endless silk knot in deep maroon — Kanjeevaram, abstracted.',\n    img: IMG('modern-crimson-weave') }",
-  "  { n: 'Indigo Damask', no: 'WJWP-MOD-011', v: 'kala-rasa', c: 'abstract', s: 'office',\n    b: 'A midnight damask repeat beside old leather and older books.',\n    img: IMG('modern-indigo-damask') }",
-  "  { n: 'Teal Deco', no: 'WJWP-MOD-013', v: 'kala-rasa', c: 'abstract', s: 'powder',\n    b: 'Marine-teal channels running floor to ceiling, gloss on matte.',\n    img: IMG('modern-teal-deco') }",
-  "  { n: 'Azure Steps', no: 'WJWP-MOD-015', v: 'kala-rasa', c: 'abstract', s: 'living',\n    b: 'Stepped geometry in five blues — order made ornamental.',\n    img: IMG('modern-azure-steps') }",
-  "  { n: 'Marigold Sun', no: 'WJWP-MOD-017', v: 'kala-rasa', c: 'abstract', s: 'dining',\n    b: 'A radiating marigold mandala that turns breakfast into an occasion.',\n    img: IMG('modern-marigold-sun') }",
-  "  { n: 'Amber Dusk', no: 'WJWP-MOD-019', v: 'kala-rasa', c: 'abstract', s: 'living',\n    b: 'A slow gradient from turmeric to smoke — colour as atmosphere.',\n    img: IMG('modern-amber-dusk') }",
-  "  { n: 'Olive Current', no: 'WJWP-MOD-021', v: 'kala-rasa', c: 'abstract', s: 'office',\n    b: 'Flowing olive strata that keep long meetings calm.',\n    img: IMG('modern-olive-current') }"
+  "  { n: 'Manhattan Ascent', no: 'WJWP-WLD-014', v: 'vishwa-darshan', c: 'world', s: 'office',\n    b: 'A pencil-grey skyline rising the full height of a stairwell.',\n    img: IMG('world-manhattan-stair') }"
 ]
 
-other_code = "  /* ==========================================================================\n" \
-             "     VOLUME II: KALA RASA & COMPANION COLLECTIONS\n" \
+world_code = "  /* ==========================================================================\n" \
+             "     VOLUME III: VISHWA DARSHAN (World Cities & Architectural Journeys)\n" \
              "     ========================================================================== */\n" + \
-             ",\n".join(other_entries)
+             ",\n".join(world_entries)
 
-full_collection_code = f"const COLLECTION = [\n{kp_code},\n\n{other_code}\n];\n"
+full_collection_code = f"const COLLECTION = [\n{kp_code},\n\n{kr_code},\n\n{world_code}\n];\n"
 
 # Replace COLLECTION = [...] in data.js
 new_data_js = re.sub(r'const COLLECTION = \[[\s\S]*?\];', full_collection_code.strip(), data_js)
@@ -176,4 +371,4 @@ new_data_js = re.sub(r'const COLLECTION = \[[\s\S]*?\];', full_collection_code.s
 with open('assets/js/data.js', 'w', encoding='utf-8') as f:
     f.write(new_data_js)
 
-print("Updated data.js successfully with all 82 Kala Parampara plates!")
+print("Updated data.js with all Kala Parampara (pure wallpaper designs), Kala Rasa (p7-185), and Vishwa Darshan plates!")
