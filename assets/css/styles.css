@@ -4697,24 +4697,57 @@ body.theme-light {
 
 .coll-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-  gap: clamp(16px, 2vw, 28px);
-  padding-block: clamp(36px, 4.5vw, 60px);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: clamp(8px, 0.9vw, 14px);
+  padding-block: clamp(24px, 3vw, 42px);
 }
+
+.coll-filters .wrap,
+section[aria-label="All designs"] .wrap {
+  max-width: 100%;
+  margin-inline: clamp(14px, 2vw, 36px);
+}
+
+@media (max-width: 1440px) {
+  .coll-grid {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 8px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .coll-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .coll-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 580px) {
+  .coll-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+}
+
 .coll-grid .plate {
   position: relative;
   background: rgba(22, 17, 12, 0.92);
   border: 1px solid var(--hairline);
-  border-radius: 8px;
+  border-radius: 6px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   transition: transform var(--beat) var(--ease), border-color var(--beat) var(--ease), box-shadow var(--beat) var(--ease);
 }
 .coll-grid .plate:hover {
-  transform: translateY(-4px);
-  border-color: rgba(207, 161, 78, 0.45);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(207, 161, 78, 0.15);
+  transform: translateY(-3px);
+  border-color: rgba(207, 161, 78, 0.55);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85), 0 0 16px rgba(207, 161, 78, 0.2);
 }
 .coll-grid .plate__media {
   position: relative;
@@ -4732,73 +4765,74 @@ body.theme-light {
   cursor: zoom-in;
 }
 .coll-grid .plate:hover .plate__media img {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 .plate__tag {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  background: rgba(14, 11, 8, 0.88);
-  border: 1px solid rgba(207, 161, 78, 0.4);
+  top: 6px;
+  left: 6px;
+  background: rgba(14, 11, 8, 0.92);
+  border: 1px solid rgba(207, 161, 78, 0.45);
   color: var(--gold-bright, #e6c47f);
-  font-size: 9.5px;
+  font-size: 8.5px;
   font-weight: 700;
-  letter-spacing: .12em;
+  letter-spacing: .1em;
   text-transform: uppercase;
-  padding: 3px 8px;
+  padding: 2px 6px;
   border-radius: 3px;
   backdrop-filter: blur(8px);
 }
 .plate__body {
-  padding: 16px 18px 18px;
+  padding: 10px 10px 12px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 .plate__vol {
-  font-size: 10.5px;
-  letter-spacing: .14em;
+  font-size: 9.5px;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--gold, #cfa14e);
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .plate__name {
   font-family: var(--f-display);
-  font-size: 1.15rem;
+  font-size: 0.96rem;
   color: #ffffff;
-  margin-bottom: 4px;
-  line-height: 1.25;
+  margin-bottom: 2px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .plate__sub {
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   color: var(--gold-bright, #e6c47f);
   margin-bottom: 6px;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .plate__blurb {
-  font-size: 12.5px;
-  line-height: 1.5;
-  color: var(--ink-soft, #cfc9b8);
-  margin-bottom: 14px;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  flex: 1;
+  display: none;
 }
 .plate__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid var(--hairline);
-  padding-top: 12px;
+  padding-top: 8px;
   margin-top: auto;
 }
 .plate__view {
-  font-size: 11.5px;
+  font-size: 10.5px;
   font-weight: 600;
-  letter-spacing: .14em;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--gold-bright, #e6c47f);
   text-decoration: none;
@@ -4806,6 +4840,14 @@ body.theme-light {
 }
 .plate__view:hover {
   color: #ffffff;
+}
+.plate__row .wish {
+  width: 26px;
+  height: 26px;
+}
+.plate__row .wish svg {
+  width: 16px;
+  height: 16px;
 }
 .coll-empty {
   text-align: center;
