@@ -76,7 +76,13 @@
 
 /* ---------- 3. Reset & browser surfaces ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overflow-x: hidden;
+  max-width: 100%;
+}
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 /* Lenis drives scrolling when active — native smooth would fight it */
 html.has-lenis { scroll-behavior: auto; }
@@ -90,7 +96,10 @@ body {
   font-size: 17px;
   line-height: 1.7;
   letter-spacing: .012em;
-  overflow-x: clip;
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+  position: relative;
   caret-color: var(--gold);
 }
 ::selection { background: var(--kaavi); color: #f2edde; }
@@ -173,11 +182,36 @@ main::before {
     radial-gradient(90% 70% at 10% 100%, rgba(156, 58, 38, .04), transparent 60%);
 }
 .wrap {
-  max-width: none;
+  max-width: 100%;
   margin-inline: var(--frame);
   padding-inline: 0;
 }
-@media (max-width: 900px) { :root { --frame: 6vw; } }
+@media (max-width: 900px) {
+  :root {
+    --frame: clamp(12px, 3.5vw, 24px);
+    --header-h: 68px;
+  }
+}
+@media (max-width: 600px) {
+  :root {
+    --frame: 8px;
+    --gutter: 10px;
+    --header-h: 62px;
+  }
+  .section .wrap,
+  .showroom .wrap,
+  .faq .wrap,
+  .collection-main .wrap,
+  .filter-bar .wrap,
+  .finale .wrap,
+  .footer .wrap {
+    padding: clamp(20px, 4vw, 28px) clamp(12px, 3.5vw, 18px);
+    border-radius: 14px;
+  }
+  .header .wrap {
+    padding-inline: 8px;
+  }
+}
 
 /* Box containers for content sections on the WebGL Kolam ground */
 .section .wrap,

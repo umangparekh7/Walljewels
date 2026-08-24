@@ -446,26 +446,26 @@
         wLabel.textContent = `${w} in`;
         hLabel.textContent = `${h} in`;
 
-        let imageDetails = '';
+        let designLine = '';
         if (uploaded) {
-          imageDetails = `Reference Image: [User uploaded: "${uploadedFileName}" — attaching photo in this chat]\n`;
+          designLine = `Design: my uploaded reference (${uploadedFileName || 'reference.jpg'})\n`;
         } else if (pastedLink) {
-          imageDetails = `Reference Image Link: ${pastedLink}\n`;
+          designLine = `Design: online link reference (${pastedLink})\n`;
         } else {
           const rawSrc = img.dataset.full || img.currentSrc || img.getAttribute('src') || '';
           const absSrc = rawSrc.startsWith('http') ? rawSrc : (window.location.origin + (rawSrc.startsWith('/') ? '' : '/') + rawSrc);
-          const designName = (img.alt || 'Wall Jewels Bespoke Wallpaper').replace("Wallpaper preview at your wall's proportions", 'Lord Ganesha · Bespoke Collection');
-          imageDetails = `Design Name: ${designName}\nDesign Image Preview: ${absSrc}\n`;
+          const designName = (img.alt || 'Wall Jewels Collection').replace("Wallpaper preview at your wall's proportions", 'Lord Ganesha · Bespoke Collection');
+          designLine = `Design: ${designName}\nPreview: ${absSrc}\n`;
         }
 
-        let msg = `Namaste Wall Jewels — I'd like a custom wallpaper quote.\n\n` +
-          `${imageDetails}` +
-          `Wall Size: ${w}″ Width × ${h}″ Height (${sqft.toFixed(1)} sq.ft)\n` +
-          `Selected Finish: ${finName} @ ₹${rate}/sq.ft\n` +
-          `Base Wallpaper: ${inr(base)}\n` +
-          `GST (18%): ${inr(gst)}\n` +
-          `Estimated Total: ${inr(total)} (incl. 18% GST)\n\n` +
-          `Please confirm my quote and advise next steps.`;
+        let msg = `Namaste Wall Jewels — I'd like a custom wallpaper.\n` +
+          `${designLine}` +
+          `Wall: ${w} × ${h} inches (${sqft.toFixed(1)} sq.ft)\n` +
+          `Finish: ${finName} @ ₹${rate}/sq.ft\n` +
+          `Wallpaper: ${inr(base)}\n` +
+          `GST 18%: ${inr(gst)}\n` +
+          `Total incl. GST: ${inr(total)}\n` +
+          `Please confirm my exact quote.`;
 
         lastGeneratedMsg = msg;
         waBtn.href = `https://wa.me/919677042903?text=${encodeURIComponent(msg)}`;
@@ -484,36 +484,17 @@
     }
     [wIn, hIn, fin].forEach(el => el && el.addEventListener('input', update));
 
-    waBtn && waBtn.addEventListener('click', async (e) => {
-      // 1. If user uploaded a photo and native file sharing is supported (Mobile/Tablet/Supported Desktops)
+    waBtn && waBtn.addEventListener('click', async () => {
       if (uploaded && currentUploadedFile) {
-        if (navigator.canShare && navigator.canShare({ files: [currentUploadedFile] })) {
-          e.preventDefault();
-          try {
-            await navigator.share({
-              files: [currentUploadedFile],
-              title: 'Wall Jewels Custom Wallpaper Enquiry',
-              text: lastGeneratedMsg
-            });
-            return;
-          } catch (err) {
-            if (err.name === 'AbortError') return;
-            console.warn('Native share error, falling back:', err);
-          }
-        }
-
-        // 2. Fallback for desktop: Copy image to clipboard so user can just Ctrl+V paste into WhatsApp
         try {
           if (navigator.clipboard && window.ClipboardItem) {
             await navigator.clipboard.write([
               new ClipboardItem({ [currentUploadedFile.type || 'image/png']: currentUploadedFile })
             ]);
-            toast('Image copied! Paste (Ctrl+V) directly into your WhatsApp chat.');
-          } else {
-            toast('Opening WhatsApp — please attach your uploaded photo in the chat.');
+            toast('Opening WhatsApp (+91 96770 42903) — image copied, press Ctrl+V / Paste in chat to attach!');
           }
-        } catch (cbErr) {
-          toast('Opening WhatsApp — please attach your uploaded photo in the chat.');
+        } catch (e) {
+          // Clipboard write fallback
         }
       }
     });
