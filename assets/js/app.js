@@ -395,20 +395,61 @@
     let uploaded = false;
     let currentUploadedFile = null;
     let uploadedFileName = '';
+    let uploadedImageHostedUrl = '';
     let pastedLink = '';
     let lastGeneratedMsg = '';
 
-    fileIn && fileIn.addEventListener('change', () => {
+    async function uploadReferenceImage(file) {
+      try {
+        const fd = new FormData();
+        fd.append('files[]', file, file.name);
+        const res = await fetch('https://uguu.se/upload.php?output=json', {
+          method: 'POST',
+          body: fd
+        });
+        const data = await res.json();
+        if (data && data.success && data.files && data.files[0] && data.files[0].url) {
+          return data.files[0].url;
+        }
+      } catch (err) {
+        console.warn('Primary image host fallback:', err);
+      }
+
+      try {
+        const fd2 = new FormData();
+        fd2.append('file', file, file.name);
+        const res2 = await fetch('https://tmpfiles.org/api/v1/upload', {
+          method: 'POST',
+          body: fd2
+        });
+        const data2 = await res2.json();
+        if (data2 && data2.status === 'success' && data2.data && data2.data.url) {
+          return data2.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
+        }
+      } catch (err2) {
+        console.warn('Secondary image host fallback:', err2);
+      }
+      return '';
+    }
+
+    fileIn && fileIn.addEventListener('change', async () => {
       const f = fileIn.files && fileIn.files[0];
       if (!f) return;
       currentUploadedFile = f;
       img.src = URL.createObjectURL(f);
       uploaded = true;
       uploadedFileName = f.name;
+      uploadedImageHostedUrl = '';
       pastedLink = '';
       if (urlIn) urlIn.value = '';
       update();
-      toast('Reference loaded — set your wall size to see it at scale');
+      toast('Reference loaded — preparing WhatsApp image link...');
+
+      const remoteUrl = await uploadReferenceImage(f);
+      if (remoteUrl) {
+        uploadedImageHostedUrl = remoteUrl;
+        update();
+      }
     });
 
     urlIn && urlIn.addEventListener('change', () => {
@@ -417,6 +458,7 @@
       currentUploadedFile = null;
       uploaded = false;
       uploadedFileName = '';
+      uploadedImageHostedUrl = '';
       pastedLink = u;
       const probe = new Image();
       probe.onload = () => { img.src = u; };
@@ -448,7 +490,11 @@
 
         let designLine = '';
         if (uploaded) {
-          designLine = `Design: my uploaded reference (${uploadedFileName || 'reference.jpg'})\n`;
+          if (uploadedImageHostedUrl) {
+            designLine = `Design: my uploaded reference (${uploadedFileName || 'custom-reference.jpg'})\nReference Image: ${uploadedImageHostedUrl}\n`;
+          } else {
+            designLine = `Design: my uploaded reference (${uploadedFileName || 'custom-reference.jpg'})\n`;
+          }
         } else if (pastedLink) {
           designLine = `Design: online link reference (${pastedLink})\n`;
         } else {
@@ -491,7 +537,6 @@
             await navigator.clipboard.write([
               new ClipboardItem({ [currentUploadedFile.type || 'image/png']: currentUploadedFile })
             ]);
-            toast('Opening WhatsApp (+91 96770 42903) — image copied, press Ctrl+V / Paste in chat to attach!');
           }
         } catch (e) {
           // Clipboard write fallback

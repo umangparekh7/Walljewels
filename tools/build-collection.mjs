@@ -85,7 +85,7 @@ const html = `<!DOCTYPE html>
       </a>
       <nav class="nav" aria-label="Primary">
         <a href="collection.html" aria-current="page">Collection</a>
-        <a href="index.html#custom">Custom Printing</a>
+        <a href="index.html#visualiser">Custom Printing</a>
         <a href="index.html#record">Our Work</a>
         <a href="index.html#why">The House</a>
         <a href="index.html#journal">Journal</a>
@@ -137,7 +137,7 @@ const html = `<!DOCTYPE html>
     </div>
     <div class="drawer__nav">
       <a href="collection.html">Collection <span class="num">${COLLECTION.length} plates</span></a>
-      <a href="index.html#custom">Custom Printing <span class="num">Your wall</span></a>
+      <a href="index.html#visualiser">Custom Printing <span class="num">Your wall</span></a>
       <a href="index.html#record">Our Work <span class="num">Since 1978</span></a>
       <a href="index.html#why">The House</a>
       <a href="index.html#journal">Journal</a>
