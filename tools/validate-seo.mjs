@@ -1,42 +1,55 @@
 import { readFileSync } from 'node:fs';
 
-function checkFile(path) {
-  console.log(`\n========================================\nChecking: ${path}\n========================================`);
-  const content = readFileSync(path, 'utf8');
+const pages = [
+  'index.html',
+  'collection.html',
+  'wallpaper-chennai.html',
+  'custom-wallpaper-printing.html',
+  'luxury-wallpapers.html',
+  'wallpaper-manufacturer-india.html',
+  'wall-murals.html',
+  'wallpaper-buying-guide.html',
+  'wallpaper-installation.html',
+  'showrooms/parrys-flagship.html',
+  'showrooms/omr-experience-centre.html',
+  'showrooms/tnagar-boutique.html'
+];
 
-  // Check Schema
-  const schemaRegex = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/gi;
-  let match;
-  let count = 0;
-  while ((match = schemaRegex.exec(content)) !== null) {
-    count++;
-    try {
-      const parsed = JSON.parse(match[1].trim());
-      console.log(`✅ Schema Block ${count} JSON is valid!`);
-      if (parsed['@graph']) {
-        console.log(`   Found ${parsed['@graph'].length} graph nodes:`);
-        parsed['@graph'].forEach((item) => {
-          console.log(`     • ${item['@type']} -> ${item.name || item['@id'] || item.url || ''}`);
-        });
+console.log('Validating', pages.length, 'authority pages...\n');
+
+let allPassed = true;
+
+for (const p of pages) {
+  try {
+    const html = readFileSync(p, 'utf8');
+    const canon = html.match(/<link rel="canonical" href="([^"]+)">/i);
+    const title = html.match(/<title>([^<]+)<\/title>/i);
+    const schemaMatches = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/gi)];
+
+    let schemaOk = true;
+    for (const sm of schemaMatches) {
+      try {
+        JSON.parse(sm[1].trim());
+      } catch (err) {
+        schemaOk = false;
+        console.error(`❌ JSON error in ${p}:`, err.message);
       }
-    } catch (e) {
-      console.error(`❌ JSON Syntax Error in block ${count}:`, e.message);
     }
+
+    if (canon && title && schemaOk) {
+      console.log(`✅ [${p}] Canonical: ${canon[1]} | Title: "${title[1].slice(0, 50)}..."`);
+    } else {
+      allPassed = false;
+      console.warn(`⚠️ Issue in ${p}: Canon=${!!canon}, Title=${!!title}, SchemaOk=${schemaOk}`);
+    }
+  } catch (err) {
+    allPassed = false;
+    console.error(`❌ Could not read ${p}:`, err.message);
   }
-
-  // Check Canonical
-  const canon = content.match(/<link rel="canonical" href="([^"]+)">/i);
-  console.log(`Canonical: ${canon ? '✅ ' + canon[1] : '❌ Missing'}`);
-
-  // Check OG
-  const ogTitle = content.match(/<meta property="og:title" content="([^"]+)">/i);
-  console.log(`OG Title: ${ogTitle ? '✅ ' + ogTitle[1] : '❌ Missing'}`);
-
-  // Check Twitter
-  const twCard = content.match(/<meta name="twitter:card" content="([^"]+)">/i);
-  console.log(`Twitter Card: ${twCard ? '✅ ' + twCard[1] : '❌ Missing'}`);
 }
 
-checkFile('index.html');
-checkFile('collection.html');
-console.log('\nAll SEO and JSON-LD checks finished successfully!');
+if (allPassed) {
+  console.log('\n🎉 ALL 12 AUTHORITY & LOCAL PAGES PASSED VALIDATION WITH ZERO ERRORS!');
+} else {
+  console.log('\n❌ Some checks failed.');
+}

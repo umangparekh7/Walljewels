@@ -17,56 +17,71 @@
       <image:title>The Himalayan Ascetic Wall Mural</image:title>
       <image:caption>Mahadev in deep stillness against snow-bound peaks; cinematic wallpaper by Wall Jewels.</image:caption>
     </image:image>
-    <image:image>
-      <image:loc>https://www.walljewels.in/assets/img/collection/cover-kala-parampara.jpg</image:loc>
-      <image:title>Kala Parampara Volume I Heritage Wallpaper Catalogue</image:title>
-      <image:caption>82-plate Indian heritage wallpaper collection featuring Pichwai, Tanjore, and temple architecture.</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.walljewels.in/assets/img/collection/cover-kala-rasa.jpg</image:loc>
-      <image:title>Kala Rasa Volume II Contemporary Wallpaper Catalogue</image:title>
-      <image:caption>189-plate contemporary Indian wallpaper volume blending block prints, abstracted silks, and florals.</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.walljewels.in/assets/img/collection/heritage-chettinad-grandeur.jpg</image:loc>
-      <image:title>Chettinad Grandeur Heritage Wallpaper</image:title>
-      <image:caption>Athangudi patterns and arched verandahs from the mansions of Karaikudi.</image:caption>
-    </image:image>
   </url>
   <url>
     <loc>https://www.walljewels.in/collection.html</loc>
     <lastmod>2026-08-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://www.walljewels.in/assets/img/collection/divine-cosmic-dance.jpg</image:loc>
-      <image:title>The Cosmic Dance Nataraja Wallpaper</image:title>
-      <image:caption>Nataraja cast in bronze light; bespoke luxury wall mural by Wall Jewels.</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.walljewels.in/assets/img/collection/divine-invincible-sovereign.jpg</image:loc>
-      <image:title>The Invincible Sovereign Durga Wallpaper</image:title>
-      <image:caption>Durga with her lion in layered vermilion and gold by Wall Jewels.</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.walljewels.in/assets/img/collection/heritage-chola-pillars.jpg</image:loc>
-      <image:title>Chola Pillars Architectural Wallpaper</image:title>
-      <image:caption>Monumental South Indian stone colonnades for luxury living and reception halls.</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.walljewels.in/assets/img/collection/tropical-monsoon-canopy.jpg</image:loc>
-      <image:title>Monsoon Canopy Tropical Wallpaper</image:title>
-      <image:caption>Lush Indian rainforest botanicals and foliage by Wall Jewels.</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.walljewels.in/assets/img/collection/botanical-mughal-florals.jpg</image:loc>
-      <image:title>Mughal Florals Luxury Wallpaper</image:title>
-      <image:caption>Intricate heritage floral motifs with hand-rendered precision.</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.walljewels.in/assets/img/collection/abstract-alabaster-gold.jpg</image:loc>
-      <image:title>Alabaster and Liquid Gold Abstract Wallpaper</image:title>
-      <image:caption>Translucent Italian marble marbling with liquid gold veins.</image:caption>
-    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-chennai.html</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/custom-wallpaper-printing.html</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/luxury-wallpapers.html</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-manufacturer-india.html</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wall-murals.html</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-buying-guide.html</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-installation.html</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/showrooms/parrys-flagship.html</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/showrooms/omr-experience-centre.html</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/showrooms/tnagar-boutique.html</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>
