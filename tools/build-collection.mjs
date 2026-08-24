@@ -1,8 +1,8 @@
-// One-off generator: emits collection.html with the full grid baked in (no-JS floor).
 import { readFileSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
-const SITE = String.raw`C:\Users\Chintan Kamani\Desktop\WJWP New Website\walljewels-site`;
-const dataSrc = readFileSync(`${SITE}\\assets\\js\\data.js`, 'utf8');
+const SITE = resolve('.');
+const dataSrc = readFileSync(`${SITE}/assets/js/data.js`, 'utf8');
 const ctx = {};
 new Function(`${dataSrc}; this.VOLUMES=VOLUMES; this.SPACES=SPACES; this.CATEGORIES=CATEGORIES; this.COLLECTION=COLLECTION;`).call(ctx);
 const { VOLUMES, SPACES, CATEGORIES, COLLECTION } = ctx;
@@ -51,6 +51,7 @@ const html = `<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Collection — Wall Jewels Wallpaper World · Chennai, Since 1978</title>
   <meta name="description" content="Browse the Wall Jewels collections — Kala Parampara, Kala Rasa and Vishwa Darshan. ${COLLECTION.length} plates of heritage, tropical, botanical, abstract, kids and world designs, every one printable to your wall's exact measure.">
+  <link rel="canonical" href="https://www.walljewels.in/collection.html">
   <meta name="theme-color" content="#0b0d11">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0d11'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%23cfa14e' stroke-width='1.4'/%3E%3Ccircle cx='16' cy='16' r='2.2' fill='%23cfa14e'/%3E%3Ccircle cx='16' cy='5' r='1.4' fill='%23f2edde'/%3E%3Ccircle cx='27' cy='16' r='1.4' fill='%23f2edde'/%3E%3Ccircle cx='16' cy='27' r='1.4' fill='%23f2edde'/%3E%3Ccircle cx='5' cy='16' r='1.4' fill='%23f2edde'/%3E%3C/svg%3E">
   <link rel="preload" href="assets/fonts/marcellus-latin.woff2" as="font" type="font/woff2" crossorigin>
