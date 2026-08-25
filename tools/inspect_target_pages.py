@@ -1,42 +1,34 @@
 import json
-import pymupdf
-from PIL import Image
+import os
 
-kp_pdf = r'C:\Users\Chintan Kamani\Desktop\WJWP\Kala Parampara_Volume-I.pdf'
-kr_pdf = r'C:\Users\Chintan Kamani\Desktop\WJWP\Kala Rasa_Volume-II.pdf'
+with open('assets/js/data.js', 'r', encoding='utf-8') as f:
+    text = f.read()
 
-doc_kp = pymupdf.open(kp_pdf)
-doc_kr = pymupdf.open(kr_pdf)
+json_str = text.split('const COLLECTION = ')[1].rsplit(';', 1)[0].strip()
+plates = json.loads(json_str)
 
-with open('scratch/kp_full_raw_ocr.json', 'r', encoding='utf-8') as f:
-    kp_ocr = json.load(f)
+print('Total plates in data.js:', len(plates))
 
-with open('scratch/kr_full_raw_ocr.json', 'r', encoding='utf-8') as f:
-    kr_ocr = json.load(f)
+target_codes = [
+    'WJWP-DVN-035', 'WJWP-DVN-052', 'WJWP-DVN-053', 'WJWP-DVN-054', 'WJWP-DVN-055', 'WJWP-DVN-056',
+    'WJWP-SIH-012', 'WJWP-SIH-013', 'WJWP-SIH-014', 'WJWP-SIH-015', 'WJWP-SIH-016', 'WJWP-SIH-017',
+    'WJWP-SIH-018', 'WJWP-SIH-019', 'WJWP-SIH-020', 'WJWP-SIH-021', 'WJWP-SIH-022', 'WJWP-SIH-023',
+    'WJWP-SIH-024', 'WJWP-SIH-025', 'WJWP-SIH-026', 'WJWP-SIH-027', 'WJWP-SIH-028', 'WJWP-SIH-029',
+    'WJWP-SIH-030'
+]
 
-print("--- KP PAGE 15 OCR ---")
-for p in kp_ocr:
-    if p['page'] == 15:
-        print("\n".join(p['lines']))
+print("\n=== TARGET CODES FROM USER REQUEST ===")
+for code in target_codes:
+    matched = [p for p in plates if p.get('no') == code]
+    if matched:
+        for p in matched:
+            print(f"{code} -> ID: {p['id']}, Name: '{p['n']}', Sub: '{p.get('sub','')}', Img: {p['img']}")
+    else:
+        print(f"{code} -> NOT FOUND IN data.js!")
 
-print("\n--- KR PAGE 16 OCR ---")
-for p in kr_ocr:
-    if p['page'] == 16:
-        print("\n".join(p['lines']))
-
-print("\n--- KR PAGES 31-35 OCR ---")
-for p in kr_ocr:
-    if 31 <= p['page'] <= 35:
-        print(f"\n[PAGE {p['page']}]")
-        print("\n".join(p['lines']))
-
-# Save raw pages for visual check
-pix_kp15 = doc_kp[14].get_pixmap(dpi=200)
-pix_kp15.save("scratch/raw_kp_15.jpg")
-
-pix_kr16 = doc_kr[15].get_pixmap(dpi=200)
-pix_kr16.save("scratch/raw_kr_16.jpg")
-
-for pnum in [32, 33, 34, 38, 117]:
-    pix = doc_kr[pnum - 1].get_pixmap(dpi=200)
-    pix.save(f"scratch/raw_kr_{pnum}.jpg")
+# print("\n=== PLATES WITH IMG NUMBERS 121 TO 160, 167 ===")
+# for p in plates:
+#     img = p['img']
+#     for num in list(range(121, 161)) + [167]:
+#         if f"-{num}." in img or f"-{num:03d}." in img:
+#             print(f"Num {num} -> ID: {p['id']}, Code: {p.get('no')}, Name: '{p['n']}', Sub: '{p.get('sub','')}', Img: {p['img']}")

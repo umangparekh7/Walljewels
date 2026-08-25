@@ -159,6 +159,7 @@ const html = `<!DOCTYPE html>
 
   <main id="main">
     <section class="coll-hero">
+      <canvas class="coll-hero__fireworks" id="coll-fireworks-canvas" aria-hidden="true"></canvas>
       <div class="wrap">
         <div class="threshold" data-kolam="gate"><span class="rule"></span></div>
         <div class="headgroup">
@@ -254,11 +255,12 @@ ${plates}
     </div>
   </div>
 
-  <script src="assets/js/vendor/lenis.min.js?v=2026-08-16b" defer></script>
-  <script src="assets/js/data.js?v=2026-08-24-exactkp" defer></script>
-  <script src="assets/js/kolam.js?v=2026-08-16b" defer></script>
-  <script src="assets/js/webgl-bg.js?v=2026-08-24" defer></script>
-  <script src="assets/js/app.js?v=2026-08-24-exactkp" defer></script>
+  <script src="assets/js/vendor/lenis.min.js?v=2026-08-25-perfect" defer></script>
+  <script src="assets/js/data.js?v=2026-08-25-perfect" defer></script>
+  <script src="assets/js/kolam.js?v=2026-08-25-perfect" defer></script>
+  <script src="assets/js/webgl-bg.js?v=2026-08-25-perfect" defer></script>
+  <script src="assets/js/fireworks.js?v=2026-08-25-perfect" defer></script>
+  <script src="assets/js/app.js?v=2026-08-25-perfect" defer></script>
 </body>
 </html>
 `;

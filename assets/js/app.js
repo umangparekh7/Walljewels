@@ -911,9 +911,13 @@
 
     const subEl = $('.lightbox__subline', box);
     if (subEl) {
-      const vol = item.vol || 'Kala Parampara';
-      const code = item.code || '';
-      subEl.textContent = `${vol}${code ? ' · ' + code : ''}`;
+      if (item.sub) {
+        subEl.textContent = item.sub;
+      } else {
+        const vol = item.vol || 'Kala Parampara';
+        const code = item.code || '';
+        subEl.textContent = `${vol}${code ? ' · ' + code : ''}`;
+      }
     }
 
     const codeEl = $('.lightbox__code', box);
@@ -953,7 +957,8 @@
 
     // Find clicked index in active gallery
     const cleanTitle = (alt || '').split(' — ')[0].split(' · ')[0].trim();
-    let foundIdx = activeGalleryItems.findIndex(i => i.src === src || (cleanTitle && i.title.toLowerCase() === cleanTitle.toLowerCase()));
+    const srcFilename = src.split('/').pop();
+    let foundIdx = activeGalleryItems.findIndex(i => i.src === src || (srcFilename && i.src.endsWith(srcFilename)) || (cleanTitle && i.title.toLowerCase() === cleanTitle.toLowerCase()));
     if (foundIdx === -1) {
       activeGalleryItems.unshift({ src, title: cleanTitle || 'Wall Jewels Original Wallpaper', code: '', vol: 'Wall Jewels', sub: '', desc: '' });
       foundIdx = 0;

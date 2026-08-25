@@ -4593,13 +4593,26 @@ body.theme-light {
 /* ---------- 33. The Collection Page Layout & Filter Bar ---------- */
 .coll-hero {
   position: relative;
+  overflow: hidden;
   padding-top: clamp(52px, 7vw, 92px);
   padding-bottom: clamp(32px, 4vw, 52px);
-  background: radial-gradient(ellipse at 50% 35%, rgba(26, 20, 14, 0.96) 0%, rgba(14, 11, 8, 0.99) 100%);
+  background: #05060a;
   border-bottom: 1px solid var(--hairline);
   text-align: center;
 }
+.coll-hero__fireworks {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  display: block;
+}
 .coll-hero .wrap {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
