@@ -222,6 +222,7 @@ main::before {
 .finale .wrap {
   position: relative;
   background: rgba(22, 17, 12, 0.88);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(207, 161, 78, 0.22);
@@ -400,6 +401,7 @@ main::before {
   top: 0;
   z-index: 120;
   background: rgba(14, 11, 8, 0.98);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(255, 56, 35, 0.3);
@@ -430,6 +432,7 @@ main::before {
   height: var(--header-h);
   display: flex; align-items: center;
   background: color-mix(in srgb, var(--ground) 82%, transparent);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid transparent;
@@ -817,6 +820,7 @@ body.theme-light {
 [data-theme="light"] .filter-bar .wrap,
 [data-theme="light"] .finale .wrap {
   background: linear-gradient(145deg, rgba(246, 237, 222, 0.88) 0%, rgba(238, 225, 203, 0.82) 55%, rgba(231, 215, 188, 0.86) 100%);
+  -webkit-backdrop-filter: blur(20px) saturate(135%);
   backdrop-filter: blur(20px) saturate(135%);
   -webkit-backdrop-filter: blur(20px) saturate(135%);
   border: 1px solid rgba(212, 167, 83, 0.42);
@@ -825,6 +829,7 @@ body.theme-light {
 
 [data-theme="light"] .volume {
   background: linear-gradient(145deg, rgba(246, 237, 222, 0.88) 0%, rgba(238, 225, 203, 0.82) 55%, rgba(231, 215, 188, 0.86) 100%);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(212, 167, 83, 0.42);
@@ -833,6 +838,7 @@ body.theme-light {
 
 [data-theme="light"] .header {
   background: linear-gradient(180deg, rgba(246, 237, 222, 0.94) 0%, rgba(239, 227, 206, 0.90) 100%);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(212, 167, 83, 0.32);
@@ -1345,6 +1351,7 @@ body.theme-light {
   z-index: 2;
   display: flex; gap: 8px; align-items: center;
   background: color-mix(in srgb, var(--ground-deep) 40%, transparent);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   padding: 4px 10px;
   border-radius: 20px;
@@ -1602,6 +1609,7 @@ body.theme-light {
   border-radius: 16px;
   padding: clamp(20px, 2.5vw, 32px);
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -1663,6 +1671,7 @@ body.theme-light {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   transform: translateY(4px);
@@ -2054,6 +2063,7 @@ body.theme-light {
   flex-direction: column;
   align-items: flex-start;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
@@ -2162,6 +2172,7 @@ body.theme-light {
 .pstep__card {
   max-width: 400px;
   background: color-mix(in srgb, var(--ground-deep) 84%, transparent);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid var(--hairline);
   padding: clamp(26px, 3vw, 40px);
@@ -2295,6 +2306,7 @@ body.theme-light {
   border: 1px solid rgba(207, 161, 78, 0.25);
   border-radius: 14px;
   background: rgba(26, 20, 15, 0.92);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   padding: clamp(15px, 2vw, 28px);
@@ -2543,6 +2555,7 @@ body.theme-light {
   align-items: center;
   gap: 12px;
   background: rgba(28, 22, 16, 0.94);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(207, 161, 78, 0.25);
@@ -2715,6 +2728,7 @@ body.theme-light {
   width: clamp(190px, 16vw, 230px);
   border-radius: 14px;
   background: rgba(22, 17, 12, 0.9);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(242, 237, 222, 0.15);
@@ -2855,6 +2869,7 @@ body.theme-light {
   display: grid;
   place-items: center;
   background: rgba(22, 17, 12, 0.85);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(234, 88, 12, 0.35);
@@ -2898,6 +2913,7 @@ body.theme-light {
 /* ---------- Case Study Coverflow Card (Walls We've Transformed) ---------- */
 .coverflow-card--case {
   background: rgba(26, 20, 15, 0.94);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(207, 161, 78, 0.25);
@@ -3115,6 +3131,7 @@ body.theme-light {
   color: #ffffff;
   font-weight: 700;
   background: rgba(179, 66, 43, 0.92);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   padding: 2.5px 7px;
   border-radius: 4px;
@@ -3774,6 +3791,7 @@ body.theme-light {
 .docket-scrim {
   position: fixed; inset: 0; z-index: 240;
   background: rgba(8, 9, 12, .6);
+  -webkit-backdrop-filter: blur(3px);
   backdrop-filter: blur(3px);
   opacity: 0; visibility: hidden;
   transition: opacity var(--beat) var(--ease), visibility 0s linear var(--beat);
@@ -3854,6 +3872,7 @@ body.theme-light {
 .search-veil {
   position: fixed; inset: 0; z-index: 260;
   background: rgba(8, 9, 12, .82);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   display: grid; place-items: start center;
   padding-top: 16vh;
@@ -3895,6 +3914,7 @@ body.theme-light {
 .coll-filters {
   position: sticky; top: var(--header-h); z-index: 80;
   background: rgba(20, 16, 12, 0.94);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-block: 1px solid rgba(207, 161, 78, 0.22);
@@ -3967,6 +3987,7 @@ body.theme-light {
   display: flex;
   flex-direction: column;
   background: rgba(28, 22, 16, 0.9);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(207, 161, 78, 0.22);
@@ -4104,6 +4125,7 @@ body.theme-light {
 .lightbox {
   position: fixed; inset: 0; z-index: 320;
   background: rgba(6, 7, 10, 0.94);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   display: grid; place-items: center;
@@ -4294,6 +4316,7 @@ body.theme-light {
   place-items: center;
   border: 1.5px solid rgba(244, 239, 228, 0.3);
   background: rgba(20, 16, 12, 0.8);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   border-radius: 50%;
   color: #f2edde;
@@ -4318,6 +4341,7 @@ body.theme-light {
   place-items: center;
   border: 1.5px solid rgba(207, 161, 78, 0.45);
   background: rgba(20, 16, 12, 0.85);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 50%;
@@ -4394,6 +4418,7 @@ body.theme-light {
 .catview {
   position: fixed; inset: 0; z-index: 310;
   background: rgba(8, 9, 12, .97);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   display: flex; flex-direction: column;
   opacity: 0; visibility: hidden;
@@ -4438,6 +4463,7 @@ body.theme-light {
   border: 1px solid var(--hairline-2); border-radius: 50%;
   color: var(--ink); z-index: 2;
   background: color-mix(in srgb, var(--ground-deep) 72%, transparent);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   transition: color var(--beat) var(--ease), background-color var(--beat) var(--ease), border-color var(--beat) var(--ease);
 }
@@ -4477,6 +4503,7 @@ body.theme-light {
 }
 .hero__dots {
   background: rgba(10, 9, 6, .6) !important;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(242, 237, 222, .15) !important;
@@ -4491,6 +4518,7 @@ body.theme-light {
   color: #ffd77e !important;
   border: 1px solid #cfa14e !important;
   background: rgba(14, 11, 8, 0.5) !important;
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 .hero .btn--gold:hover {
@@ -4622,6 +4650,7 @@ body.theme-light {
   top: calc(var(--header-h) + var(--bar-h));
   z-index: 90;
   background: rgba(16, 12, 9, 0.97);
+  -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--hairline);
@@ -4780,6 +4809,7 @@ section[aria-label="All designs"] .wrap {
   text-transform: uppercase;
   padding: 2px 6px;
   border-radius: 3px;
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 .plate__body {
@@ -4854,4 +4884,15 @@ section[aria-label="All designs"] .wrap {
   padding-block: 80px;
   color: var(--ink-dim);
   font-size: 1.1rem;
+}
+
+/* iOS Safari specific optimizations */
+@supports (-webkit-touch-callout: none) {
+  .lightbox__dialog {
+    max-height: min(88dvh, 88vh);
+    -webkit-overflow-scrolling: touch;
+  }
+  .lightbox__content {
+    -webkit-overflow-scrolling: touch;
+  }
 }
