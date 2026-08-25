@@ -16,14 +16,14 @@ jobs:
       - name: Prepare dist (public files only)
         run: |
           mkdir dist
-          cp index.html collection.html .htaccess dist/
-          cp -r assets dist/assets
+          cp *.html dist/ 2>/dev/null || true
+          cp -r assets showrooms dist/
+          cp -r *.png *.ico *.svg *.txt *.xml site.webmanifest .htaccess dist/ 2>/dev/null || true
 
       - name: Stamp asset versions with commit hash (cache busting)
         run: |
           SHA="${GITHUB_SHA::8}"
-          sed -i "s/?v=[0-9A-Za-z.-]*/?v=${SHA}/g" dist/index.html dist/collection.html
-          grep -m1 -o '?v=[0-9A-Za-z.-]*' dist/index.html
+          find dist -maxdepth 2 -name "*.html" -exec sed -i "s/?v=[0-9A-Za-z.-]*/?v=${SHA}/g" {} +
 
       - name: Publish dist to production
         uses: peaceiris/actions-gh-pages@v4
