@@ -1,6 +1,7 @@
 /**
  * Fireworks — Originkit (Canvas 2D top-down / perspective particle simulation)
  * Dedicated background engine for .coll-hero on the collection page.
+ * Performance optimized: Cached dimensions & zero forced layout reflows during RAF loop.
  */
 
 (function () {
@@ -48,7 +49,7 @@
   const APEX_HI = 1.6;
   const CAM_DIST = 3.4;
   const G0 = 2.2;
-  const CAP = 9000;
+  const CAP = 6000;
 
   const DEFAULT_COLORS = [
     "#FFD166",
@@ -83,15 +84,19 @@
       colors: DEFAULT_COLORS,
       background: '#05060a',
       rate: 100,
-      sparks: 290,
-      size: 94,
-      trail: 77,
-      speed: 73,
+      sparks: 240,
+      size: 90,
+      trail: 75,
+      speed: 70,
       tilt: 45,
     };
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let raf = 0;
+    let isVisible = true;
+
+    let W = 1200;
+    let H = 400;
 
     const P = {
       x: new Float32Array(CAP),
@@ -164,22 +169,29 @@
     };
 
     const sizeCanvas = () => {
-      const W = Math.max(1, Math.round(canvas.clientWidth || hero.clientWidth || 1200));
-      const H = Math.max(1, Math.round(canvas.clientHeight || hero.clientHeight || 400));
+      const rect = hero.getBoundingClientRect();
+      W = Math.max(1, Math.round(rect.width || 1200));
+      H = Math.max(1, Math.round(rect.height || 400));
       const bw = Math.floor(W * dpr);
       const bh = Math.floor(H * dpr);
       if (canvas.width !== bw || canvas.height !== bh) {
         canvas.width = bw;
         canvas.height = bh;
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.fillStyle = live.background;
-        ctx.fillRect(0, 0, W, H);
       }
-      return { W, H };
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.fillStyle = live.background;
+      ctx.fillRect(0, 0, W, H);
     };
 
+    sizeCanvas();
+
     const render = (now) => {
-      const { W, H } = sizeCanvas();
+      if (!isVisible) {
+        last = now;
+        raf = requestAnimationFrame(render);
+        return;
+      }
+
       if (!last) last = now;
       let dt = (now - last) / 1000;
       last = now;
@@ -219,9 +231,9 @@
       acc += dt;
       const interval = 1 / (0.2 + (live.rate / 100) * 3.8);
       let guard = 0;
-      while (acc >= interval && guard < 8) {
+      while (acc >= interval && guard < 6) {
         acc -= interval;
-        if (rockets.length < 40) spawnRocket();
+        if (rockets.length < 35) spawnRocket();
         guard++;
       }
 
@@ -286,8 +298,18 @@
 
     raf = requestAnimationFrame(render);
 
+    // Pause when hero is out of view
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        isVisible = entries[0].isIntersecting;
+      }, { threshold: 0.05 });
+      io.observe(hero);
+    }
+
+    let resizeTimer = 0;
     window.addEventListener('resize', () => {
-      sizeCanvas();
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(sizeCanvas, 150);
     }, { passive: true });
   }
 
