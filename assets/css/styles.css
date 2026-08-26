@@ -4620,16 +4620,7 @@ body.theme-light {
   border-bottom: 1px solid var(--hairline);
   text-align: center;
 }
-.coll-hero__fireworks {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-  display: block;
-}
+
 .coll-hero .wrap {
   position: relative;
   z-index: 2;
@@ -4903,7 +4894,7 @@ section[aria-label="All designs"] .wrap {
 }
 
 /* ==========================================================================
-   COLLECTION PAGE ONLY (Minimal Left/Right Padding, Strict 7-Columns, Hero Overlay)
+   COLLECTION PAGE ONLY (Minimal Left/Right Padding, Strict 7-Columns)
    ========================================================================== */
 
 body.page-collection {
@@ -4922,30 +4913,19 @@ body.page-collection .coll-hero {
   position: relative !important;
   width: 100% !important;
   max-width: 100% !important;
-  min-height: 360px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background: #05060a !important;
-  overflow: hidden !important;
-  border: 1px solid rgba(207, 161, 78, 0.3) !important;
-  border-radius: 12px !important;
-  margin-top: 14px !important;
+  background: rgba(22, 17, 12, 0.92) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(207, 161, 78, 0.28) !important;
+  border-radius: 14px !important;
+  margin-top: 16px !important;
   margin-bottom: 0 !important;
-  padding: clamp(48px, 6vw, 84px) 20px clamp(32px, 4vw, 56px) !important;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65) !important;
+  padding: clamp(36px, 4.5vw, 64px) clamp(20px, 3vw, 48px) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6) !important;
   text-align: center !important;
-}
-
-body.page-collection .coll-hero__fireworks {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  display: block !important;
-  pointer-events: none !important;
-  z-index: 1 !important;
 }
 
 body.page-collection .coll-hero__content {
@@ -4954,10 +4934,6 @@ body.page-collection .coll-hero__content {
   max-width: 760px !important;
   margin: 0 auto !important;
   text-align: center !important;
-  pointer-events: auto !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
 }
 
 body.page-collection .coll-hero .d2 {
@@ -4966,7 +4942,6 @@ body.page-collection .coll-hero .d2 {
   font-weight: 400 !important;
   color: #ffffff !important;
   margin: 0 0 12px !important;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.8) !important;
 }
 
 body.page-collection .coll-hero .lead {
@@ -4975,7 +4950,6 @@ body.page-collection .coll-hero .lead {
   color: var(--night-soft, #cfc9b8) !important;
   max-width: 62ch !important;
   margin: 0 auto !important;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85) !important;
 }
 
 body.page-collection .coll-filters {

@@ -161,7 +161,6 @@ const html = `<!DOCTYPE html>
 
   <main id="main">
     <section class="coll-hero">
-      <canvas class="coll-hero__fireworks" id="coll-fireworks-canvas" aria-hidden="true"></canvas>
       <div class="coll-hero__content">
         <div class="headgroup">
           <h1 class="d2">The collection</h1>
@@ -258,7 +257,6 @@ ${plates}
   <script src="assets/js/data.js?v=${BUILD_V}" defer></script>
   <script src="assets/js/kolam.js?v=${BUILD_V}" defer></script>
   <script src="assets/js/webgl-bg.js?v=${BUILD_V}" defer></script>
-  <script src="assets/js/fireworks.js?v=${BUILD_V}" defer></script>
   <script src="assets/js/app.js?v=${BUILD_V}" defer></script>
 </body>
 </html>
