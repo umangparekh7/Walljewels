@@ -65,7 +65,7 @@ const html = `<!DOCTYPE html>
   <link rel="preload" href="assets/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/styles.css?v=2026-08-24-exactkp">
 </head>
-<body>
+<body class="page-collection">
 <!-- Generated grid: regenerate with tools/build-collection.mjs after editing data.js. World: see index.html contract. -->
 
   <a class="skip" href="#main">Skip to content</a>
@@ -160,7 +160,7 @@ const html = `<!DOCTYPE html>
   <main id="main">
     <section class="coll-hero">
       <canvas class="coll-hero__fireworks" id="coll-fireworks-canvas" aria-hidden="true"></canvas>
-      <div class="wrap">
+      <div class="coll-hero__content">
         <div class="threshold" data-kolam="gate"><span class="rule"></span></div>
         <div class="headgroup">
           <h1 class="d2">The collection</h1>
@@ -172,7 +172,7 @@ const html = `<!DOCTYPE html>
     </section>
 
     <div class="coll-filters">
-      <div class="wrap coll-filters__in">
+      <div class="coll-filters__in">
         <div class="fgroup" role="group" aria-label="Filter by volume">
           <button class="fchip is-active" type="button" data-filter="all" aria-pressed="true"><span class="mark"></span>All Volumes</button>
 ${volChips}
@@ -187,14 +187,12 @@ ${spaceChips}
       </div>
     </div>
 
-    <section aria-label="All designs">
-      <div class="wrap">
-        <div class="coll-grid" data-coll-grid>
+    <section class="coll-main-section" aria-label="All designs">
+      <div class="coll-grid" id="coll-grid" data-coll-grid>
 ${plates}
-        </div>
-        <p class="coll-empty" style="display:none">Nothing answers that combination yet — loosen a filter, or
-          <a href="https://wa.me/919677042903" rel="noopener">WhatsApp us</a>; if it exists, we can print it.</p>
       </div>
+      <p class="coll-empty" style="display:none">Nothing answers that combination yet — loosen a filter, or
+        <a href="https://wa.me/919677042903" rel="noopener">WhatsApp us</a>; if it exists, we can print it.</p>
     </section>
 
     <section class="finale" aria-labelledby="coll-cta">
