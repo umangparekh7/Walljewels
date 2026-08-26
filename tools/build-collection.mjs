@@ -7,6 +7,8 @@ const ctx = {};
 new Function(`${dataSrc}; this.VOLUMES=VOLUMES; this.SPACES=SPACES; this.CATEGORIES=CATEGORIES; this.COLLECTION=COLLECTION;`).call(ctx);
 const { VOLUMES, SPACES, CATEGORIES, COLLECTION } = ctx;
 
+const BUILD_V = `v${Date.now()}`;
+
 const esc = (s) => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 const slugOf = (d) => d.img.split('/').pop().replace('.jpg', '');
 const volName = (id) => (VOLUMES.find(v => v.id === id) || {}).name || (id === 'kala-rasa' ? 'Kala Rasa' : 'Kala Parampara');
@@ -53,17 +55,17 @@ const html = `<!DOCTYPE html>
   <title>The Collection — Wall Jewels Wallpaper World · Chennai, Since 1978</title>
   <!-- Favicon & Brand Icons (Embedded Data URI + Multi-Format Fallbacks) -->
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADxElEQVR4nN1WTYgcRRR+9b2qnh9nMtlNYlwNRoRcPERkRQlR8CJ4iafsTdGgBxG85SYheApegooQEQTBk4oKoqISUNSLsprc/EEUkRU0i9nM7s5MT1f1k9dTHRo17szuzh580FRXvVff+3/dRP8XOk0EXYXI7KReI1HxpgFoa3dFXxaJ3N5O50Aty25zIsmefv9dIspN5E/LALq4f/91s2trt0qe39LK/d21IAcTymeczx9UbEMUNsKwkyrVHKtnv7bbh8zq6tFmlh1uh/AQSLre4G0Cf24oz2VMbExqQHln92Bw5/Vp+mwjzzNLMgDRLm/MbAA+jnJhKgYYoqBRaGXZW4boBBtz8wB8kcjsM8as19P0FyHicfK/bdSr148MrH2tmyTHryUjIhCR7W1RIWJ9ohEHPfCFB85fajRulEqL6jrRfJARMErweGbKfeQXgELkVHZo7SmBETFGhpZfjTy71TlB/2V51cuetUcE8GKMD8D6cqNxoJRbc+6OP2dmOhvhUQnWd+6EBz7sJclC6cnS3FwzZX7BAxeGzK90W6195R1FfGNhgT3wvUZAAOlb+wSJmNS5c7r3wGfjGGB0pmfMPyhQYKR/NJtzyhta+0EBHhV45guXO53dMVVOZVLms8oTY4IHvk6tPV/KZ8zPV528lgFW14G1JwXIBSbXSKjHYgpgCUBfgFTznTKfifdqWherzh0OQBBj9G4hn4+UP1Mq3zACRERX2u09Abis+YweFY8HPrnSbh/ywHcCEwLw2/Ls7K6yOFPnHg1AVtwzJgvAz4MkObah5/8WhZT5uah8tSgs5qUyHSnzixod5afOPaZnA5ucumos1PAiQmcjZo3GpdOjMOH3ZvOGwPyjAgUg7ddq90UwrCfJsUqul4bWflQq90BfuyC+v1edFWOTxFRopfece3jNudvjeQGkLeWBlVGui1qRaOi3K83mvAcWowFfVvE2ZURJlalWGDG09qnC6/hk1r6utVPwgPfVgAz4Rvebnr8yGjT/mGalcT1rj6bA4z1r76mwjQc+jREoe39r03DMCBW5Xm40bvJAV4s0Yz4XeRP/d4xFUamNa6JnqXMvFTMDkF69fm8pR9MkiZNwPUmOh9H3QIbAm1ML/99rRN9XarUHAnityD3zV9opE3+GJ6FqWHvOPaIjV8M+tPadsb58WyGJwIvz8y5j+7IqDsClobVPVmQwzbCbfq12v2f+KQCDjPlMOaanHXboum7tXRnz4tDap7ut1t4Kf7rVXlLZcpX91V+0HSUZzYCdV7yd9BdkGd/XhbBmKgAAAABJRU5ErkJggg==">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=20260824d">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=20260824d">
-  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?v=20260824d">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=20260824d">
-  <link rel="manifest" href="site.webmanifest?v=20260824d">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=${BUILD_V}">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=${BUILD_V}">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?v=${BUILD_V}">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=${BUILD_V}">
+  <link rel="manifest" href="site.webmanifest?v=${BUILD_V}">
   <meta name="description" content="Browse the Wall Jewels collections — Kala Parampara and Kala Rasa. ${COLLECTION.length} master plates of authentic heritage, botanical, abstract and world designs, printable to your wall's exact measure.">
   <link rel="canonical" href="https://www.walljewels.in/collection.html">
   <meta name="theme-color" content="#0b0d11">
   <link rel="preload" href="assets/fonts/marcellus-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/styles.css?v=2026-08-24-exactkp">
+  <link rel="stylesheet" href="assets/css/styles.css?v=${BUILD_V}">
 </head>
 <body class="page-collection">
 <!-- Generated grid: regenerate with tools/build-collection.mjs after editing data.js. World: see index.html contract. -->
@@ -161,7 +163,6 @@ const html = `<!DOCTYPE html>
     <section class="coll-hero">
       <canvas class="coll-hero__fireworks" id="coll-fireworks-canvas" aria-hidden="true"></canvas>
       <div class="coll-hero__content">
-        <div class="threshold" data-kolam="gate"><span class="rule"></span></div>
         <div class="headgroup">
           <h1 class="d2">The collection</h1>
           <p class="lead">${COLLECTION.length} master plates from the Wall Jewels volumes — every one recomposed, recoloured
@@ -253,15 +254,15 @@ ${plates}
     </div>
   </div>
 
-  <script src="assets/js/vendor/lenis.min.js?v=2026-08-25-perfect" defer></script>
-  <script src="assets/js/data.js?v=2026-08-25-perfect" defer></script>
-  <script src="assets/js/kolam.js?v=2026-08-25-perfect" defer></script>
-  <script src="assets/js/webgl-bg.js?v=2026-08-25-perfect" defer></script>
-  <script src="assets/js/fireworks.js?v=2026-08-25-perfect" defer></script>
-  <script src="assets/js/app.js?v=2026-08-25-perfect" defer></script>
+  <script src="assets/js/vendor/lenis.min.js?v=${BUILD_V}" defer></script>
+  <script src="assets/js/data.js?v=${BUILD_V}" defer></script>
+  <script src="assets/js/kolam.js?v=${BUILD_V}" defer></script>
+  <script src="assets/js/webgl-bg.js?v=${BUILD_V}" defer></script>
+  <script src="assets/js/fireworks.js?v=${BUILD_V}" defer></script>
+  <script src="assets/js/app.js?v=${BUILD_V}" defer></script>
 </body>
 </html>
 `;
 
 writeFileSync(`${SITE}/collection.html`, html, 'utf8');
-console.log(`collection.html written: ${COLLECTION.length} plates`);
+console.log(`collection.html written: ${COLLECTION.length} plates (version: ${BUILD_V})`);
