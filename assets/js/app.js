@@ -641,13 +641,39 @@
 
     function match(d) {
       if (state.v && d.v !== state.v) return false;
-      const cat = d.cat || d.c;
-      if (state.c && cat !== state.c) return false;
-      const sp = d.sp || d.s;
-      if (state.s && sp !== state.s) return false;
+      const cat = (d.cat || d.c || '').toLowerCase();
+      const sp = (d.sp || d.s || '').toLowerCase();
+      const fullText = `${d.n} ${d.no} ${d.ideal || ''} ${d.b || ''} ${cat} ${sp}`.toLowerCase();
+
+      if (state.c) {
+        const targetC = state.c;
+        if (targetC === 'kids') {
+          const isKids = cat === 'kids' || sp === 'kids' || ['kids', 'nursery', 'child', 'playroom', 'whimsical', 'storybook', 'fairytale', 'baby', 'pastel forest', 'wonderland', 'meadows', 'enchanted'].some(k => fullText.includes(k));
+          if (!isKids) return false;
+        } else if (targetC !== cat) {
+          return false;
+        }
+      }
+
+      if (state.s) {
+        const targetS = state.s;
+        if (targetS === 'temple') {
+          if (sp !== 'temple' && !['temple', 'pooja', 'mandir', 'meditation', 'sanctuary', 'spiritual', 'prayer'].some(k => fullText.includes(k))) return false;
+        } else if (targetS === 'office') {
+          if (sp !== 'office' && !['office', 'study', 'library', 'workspace', 'executive suite', 'boardroom'].some(k => fullText.includes(k))) return false;
+        } else if (targetS === 'dining') {
+          if (sp !== 'dining' && !['dining'].some(k => fullText.includes(k))) return false;
+        } else if (targetS === 'bedroom') {
+          if (sp !== 'bedroom' && !['bedroom', 'master suite', 'bed suite', 'nursery'].some(k => fullText.includes(k))) return false;
+        } else if (targetS === 'living') {
+          if (sp !== 'living' && !['living', 'lounge', 'foyer', 'hospitality', 'salon', 'hall'].some(k => fullText.includes(k))) return false;
+        } else if (targetS !== sp) {
+          return false;
+        }
+      }
+
       if (state.search) {
-        const hay = `${d.n} ${d.no} ${cat || ''} ${sp || ''} ${d.b}`.toLowerCase();
-        if (!state.search.toLowerCase().split(/\s+/).every(w => hay.includes(w))) return false;
+        if (!state.search.toLowerCase().split(/\s+/).every(w => fullText.includes(w))) return false;
       }
       return true;
     }

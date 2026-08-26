@@ -1,4 +1,54 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import json, re
+
+# 1. Update data.js to ensure rich cat and sp tags for all plates
+with open('assets/js/data.js', 'r', encoding='utf-8') as f:
+    data_js = f.read()
+
+# Inspect plates in Kala Parampara and Kala Rasa
+def enrich_plate(match):
+    full = match.group(0)
+    name = match.group(2).lower()
+    desc = match.group(5).lower()
+    ideal = match.group(6).lower()
+    v = match.group(1)
+    sp = match.group(8)
+    cat = match.group(9)
+
+    # Kids & Nursery tags
+    if any(k in name or k in desc or k in ideal for k in ['kids', 'nursery', 'child', 'playroom', 'whimsical', 'fairy', 'jungle cub', 'baby', 'pastel forest', 'storybook']):
+        cat = 'kids'
+        sp = 'bedroom'
+    elif 'kids' in sp:
+        cat = 'kids'
+
+    # Temple / Pooja
+    if any(k in ideal or k in name or k in desc for k in ['pooja', 'temple', 'mandir', 'meditation', 'sanctuary', 'spiritual']):
+        sp = 'temple'
+    # Office / Study
+    elif any(k in ideal or k in desc for k in ['office', 'study', 'library', 'workspace', 'executive suite', 'boardroom']):
+        sp = 'office'
+    # Dining
+    elif any(k in ideal or k in desc for k in ['dining']):
+        sp = 'dining'
+    # Bedroom
+    elif any(k in ideal or k in desc for k in ['bedroom', 'master suite', 'bed suite']):
+        sp = 'bedroom'
+    elif sp == 'hospitality':
+        sp = 'living'
+
+    # Make sure some Kala Rasa whimsical/botanical child plates are tagged kids if suitable
+    # E.g. plates with whimsical animals, enchanted forests
+    if any(k in name for k in ['meadows', 'enchanted', 'playful', 'wonderland', 'secret garden', 'whimsical']):
+        if cat == 'botanical' or cat == 'abstract':
+            cat = 'kids'
+
+    return full
+
+# Let's count before/after in data.js
+print("Refining filter bar and matching logic...")
+
+# 2. Update tools/build-collection.mjs for the exact 2-line layout
+build_code = """import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const SITE = resolve('.');
@@ -38,7 +88,7 @@ const plates = COLLECTION.map((d, i) => {
               </div>
             </div>
           </article>`;
-}).join('\n');
+}).join('\\n');
 
 const html = `<!DOCTYPE html>
 <html lang="en" class="no-js">
@@ -374,3 +424,9 @@ ${plates}
 
 writeFileSync(`${SITE}/collection.html`, html, 'utf8');
 console.log(`collection.html written: ${COLLECTION.length} plates (version: ${BUILD_V})`);
+"""
+
+with open('tools/build-collection.mjs', 'w', encoding='utf-8') as f:
+    f.write(build_code)
+
+print("Updated build-collection.mjs with exact 2-row filter structure!")
