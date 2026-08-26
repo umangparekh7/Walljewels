@@ -1,4 +1,7 @@
-/**
+import re
+
+# 1. Update fireworks.js
+fireworks_code = """/**
  * Fireworks — Originkit (Canvas 2D top-down / perspective particle simulation)
  * Dedicated background engine for .coll-hero on the collection page.
  * Full width edge-to-edge rendering with zero layout thrashing.
@@ -319,3 +322,115 @@
     initFireworks();
   }
 })();
+"""
+
+with open('assets/js/fireworks.js', 'w', encoding='utf-8') as f:
+    f.write(fireworks_code)
+
+# 2. Update styles.css for full-width collection page layout
+with open('assets/css/styles.css', 'r', encoding='utf-8') as f:
+    css = f.read()
+
+# Replace coll-hero rules
+coll_hero_css = """/* ---------- Collection Hero Section (Full Width with Fireworks) ---------- */
+.coll-hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-top: clamp(64px, 8vw, 108px);
+  padding-bottom: clamp(38px, 4.5vw, 64px);
+  background: #05060a;
+  border-bottom: 1px solid var(--hairline);
+  text-align: center;
+}
+.coll-hero__fireworks {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  display: block;
+}
+.coll-hero .wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+.coll-hero .headgroup {
+  max-width: 680px;
+  margin-inline: auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+.coll-hero .d2 {
+  font-family: var(--f-display);
+  font-size: clamp(2rem, 3.8vw, 3.2rem);
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0 0 14px;
+}
+.coll-hero .lead {
+  font-size: clamp(13.5px, 1.1vw, 15.5px);
+  line-height: 1.55;
+  color: var(--night-soft, #cfc9b8);
+  max-width: 62ch;
+  margin: 0 auto;
+}
+"""
+
+# Replace in styles.css
+css = re.sub(r'/\* ---------- 30\. Collection page ---------- \*/.*?(?=/\* ---------- 31\. Collection Filter Bar ---------- \*/)', '/* ---------- 30. Collection page ---------- */\n' + coll_hero_css + '\n', css, flags=re.DOTALL)
+
+# Update full-width rules for Collection page ONLY
+full_width_collection_css = """
+/* Full Available Width for Collection Page ONLY */
+.coll-filters .wrap,
+section[aria-label="All designs"] .wrap {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-inline: clamp(16px, 2.2vw, 40px) !important;
+  margin-inline: 0 !important;
+}
+
+.coll-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+  gap: clamp(8px, 1vw, 16px) !important;
+  width: 100% !important;
+  padding-block: clamp(18px, 2.5vw, 36px) !important;
+}
+
+@media (max-width: 1080px) {
+  .coll-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 820px) {
+  .coll-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .coll-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+  }
+}
+"""
+
+# Replace end of coll-grid section
+css = re.sub(r'\.coll-filters \.wrap,\s*section\[aria-label="All designs"\] \.wrap\s*\{.*?(?=\.coll-grid \.plate \{)', full_width_collection_css + '\n', css, flags=re.DOTALL)
+
+with open('assets/css/styles.css', 'w', encoding='utf-8') as f:
+    f.write(css)
+
+print("Applied full-width styling for Collection page only and edge-to-edge hero fireworks!")
