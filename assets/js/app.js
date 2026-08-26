@@ -641,10 +641,12 @@
 
     function match(d) {
       if (state.v && d.v !== state.v) return false;
-      if (state.c && d.c !== state.c) return false;
-      if (state.s && d.s !== state.s) return false;
+      const cat = d.cat || d.c;
+      if (state.c && cat !== state.c) return false;
+      const sp = d.sp || d.s;
+      if (state.s && sp !== state.s) return false;
       if (state.search) {
-        const hay = `${d.n} ${d.no} ${d.c} ${d.s} ${d.b}`.toLowerCase();
+        const hay = `${d.n} ${d.no} ${cat || ''} ${sp || ''} ${d.b}`.toLowerCase();
         if (!state.search.toLowerCase().split(/\s+/).every(w => hay.includes(w))) return false;
       }
       return true;
@@ -660,13 +662,29 @@
       if (countOut) countOut.textContent = `${shown} design${shown === 1 ? '' : 's'}`;
       $('.coll-empty') && ($('.coll-empty').style.display = shown ? 'none' : '');
       chips.forEach(ch => {
-        const [k, v] = ch.dataset.filter.split(':');
-        ch.setAttribute('aria-pressed', state[k] === v);
+        const f = ch.dataset.filter;
+        if (f === 'all') {
+          const isAll = !state.v && !state.c && !state.s;
+          ch.setAttribute('aria-pressed', isAll);
+          ch.classList.toggle('is-active', isAll);
+        } else {
+          const [k, v] = f.split(':');
+          const active = state[k] === v;
+          ch.setAttribute('aria-pressed', active);
+          ch.classList.toggle('is-active', active);
+        }
       });
     }
     chips.forEach(ch => ch.addEventListener('click', () => {
-      const [k, v] = ch.dataset.filter.split(':');
-      state[k] = state[k] === v ? null : v;
+      const f = ch.dataset.filter;
+      if (f === 'all') {
+        state.v = null;
+        state.c = null;
+        state.s = null;
+      } else {
+        const [k, v] = f.split(':');
+        state[k] = state[k] === v ? null : v;
+      }
       applyFilters();
     }));
     applyFilters();
