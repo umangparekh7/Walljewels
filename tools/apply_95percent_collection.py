@@ -5,29 +5,38 @@ with open('assets/css/styles.css', 'r', encoding='utf-8') as f:
     css = f.read()
 
 coll_styles = """/* ==========================================================================
-   COLLECTION PAGE ONLY (95% Screen Width, 7-Columns, Fireworks Behind Hero)
+   COLLECTION PAGE ONLY (Minimal Left/Right Padding, Strict 7-Columns, Hero Overlay)
    ========================================================================== */
 
 body.page-collection {
-  --frame: 2.5vw !important;
+  --frame: 0px !important;
+}
+
+body.page-collection #main {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-inline: clamp(12px, 1.8vw, 28px) !important;
+  box-sizing: border-box !important;
+  margin: 0 auto !important;
 }
 
 body.page-collection .coll-hero {
   position: relative !important;
-  width: min(95vw, 95%) !important;
-  max-width: 95% !important;
-  min-height: 380px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 360px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   background: #05060a !important;
   overflow: hidden !important;
-  padding: clamp(56px, 7vw, 96px) clamp(20px, 3vw, 48px) clamp(36px, 4.5vw, 60px) !important;
+  border: 1px solid rgba(207, 161, 78, 0.3) !important;
+  border-radius: 12px !important;
+  margin-top: 14px !important;
+  margin-bottom: 0 !important;
+  padding: clamp(48px, 6vw, 84px) 20px clamp(32px, 4vw, 56px) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65) !important;
   text-align: center !important;
-  border: 1px solid rgba(207, 161, 78, 0.35) !important;
-  border-radius: 16px !important;
-  margin: 18px auto 0 !important;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.75) !important;
 }
 
 body.page-collection .coll-hero__fireworks {
@@ -44,20 +53,18 @@ body.page-collection .coll-hero__fireworks {
 body.page-collection .coll-hero__content {
   position: relative !important;
   z-index: 2 !important;
-  max-width: 780px !important;
+  max-width: 760px !important;
   margin: 0 auto !important;
   text-align: center !important;
   pointer-events: auto !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
 }
 
 body.page-collection .coll-hero .d2 {
   font-family: var(--f-display) !important;
-  font-size: clamp(2.2rem, 3.8vw, 3.2rem) !important;
+  font-size: clamp(2.2rem, 3.6vw, 3.2rem) !important;
   font-weight: 400 !important;
   color: #ffffff !important;
   margin: 0 0 12px !important;
@@ -77,16 +84,16 @@ body.page-collection .coll-filters {
   position: sticky !important;
   top: var(--header-h) !important;
   z-index: 80 !important;
-  width: min(95vw, 95%) !important;
-  max-width: 95% !important;
-  margin: 16px auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 14px 0 !important;
   background: rgba(20, 16, 12, 0.96) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   backdrop-filter: blur(16px) !important;
-  border: 1px solid rgba(207, 161, 78, 0.28) !important;
-  border-radius: 12px !important;
-  padding: 10px clamp(12px, 1.8vw, 24px) !important;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid rgba(207, 161, 78, 0.25) !important;
+  border-radius: 10px !important;
+  padding: 10px clamp(10px, 1.2vw, 18px) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
 }
 
 body.page-collection .coll-filters__in {
@@ -94,40 +101,39 @@ body.page-collection .coll-filters__in {
   flex-wrap: wrap !important;
   align-items: center !important;
   justify-content: space-between !important;
-  gap: 10px !important;
+  gap: 8px !important;
   width: 100% !important;
-  max-width: 100% !important;
 }
 
 body.page-collection .coll-main-section {
-  width: min(95vw, 95%) !important;
-  max-width: 95% !important;
-  margin: 0 auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
   padding: 0 0 60px 0 !important;
+  margin: 0 !important;
 }
 
 body.page-collection .coll-grid {
   display: grid !important;
   grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
-  gap: clamp(8px, 1vw, 14px) !important;
+  gap: clamp(6px, 0.75vw, 12px) !important;
   width: 100% !important;
-  padding-block: 8px 36px !important;
+  padding-block: 6px 32px !important;
   margin: 0 !important;
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1100px) {
   body.page-collection .coll-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
   }
 }
 
-@media (max-width: 820px) {
+@media (max-width: 780px) {
   body.page-collection .coll-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 480px) {
   body.page-collection .coll-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 6px !important;
@@ -143,4 +149,4 @@ else:
 with open('assets/css/styles.css', 'w', encoding='utf-8') as f:
     f.write(css)
 
-print("Updated styles.css with 95% width layout and fireworks direct overlay!")
+print("Updated styles.css with minimal side padding on #main and 7-column layout!")
