@@ -2612,36 +2612,7 @@ const COLLECTION = [
     "img": "assets/img/collection/kala-rasa/kr-plate-135.jpg",
     "sp": "living",
     "cat": "heritage"
-  },
-  {
-    "id": "kr-136",
-    "v": "kala-rasa",
-    "n": "Ganesha's Mango Garden",
-    "no": "WJWP-TAL-003",
-    "sub": "Kala Rasa · A Playful Orchard Discovery",
-    "b": "Young Ganesha joyfully discovering golden ripe mangoes in a sunlit southern orchard with friendly woodland creatures.",
-    "style": "Contemporary Children ' slllustration",
-    "palette": "Mustard, Terracotta, Sage",
-    "ideal": "Playrooms, Corridors",
-    "img": "assets/img/collection/kala-rasa/kr-plate-136.jpg",
-    "sp": "living",
-    "cat": "heritage"
-  },
-  {
-    "id": "kr-137",
-    "v": "kala-rasa",
-    "n": "Ganesha's Little Festival",
-    "no": "WJWP-TAL-004",
-    "sub": "Kala Rasa · A Joyful Celebration of Heritage",
-    "b": "A vibrant celebration of South Indian festivity. Ganesha is surrounded by beautifully illustrated traditional lamps, fresh mango leaves, and joyful floral garlands.",
-    "style": "Avibrant celebrationof South Indianfestivity. Ganesha is surrounded by",
-    "palette": "Festival",
-    "ideal": "Kids Zones, Feature Walls",
-    "img": "assets/img/collection/kala-rasa/kr-plate-137.jpg",
-    "sp": "kids",
-    "cat": "heritage"
-  },
-  {
+  },  {
     "id": "kr-138",
     "v": "kala-rasa",
     "n": "The Elephant Parade",
