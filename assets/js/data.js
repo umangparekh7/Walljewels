@@ -2793,64 +2793,7 @@ const COLLECTION = [
     "img": "assets/img/collection/kala-rasa/kr-plate-150.jpg",
     "sp": "living",
     "cat": "heritage"
-  },
-  {
-    "id": "kr-151",
-    "v": "kala-rasa",
-    "n": "South Indian Storybook Village",
-    "no": "WJWP-TAL-018",
-    "sub": "Kala Rasa · Everyday Magic in the Village",
-    "b": "Everyday life rendered in magical detail: traditional tiled houses, clay potters, swaying palms, and joyful children playing.",
-    "style": "Storybook Illlustration",
-    "palette": "Coral, Teal, ivory",
-    "ideal": "Nurseries, Classrooms",
-    "img": "assets/img/collection/kala-rasa/kr-plate-151.jpg",
-    "sp": "living",
-    "cat": "heritage"
-  },
-  {
-    "id": "kr-152",
-    "v": "kala-rasa",
-    "n": "Festival in the Little Village",
-    "no": "WJWP-TAL-019",
-    "sub": "Kala Rasa · A Joyful Cultural Celebration",
-    "b": "A joyful cultural village festival with kolam rangoli designs on doorsteps, temple carts, and glowing brass oil lamps.",
-    "style": "Painte rly Mural",
-    "palette": "Indigo,Mustard,Muted Pink",
-    "ideal": "Feature Walls, Play Zones",
-    "img": "assets/img/collection/kala-rasa/kr-plate-152.jpg",
-    "sp": "living",
-    "cat": "heritage"
-  },
-  {
-    "id": "kr-153",
-    "v": "kala-rasa",
-    "n": "Forest of the Western Ghats",
-    "no": "WJWP-TAL-020",
-    "sub": "Kala Rasa · A Dense, Breathing Rainforest",
-    "b": "Lush mountain flora of the Western Ghats with giant tree ferns, wild orchids, and gentle mountain streams.",
-    "style": "Botanical Watercolbour",
-    "palette": "Emerald,Sage,SkyBlue",
-    "ideal": "Bedrooms, Large Feature Walls",
-    "img": "assets/img/collection/kala-rasa/kr-plate-153.jpg",
-    "sp": "bedroom",
-    "cat": "heritage"
-  },
-  {
-    "id": "kr-154",
-    "v": "kala-rasa",
-    "n": "Western Ghats Discovery",
-    "no": "WJWP-TAL-021",
-    "sub": "Kala Rasa · A Landscape of Mountain Wonders",
-    "b": "Discovering mountain trails, rolling misty valleys, and hidden waterfalls in a warm storybook illustration.",
-    "style": "Storybook Illustration",
-    "palette": "Teal, Warm Beige, Indigo",
-    "ideal": "Playrooms, Reading Nooks",
-    "img": "assets/img/collection/kala-rasa/kr-plate-154.jpg",
-    "sp": "living",
-    "cat": "heritage"
-  },
-  {
+  },  {
     "id": "kr-155",
     "v": "kala-rasa",
     "n": "Mango Grove Adventures",
@@ -2877,36 +2820,7 @@ const COLLECTION = [
     "img": "assets/img/collection/kala-rasa/kr-plate-156.jpg",
     "sp": "living",
     "cat": "heritage"
-  },
-  {
-    "id": "kr-157",
-    "v": "kala-rasa",
-    "n": "Kerala Monsoon Playground",
-    "no": "WJWP-TAL-024",
-    "sub": "Kala Rasa · Joyful Splashing in the Backwaters",
-    "b": "Paper boats sailing down gentle Kerala backwater streams bordered by lush coconut palms and rain lilies.",
-    "style": "Watercolbour Landscape",
-    "palette": "Sky Blue, Indigo, Eme rald",
-    "ideal": "Bathrooms, Flayrooms",
-    "img": "assets/img/collection/kala-rasa/kr-plate-157.jpg",
-    "sp": "living",
-    "cat": "heritage"
-  },
-  {
-    "id": "kr-158",
-    "v": "kala-rasa",
-    "n": "Banana Leaf Wonderland",
-    "no": "WJWP-TAL-025",
-    "sub": "Kala Rasa · A Micro-World of Oversized Flora",
-    "b": "Whimsical oversized tropical foliage creating a magical sheltered wonderland for little adventurers.",
-    "style": "Botanical Art",
-    "palette": "Eme rald, Sage, Muted Pink",
-    "ideal": "Feature Walls, Resorts",
-    "img": "assets/img/collection/kala-rasa/kr-plate-158.jpg",
-    "sp": "living",
-    "cat": "heritage"
-  },
-  {
+  },  {
     "id": "kr-160",
     "v": "kala-rasa",
     "n": "Modern Madurai",
