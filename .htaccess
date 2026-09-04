@@ -1,0 +1,13 @@
+# Wall Jewels — serve the new site first (the old site's index.php may still
+# sit in the web root; this makes index.html win the directory index).
+DirectoryIndex index.html index.php
+
+# Pages always revalidate; assets cache for a week (filenames carry ?v= versions).
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(jpg|jpeg|png|svg|woff2|css|js)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
