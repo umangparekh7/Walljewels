@@ -781,7 +781,7 @@
         src: c.img,
         title: c.n,
         code: c.no || '',
-        vol: (typeof VOLUMES !== 'undefined' ? ((VOLUMES.find(v => v.id === c.v) || {}).name) : '') || (c.v === 'kala-rasa' ? 'Kala Rasa' : 'Kala Parampara'),
+        vol: (typeof VOLUMES !== 'undefined' ? ((VOLUMES.find(v => v.id === c.v) || {}).name) : '') || (c.v === 'vishwa-darshan' ? 'Vishwa Darshan' : (c.v === 'kala-rasa' ? 'Kala Rasa' : 'Kala Parampara')),
         sub: c.sub || '',
         desc: c.b || ''
       }));
@@ -1026,12 +1026,12 @@
   // Universal click listener for all wallpaper images across landing and collection
   document.addEventListener('click', (e) => {
     // If clicking flipbook or specific buttons, let them handle their action
-    if (e.target.closest('button, .uiverse, .vol-badge, .flipbook-trigger, .lightbox__close, .lightbox__nav, .lightbox__wa-link')) return;
+    if (e.target.closest('button, .uiverse, .vol-badge, .flipbook-trigger, [data-open-catalogue], .lightbox__close, .lightbox__nav, .lightbox__wa-link')) return;
 
     // Check if clicked element is an image or inside an image container
     const img = e.target.closest('img');
     if (img) {
-      if (img.closest('.wordmark, .header, .drawer__head, .nav, .footer__brand, .sr-only')) return;
+      if (img.closest('.wordmark, .header, .drawer__head, .nav, .footer__brand, .sr-only, [data-open-catalogue]')) return;
       const src = img.dataset.full || img.currentSrc || img.src;
       if (!src || src.includes('logo-') || src.includes('data:image')) return;
       e.preventDefault();
@@ -1041,8 +1041,8 @@
     }
 
     // Check if clicking on wallpaper containers (.feature, .tile, .plate, .coverflow-card, etc.)
-    const card = e.target.closest('.feature, .tile, .plate, .volume__media, .coverflow-card, .fan-card, .journey__art, .j2art, .space, .soon, .proof__frame, .cfg__preview, .card');
-    if (card && !e.target.closest('a:not(.textlink), button')) {
+    const card = e.target.closest('.feature, .tile, .plate, .coverflow-card, .fan-card, .journey__art, .j2art, .space, .soon, .proof__frame, .cfg__preview, .card');
+    if (card && !e.target.closest('a:not(.textlink), button, [data-open-catalogue]')) {
       const cardImg = card.querySelector('img');
       if (cardImg) {
         const src = cardImg.dataset.full || cardImg.currentSrc || cardImg.src;
@@ -1087,7 +1087,8 @@
   /* ---------------- catalogue viewer: flip through the volumes ---------------- */
   const CATALOGUES = {
     kp: { name: 'Kala Parampara · Volume I', count: 82, prefix: 'assets/img/catalogue/kp-' },
-    kr: { name: 'Kala Rasa · Volume II', count: 189, prefix: 'assets/img/catalogue/kr-' }
+    kr: { name: 'Kala Rasa · Volume II', count: 189, prefix: 'assets/img/catalogue/kr-' },
+    vd: { name: 'Vishwa Darshan · Volume III', count: 179, prefix: 'assets/img/catalogue/vd-' }
   };
   const catViews = {};
   let activeCat = null;
