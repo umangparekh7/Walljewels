@@ -5,7 +5,6 @@ const pages = [
   'collection.html',
   'wallpaper-chennai.html',
   'custom-wallpaper-printing.html',
-  'luxury-wallpapers.html',
   'wallpaper-manufacturer-india.html',
   'wall-murals.html',
   'wallpaper-buying-guide.html',

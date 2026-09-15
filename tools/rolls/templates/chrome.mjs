@@ -121,7 +121,6 @@ function navLinks(root) {
     collection: `${root}collection.html`,
     rolls: `${root}wallpaper-rolls/`,
     custom: `${root}custom-wallpaper-printing.html`,
-    luxury: `${root}luxury-wallpapers.html`,
     about: `${root}index.html#why`,
     visit: `${root}index.html#visit`,
   };
@@ -149,7 +148,6 @@ ${themeToggle()}
             </div>
           </div>
           <a href="${l.custom}">Custom Printing</a>
-          <a href="${l.luxury}">Luxury Wallpapers</a>
           <a href="${l.about}">About Us</a>
           <a href="${l.visit}">Visit</a>
         </nav>
@@ -188,7 +186,6 @@ export function renderDrawer(root, collectionCount) {
       <span class="drawer__group">Products</span>
       <a href="${l.rolls}" aria-current="page">Wallpaper Rolls <span class="num">${esc(count)}</span></a>
       <a href="${l.custom}">Custom Printing <span class="num">Your wall</span></a>
-      <a href="${l.luxury}">Luxury Wallpapers</a>
       <a href="${l.about}">About Us</a>
       <a href="${l.visit}">Visit <span class="num">3 showrooms</span></a>
     </div>
@@ -217,7 +214,6 @@ export function renderFooter(root) {
 ${li('collection.html', 'All Wallpapers')}
 ${li('wallpaper-rolls/', 'Wallpaper Rolls')}
 ${li('custom-wallpaper-printing.html', 'Custom Printing')}
-${li('luxury-wallpapers.html', 'Luxury Wallpapers')}
 ${li('wall-murals.html', 'Custom Wall Murals')}
 ${li('collection.html?c=kids', 'Kids &amp; Nursery')}
             </ul>
