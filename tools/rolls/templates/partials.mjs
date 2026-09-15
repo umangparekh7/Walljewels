@@ -58,7 +58,7 @@ export function collectionCard(root, collection, designCount, index) {
   const count = `${designCount} ${designCount === 1 ? 'design' : 'designs'}`;
   return `<article class="rolls-collection rv" style="--i:${index}" data-collection-card="${esc(collection.slug)}" data-no-lightbox>
   <a class="rolls-collection__media" href="${esc(href)}" aria-label="${esc(`Explore ${collection.name} designs`)}">
-    <img src="${esc(`${root}${collection.coverImage}`)}" alt="${esc(`${collection.name} wallpaper collection`)}" width="1200" height="1200" loading="lazy" decoding="async">
+    <img src="${esc(`${root}${collection.coverImage}`)}" alt="${esc(`${collection.name} wallpaper collection`)}" width="1200" height="1512" loading="lazy" decoding="async">
   </a>
   <div class="rolls-collection__body">
     <span class="cap">${esc(count)} · ${esc(collection.pageCount || '')} catalogue pages</span>

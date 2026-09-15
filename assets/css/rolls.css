@@ -168,7 +168,7 @@
 .rolls-collection:hover { border-color: rgba(207, 161, 78, .5); }
 .rolls-collection__media {
   display: block;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1200 / 1512;   /* the catalogue cover panels, shown whole */
   overflow: hidden;
   background: var(--ground-deep);
   border-bottom: 1px solid var(--hairline);
