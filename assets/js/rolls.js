@@ -1058,6 +1058,7 @@
   <span class="cap">Your Wallpaper Estimate</span>
   <div class="rolls-estimate__rows"></div>
   <div class="rolls-estimate__row rolls-estimate__total"><span>Estimated Wallpaper Cost</span><b></b></div>
+  <p class="rolls-estimate__note"><strong>Plus GST &amp; Installation is Free</strong></p>
   <div class="rolls-estimate__actions"><button class="btn btn--wa" type="button" data-rolls-quote><span class="dot-a"></span>REQUEST A QUOTE</button></div>
   ${hasDisclaimerOutside ? '' : `<div class="rolls-disclaimer"><span class="cap">Approximate calculation</span>
     <p class="small">Roll requirements are calculated based on approximate coverage and may vary depending on wall dimensions, pattern repeat, design alignment, cutting, wastage and installation requirements.</p>

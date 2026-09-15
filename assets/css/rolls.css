@@ -467,6 +467,18 @@
   background: rgba(207, 161, 78, .05);
 }
 .rolls-estimate > .cap { display: block; color: var(--gold); margin-bottom: 12px; }
+.rolls-estimate__note {
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: #e53e3e;
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+.rolls-estimate__note strong {
+  font-weight: 700;
+  color: inherit;
+}
 .rolls-estimate__rows { display: flex; flex-direction: column; }
 .rolls-estimate__row {
   display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;
@@ -1241,6 +1253,7 @@
 [data-theme="light"] .rolls-card__body, [data-theme="light"] .rolls-collection__media { border-color: rgba(43, 36, 26, .12); }
 [data-theme="light"] .rolls-estimate,
 [data-theme="light"] .rolls-enquiry__summary { border-color: rgba(184, 134, 40, .45); background: rgba(212, 167, 83, .1); }
+[data-theme="light"] .rolls-estimate__note { color: #c52222; }
 [data-theme="light"] .rolls-calc__error { color: #a13d24; }
 [data-theme="light"] .rolls-calc .dfield.is-invalid input,
 [data-theme="light"] .rolls-calc .dfield.is-invalid select,
