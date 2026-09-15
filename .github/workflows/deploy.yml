@@ -17,13 +17,13 @@ jobs:
         run: |
           mkdir dist
           cp *.html dist/ 2>/dev/null || true
-          cp -r assets showrooms dist/
+          cp -r assets showrooms wallpaper-rolls dist/
           cp -r *.png *.ico *.svg *.txt *.xml site.webmanifest .htaccess dist/ 2>/dev/null || true
 
       - name: Stamp asset versions with commit hash (cache busting)
         run: |
           SHA="${GITHUB_SHA::8}"
-          find dist -maxdepth 2 -name "*.html" -exec sed -i "s/?v=[0-9A-Za-z.-]*/?v=${SHA}/g" {} +
+          find dist -maxdepth 4 -name "*.html" -exec sed -i "s/?v=[0-9A-Za-z.-]*/?v=${SHA}/g" {} +
 
       - name: Publish dist to production
         uses: peaceiris/actions-gh-pages@v4

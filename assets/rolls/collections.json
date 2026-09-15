@@ -1,0 +1,44 @@
+{
+  "collections": [
+    {
+      "id": "athenic-india",
+      "slug": "athenic-india",
+      "name": "Athenic India",
+      "tagline": "Premium wallpapers — painterly Indian scenes, palms and pavilions, soft plains and stone textures",
+      "description": "A premium wallpaper book of painterly Indian scenes, pavilions and palms alongside soft plains and stone textures, arranged in colourway families with pattern repeats of 53 to 64 cm. Every design is printed on a 54 sq.ft roll.",
+      "catalogueName": "ATHENIC INDIA.pdf",
+      "catalogueFile": "assets/rolls/athenic-india/catalogue.pdf",
+      "catalogueSizeMB": 29.8,
+      "pageCount": 18,
+      "coverImage": "assets/rolls/athenic-india/cover.jpg",
+      "rollSize": 54,
+      "coverage": 45,
+      "pricePerSqFt": 55,
+      "rollPrice": 2970,
+      "unit": "sq.ft",
+      "currency": "INR",
+      "sort": 1,
+      "published": true
+    },
+    {
+      "id": "plain",
+      "slug": "plain",
+      "name": "Plain",
+      "tagline": "The Art of Elegance — textured plains and subtle weaves that carry a room on colour alone",
+      "description": "Refined textured plains and subtle weaves in magentas, taupes, greys, blues and stone tones, chosen to carry a room on colour and texture alone. Every design is printed on a 57 sq.ft roll.",
+      "catalogueName": "Plain.pdf",
+      "catalogueFile": "assets/rolls/plain/catalogue.pdf",
+      "catalogueSizeMB": 2.0,
+      "pageCount": 22,
+      "coverImage": "assets/rolls/plain/cover.jpg",
+      "rollSize": 57,
+      "coverage": 50,
+      "pricePerSqFt": 25,
+      "rollPrice": 1425,
+      "unit": "sq.ft",
+      "currency": "INR",
+      "sort": 2,
+      "published": true
+    }
+  ]
+}

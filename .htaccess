@@ -10,4 +10,13 @@ DirectoryIndex index.html index.php
   <FilesMatch "\.(jpg|jpeg|png|svg|woff2|css|js)$">
     Header set Cache-Control "public, max-age=604800"
   </FilesMatch>
+  # Wallpaper roll catalogues: cache for a week and display in the browser tab.
+  <FilesMatch "\.pdf$">
+    Header set Cache-Control "public, max-age=604800"
+    Header set Content-Disposition "inline"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType application/pdf .pdf
 </IfModule>

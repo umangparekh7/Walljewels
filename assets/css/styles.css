@@ -5013,3 +5013,180 @@ body.page-collection .coll-grid {
   }
 }
 
+
+/* ---------- 34. Products menu (header) ---------- */
+/* The trigger reads exactly like a nav link; the panel is a small glass
+   card hung under it. Opens on hover, keyboard focus and the aria toggle
+   set by app.js. The drawer gets a quiet group label above its products. */
+.nav__menu {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.nav__trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-family: var(--f-text);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  line-height: inherit;
+  color: var(--ink-soft, #cfc9b8);
+  background: transparent;
+  border: 1px solid transparent;
+  box-shadow: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.nav__trigger:hover,
+.nav__menu:focus-within .nav__trigger,
+.nav__trigger[aria-expanded="true"] {
+  color: var(--gold-bright, #e6c47f);
+  background: rgba(207, 161, 78, 0.1);
+  border-color: rgba(207, 161, 78, 0.25);
+}
+.nav__trigger:hover { transform: translateY(-1px); }
+.nav__chev {
+  flex: none;
+  width: 10px; height: 10px;
+  opacity: .8;
+  transition: transform var(--beat) var(--ease);
+}
+.nav__menu:hover .nav__chev,
+.nav__menu:focus-within .nav__chev,
+.nav__trigger[aria-expanded="true"] .nav__chev { transform: rotate(180deg); }
+.nav__panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 5;
+  min-width: 260px;
+  padding: 8px;
+  background: var(--panel-2);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(207, 161, 78, 0.35);
+  border-radius: 8px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity var(--beat) var(--ease), transform var(--beat) var(--ease), visibility 0s linear var(--beat);
+}
+/* invisible bridge so the pointer can cross the 8px gap without closing */
+.nav__panel::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: -10px;
+  height: 10px;
+}
+.nav__menu:hover .nav__panel,
+.nav__menu:focus-within .nav__panel,
+.nav__trigger[aria-expanded="true"] + .nav__panel {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+.nav .nav__panel a {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  font-size: 13px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: none;
+}
+.nav .nav__panel a:hover { transform: none; }
+.nav .nav__panel a[aria-current="page"] {
+  border-color: transparent;
+  background: rgba(207, 161, 78, 0.12);
+}
+.nav__hint {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: .04em;
+  text-transform: none;
+  color: var(--ink-dim, #a49e8d);
+}
+.nav .nav__panel a:hover .nav__hint,
+.nav .nav__panel a[aria-current="page"] .nav__hint { color: var(--ink-soft, #cfc9b8); }
+
+/* drawer: a group label above the product links */
+.drawer__group {
+  display: block;
+  margin-top: 22px;
+  padding: 6px 0 4px;
+  font-family: var(--f-text);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--night-gold, #cfa14e);
+}
+
+/* light theme — mirrors [data-theme="light"] .header .nav a */
+[data-theme="light"] .header .nav__trigger {
+  background: transparent;
+  color: #2b2318;
+  border: 1px solid transparent;
+  box-shadow: none;
+}
+[data-theme="light"] .header .nav__trigger:hover,
+[data-theme="light"] .header .nav__menu:focus-within .nav__trigger,
+[data-theme="light"] .header .nav__trigger[aria-expanded="true"] {
+  color: #946016;
+  background: rgba(207, 161, 78, 0.12);
+  border-color: rgba(207, 161, 78, 0.3);
+  box-shadow: none;
+}
+[data-theme="light"] .header .nav__panel {
+  background: rgba(248, 242, 232, 0.97);
+  border-color: rgba(212, 167, 83, 0.42);
+  box-shadow: 0 16px 40px rgba(90, 68, 32, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.75);
+}
+[data-theme="light"] .header .nav .nav__panel a[aria-current="page"] {
+  border-color: transparent;
+  background: rgba(207, 161, 78, 0.18);
+}
+[data-theme="light"] .nav__hint { color: #7a6b58; }
+[data-theme="light"] .header .nav .nav__panel a:hover .nav__hint,
+[data-theme="light"] .header .nav .nav__panel a[aria-current="page"] .nav__hint { color: #4a3e31; }
+[data-theme="light"] .drawer__group { color: #946016; }
+
+/* header must not overflow with the extra item between 1081px and 1400px */
+.header__center { min-width: 0; }
+.nav a, .nav__trigger { white-space: nowrap; }
+@media (max-width: 1400px) {
+  .header__center { gap: clamp(10px, 1.4vw, 18px); }
+  .nav { gap: 2px; }
+  .nav a, .nav__trigger { padding: 6px 10px; letter-spacing: .06em; }
+}
+@media (max-width: 1300px) {
+  .nav a, .nav__trigger { padding: 6px 8px; font-size: 12.5px; letter-spacing: .05em; }
+  .nav__trigger { gap: 5px; }
+  .header__socials { gap: 5px; }
+}
+@media (max-width: 1180px) {
+  .nav a, .nav__trigger { padding: 5px 6px; font-size: 12px; letter-spacing: .04em; }
+  .header__in { gap: 10px; }
+  .wordmark--img img { height: 36px; }
+}

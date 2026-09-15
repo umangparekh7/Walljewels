@@ -27,6 +27,9 @@
   const $$ = (s, c) => [...(c || document).querySelectorAll(s)];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.documentElement.classList.remove('no-js');
+  /* Nested pages (wallpaper-rolls/…) declare their depth on <html data-root> so
+     root-relative asset and page URLs resolve from any directory. */
+  const ROOT = document.documentElement.dataset.root || '';
 
   /* ---------------- smooth inertial scrolling (Lenis) ---------------- */
   let lenis = null;
@@ -95,7 +98,7 @@
     }
     // Switch header & drawer logo dynamically (Footer always stays dark)
     document.querySelectorAll('.header .wordmark img, .drawer__head .wordmark img').forEach(img => {
-      img.src = isLight ? 'assets/img/brand/logo-light.png' : 'assets/img/brand/logo-dark.png';
+      img.src = isLight ? `${ROOT}assets/img/brand/logo-light.png` : `${ROOT}assets/img/brand/logo-dark.png`;
     });
   };
 
@@ -134,6 +137,37 @@
   };
   $('[data-close-drawer]') && $('[data-close-drawer]').addEventListener('click', closeDrawer);
   drawer && $$('.drawer__nav a', drawer).forEach(a => a.addEventListener('click', closeDrawer));
+
+  /* ---------------- Products menu (header) ---------------- */
+  /* CSS opens the panel on hover and focus-within; this makes it tap-operable:
+     click toggles aria-expanded, click outside or Escape closes. */
+  const navMenus = $$('[data-nav-menu]');
+  const navMenuTrigger = (menu) => $('.nav__trigger', menu);
+  const closeNavMenus = (except) => navMenus.forEach(menu => {
+    const trigger = navMenuTrigger(menu);
+    if (menu !== except && trigger) trigger.setAttribute('aria-expanded', 'false');
+  });
+  navMenus.forEach(menu => {
+    const trigger = navMenuTrigger(menu);
+    if (!trigger) return;
+    trigger.addEventListener('click', () => {
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      closeNavMenus(menu);
+      trigger.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+    });
+  });
+  if (navMenus.length) {
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('[data-nav-menu]')) closeNavMenus();
+    });
+    addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      const menu = document.activeElement && document.activeElement.closest('[data-nav-menu]');
+      const trigger = menu && navMenuTrigger(menu);
+      closeNavMenus();
+      if (trigger) trigger.focus();
+    });
+  }
 
   /* ---------------- reveals ---------------- */
   const io = new IntersectionObserver((ents) => {
@@ -364,7 +398,7 @@
   const sInput = $('.search-box input');
   const sOut = $('.search-results');
   const openSearch = () => {
-    if (!veil) { location.href = 'collection.html'; return; }
+    if (!veil) { location.href = `${ROOT}collection.html`; return; }
     veil.classList.add('is-open');
     veil.removeAttribute('inert');
     document.body.style.overflow = 'hidden';
@@ -793,7 +827,7 @@
       const items = [];
       visibleCards.forEach(card => {
         const img = card.querySelector('img');
-        if (!img) return;
+        if (!img || img.closest('[data-no-lightbox]')) return;
         const s = img.dataset.full || img.currentSrc || img.getAttribute('src') || '';
         if (!s || s.includes('logo-') || s.includes('data:image')) return;
         const titleEl = card.querySelector('h3, h2, .plate__name, .card__title');
@@ -813,7 +847,7 @@
     // 3. Fallback to all artwork images on page
     const allImgs = Array.from(document.querySelectorAll('img')).filter(i => {
       const s = i.currentSrc || i.src || '';
-      return s && !s.includes('logo-') && !s.includes('data:image') && !i.closest('.wordmark, .header, .nav, .footer');
+      return s && !s.includes('logo-') && !s.includes('data:image') && !i.closest('.wordmark, .header, .nav, .footer, [data-no-lightbox]');
     });
     return allImgs.map(i => ({
       src: i.dataset.full || i.currentSrc || i.src,
@@ -925,7 +959,7 @@
       if (window.loadDesignIntoVisualiser) {
         window.loadDesignIntoVisualiser(currentLbSrc, currentLbTitle);
       } else {
-        window.location.href = `index.html?visualise=${encodeURIComponent(currentLbSrc)}&name=${encodeURIComponent(currentLbTitle)}#visualiser`;
+        window.location.href = `${ROOT}index.html?visualise=${encodeURIComponent(currentLbSrc)}&name=${encodeURIComponent(currentLbTitle)}#visualiser`;
       }
     });
 
@@ -1025,6 +1059,8 @@
 
   // Universal click listener for all wallpaper images across landing and collection
   document.addEventListener('click', (e) => {
+    // Wallpaper Rolls markup and anything marked data-no-lightbox run their own viewers
+    if (e.target.closest('[data-no-lightbox], .page-rolls .rolls-card, .rolls-viewer, .rolls-modal, .rolls-enquiry, .rolls-zoom')) return;
     // If clicking flipbook or specific buttons, let them handle their action
     if (e.target.closest('button, .uiverse, .vol-badge, .flipbook-trigger, [data-open-catalogue], .lightbox__close, .lightbox__nav, .lightbox__wa-link')) return;
 
