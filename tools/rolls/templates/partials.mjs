@@ -70,7 +70,7 @@ export function collectionCard(root, collection, designCount, index) {
       <li><span>${esc(s.price)} / Roll</span></li>
     </ul>
     <div class="rolls-collection__actions">
-      <a class="btn btn--fill" href="${esc(href)}"><span class="dot-a"></span>Explore Designs</a>
+      <a class="btn btn--fill" href="${esc(href)}"><span class="dot-a"></span>Explore Collection</a>
       <button class="btn" type="button" data-open-rolls-catalogue="${esc(collection.slug)}"><span class="dot-a"></span>View Catalogue</button>
       <a class="btn" href="#calculator" data-calc-collection="${esc(collection.slug)}"><span class="dot-a"></span>Calculate Requirement</a>
       <noscript><a class="textlink" href="${esc(`${root}${collection.catalogueFile}`)}" target="_blank" rel="noopener">Open the catalogue PDF ${CHEVRON_SVG}</a></noscript>

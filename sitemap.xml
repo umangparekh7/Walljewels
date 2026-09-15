@@ -92,6 +92,10 @@
       <image:loc>https://www.walljewels.in/assets/rolls/plain/cover.jpg</image:loc>
       <image:title>Plain wallpaper collection</image:title>
     </image:image>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/cover.jpg</image:loc>
+      <image:title>Promise wallpaper collection</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.walljewels.in/wallpaper-rolls/calculator/</loc>
@@ -1027,6 +1031,446 @@
     <image:image>
       <image:loc>https://www.walljewels.in/assets/rolls/plain/designs/512058/web.jpg</image:loc>
       <image:title>Plain wallpaper design 512058</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/cover.jpg</image:loc>
+      <image:title>Promise wallpaper collection</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-001/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-001/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-001</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-002/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-002/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-002</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-003/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-003/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-003</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-004/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-004/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-004</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-005/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-005/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-005</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-006/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-006/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-006</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-007/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-007/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-007</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-008/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-008/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-008</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-009/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-009/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-009</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-010/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-010/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-010</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-011/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-011/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-011</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-012/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-012/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-012</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-013/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-013/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-013</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-014/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-014/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-014</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-015/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-015/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-015</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-016/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-016/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-016</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-017/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-017/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-017</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-018/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-018/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-018</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-019/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-019/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-019</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-020/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-020/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-020</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-021/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-021/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-021</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-022/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-022/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-022</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-023/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-023/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-023</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-024/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-024/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-024</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-025/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-025/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-025</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-026/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-026/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-026</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-027/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-027/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-027</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-028/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-028/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-028</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-029/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-029/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-029</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-030/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-030/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-030</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-031/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-031/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-031</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-032/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-032/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-032</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-033/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-033/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-033</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-034/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-034/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-034</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-035/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-035/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-035</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-036/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-036/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-036</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-037/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-037/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-037</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-038/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-038/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-038</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-039/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-039/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-039</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-040/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-040/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-040</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-041/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-041/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-041</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-042/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-042/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-042</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.walljewels.in/wallpaper-rolls/promise/promise-043/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.walljewels.in/assets/rolls/promise/designs/promise-043/web.jpg</image:loc>
+      <image:title>Promise wallpaper design PROMISE-043</image:title>
     </image:image>
   </url>
   <!-- rolls:end -->

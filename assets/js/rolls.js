@@ -142,10 +142,13 @@
     const query = normalise(q);
     if (!query) return 1;
     const number = normalise(design && design.designNumber);
-    if (!number) return 0;
     if (number === query) return 3;
-    if (number.startsWith(query)) return 2;
-    if (number.includes(query)) return 1;
+    if (number && number.startsWith(query)) return 2;
+    if (number && number.includes(query)) return 1;
+    const group = normalise(design && design.group);
+    if (group && (group === query || group.includes(query))) return 1;
+    const colourway = normalise(design && design.colourway);
+    if (colourway && (colourway === query || colourway.includes(query))) return 1;
     return 0;
   }
 

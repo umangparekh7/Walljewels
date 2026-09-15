@@ -39,6 +39,27 @@
       "currency": "INR",
       "sort": 2,
       "published": true
+    },
+    {
+      "id": "promise",
+      "slug": "promise",
+      "name": "Promise",
+      "tagline": "A Collection of Timeless Wallpapers",
+      "description": "Discover Promise — a curated collection of elegant wallpaper designs created to bring character, warmth and timeless beauty to every interior.",
+      "catalogueName": "Promise E-Catalog.pdf",
+      "catalogueFile": "assets/rolls/promise/catalogue.pdf",
+      "catalogueSizeMB": 24.2,
+      "pageCount": 43,
+      "coverImage": "assets/rolls/promise/cover.jpg",
+      "rollSize": 59,
+      "coverage": 50,
+      "wastage": 9,
+      "pricePerSqFt": 50,
+      "rollPrice": 2950,
+      "unit": "sq.ft",
+      "currency": "INR",
+      "sort": 3,
+      "published": true
     }
   ]
 }

@@ -213,8 +213,10 @@ export function buildCollectionPage(model, collection) {
   <div><dt>Approx. coverage</dt><dd>${esc(s.coverage)}</dd></div>
   <div><dt>Price per roll</dt><dd>${esc(s.price)}</dd></div>
   <div><dt>Book price</dt><dd>${esc(formatINR(collection.pricePerSqFt))} per ${esc(s.unit)}</dd></div>
-  <div><dt>Designs</dt><dd>${esc(String(count))}</dd></div>${pages ? `\n  <div><dt>Catalogue</dt><dd>${esc(pages)}</dd></div>` : ''}
+  <div><dt>Designs</dt><dd>${esc(String(count))}</dd></div>${s.wastage ? `\n  <div><dt>Approx. wastage</dt><dd>${esc(s.wastage)}</dd></div>` : ''}${pages ? `\n  <div><dt>Catalogue</dt><dd>${esc(pages)}</dd></div>` : ''}
 </dl>`;
+
+  const rollNote = `<p class="rolls-hero__quote rv" style="--i:3.5; font-size: 0.92rem; opacity: 0.88; max-width: 72ch; margin-top: 1.25rem;">Each roll contains approximately ${esc(s.roll)} of wallpaper and provides approximately ${esc(s.coverage)} of practical wall coverage, depending on wall dimensions, pattern matching and installation requirements.</p>`;
 
   const hero = `<section class="section rolls-hero rolls-hero--collection">
   <div class="wrap">
@@ -226,6 +228,7 @@ export function buildCollectionPage(model, collection) {
       <p class="lead rv" style="--i:1">${esc(collection.tagline || '')}</p>
       ${collection.description ? `<p class="rolls-hero__quote rv" style="--i:2">${esc(collection.description)}</p>` : ''}
       ${indentBlock(specRow, 6).trimStart()}
+      ${indentBlock(rollNote, 6).trimStart()}
       <div class="rolls-hero__actions rv" style="--i:4">
         <button class="btn btn--fill" type="button" data-open-rolls-catalogue="${esc(collection.slug)}" data-page="1"><span class="dot-a"></span>View Catalogue</button>
         <a class="btn" href="#calculator" data-calc-collection="${esc(collection.slug)}"><span class="dot-a"></span>Calculate Requirement</a>

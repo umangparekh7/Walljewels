@@ -130,6 +130,7 @@ export function specStrings(collection) {
     coverage: `${formatNumber(collection.coverage)} ${unit}`,
     price: formatINR(collection.rollPrice),
     perSqFt: `${formatINR(collection.pricePerSqFt)} / ${unit}`,
+    wastage: collection.wastage ? `${formatNumber(collection.wastage)} ${unit}` : null,
     unit,
   };
 }
