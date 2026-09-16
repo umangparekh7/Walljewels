@@ -1,0 +1,47 @@
+# ==============================================================================
+# Wall Jewels Wallpaper World Pvt. Ltd. (https://www.walljewels.in)
+# Robots.txt — AI Crawlers, Search Engines & Semantic Discovery
+# ==============================================================================
+
+User-agent: *
+Allow: /
+Disallow: /assets/fonts/
+
+# Google Search & Google AI Overview
+User-agent: Googlebot
+User-agent: Googlebot-Image
+User-agent: Google-Extended
+Allow: /
+
+# OpenAI / ChatGPT / SearchGPT
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic Claude
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Microsoft Bing & Copilot
+User-agent: Bingbot
+User-agent: msnbot
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot
+User-agent: Applebot-Extended
+Allow: /
+
+# Cohere & Meta AI
+User-agent: cohere-ai
+User-agent: FacebookBot
+Allow: /
+
+# Sitemaps and AI specifications
+Sitemap: https://www.walljewels.in/sitemap.xml
