@@ -99,7 +99,7 @@ export function buildLanding(model) {
       <h2 class="d2 rv" style="--i:1">Our Collections</h2>
       <p class="lead rv" style="--i:2">Each collection is a physical catalogue in our showrooms. Roll size, approximate coverage and price are stated for every design.</p>
     </div>
-    <div class="rolls-collections">
+    <div class="rolls-collections" data-cols="${collections.length}">
 ${collectionCards}
     </div>
   </div>

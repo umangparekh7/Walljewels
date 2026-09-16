@@ -150,57 +150,142 @@
   .rolls-hero .wrap { padding-block: 34px 32px; }
 }
 
-/* ---------- 3. Collections — image-led cards ---------- */
+/* ---------- 3. Collections — image-led cards (compact 3-in-a-row, scalable to 4 or 5) ---------- */
+.page-rolls #collections {
+  padding-block: clamp(28px, 4vw, 52px);
+}
+.page-rolls #collections .wrap {
+  margin-inline: auto;
+  max-width: min(880px, calc(100vw - clamp(24px, 4vw, 48px)));
+  width: 100%;
+}
+@media (min-width: 992px) {
+  .page-rolls #collections:has([data-cols="4"]) .wrap,
+  .page-rolls #collections:has(.rolls-collections--4) .wrap {
+    max-width: min(1120px, calc(100vw - clamp(24px, 4vw, 48px)));
+  }
+  .page-rolls #collections:has([data-cols="5"]) .wrap,
+  .page-rolls #collections:has(.rolls-collections--5) .wrap {
+    max-width: min(1320px, calc(100vw - clamp(24px, 4vw, 48px)));
+  }
+}
 .rolls-collections {
+  --rolls-cols: 3;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-  gap: clamp(16px, 2.4vw, 32px);
+  grid-template-columns: repeat(var(--rolls-cols, 3), minmax(0, 1fr));
+  gap: clamp(12px, 1.4vw, 18px);
+  width: 100%;
+  margin-inline: auto;
+}
+@media (min-width: 992px) {
+  .rolls-collections {
+    --rolls-cols: 3;
+  }
+  .rolls-collections[data-cols="4"],
+  .rolls-collections--4 {
+    --rolls-cols: 4;
+  }
+  .rolls-collections[data-cols="5"],
+  .rolls-collections--5 {
+    --rolls-cols: 5;
+  }
+}
+@media (min-width: 641px) and (max-width: 991px) {
+  .rolls-collections {
+    --rolls-cols: 3;
+    gap: 12px;
+  }
+  .rolls-collections[data-cols="4"],
+  .rolls-collections[data-cols="5"] {
+    --rolls-cols: 3;
+  }
+}
+@media (max-width: 640px) {
+  .rolls-collections {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+    gap: 14px;
+  }
 }
 .rolls-collection {
   position: relative;
   display: flex; flex-direction: column;
   border: 1px solid var(--hairline);
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
   background: rgba(255, 255, 255, .02);
-  transition: border-color var(--beat) var(--ease);
+  transition: border-color var(--beat) var(--ease), transform var(--beat) var(--ease), box-shadow var(--beat) var(--ease);
 }
-.rolls-collection:hover { border-color: rgba(207, 161, 78, .5); }
+.rolls-collection:hover {
+  border-color: rgba(207, 161, 78, .5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+}
 .rolls-collection__media {
-  display: block;
-  aspect-ratio: 1200 / 1512;   /* the catalogue cover panels, shown whole */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1200 / 1512;   /* catalogue cover panels, always shown in full without cropping */
   overflow: hidden;
-  background: var(--ground-deep);
+  background: #0d0f14;
   border-bottom: 1px solid var(--hairline);
 }
 .rolls-collection__media img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
   transition: transform var(--beat) var(--ease);
 }
-.rolls-collection:hover .rolls-collection__media img { transform: scale(1.03); }
+.rolls-collection:hover .rolls-collection__media img { transform: scale(1.015); }
 .rolls-collection__body {
   flex: 1;
   display: flex; flex-direction: column;
-  gap: 14px;
-  padding: clamp(18px, 2.4vw, 28px);
+  gap: 7px;
+  padding: 12px 14px 14px;
+}
+.rolls-collection .cap {
+  font-size: 10px;
+  letter-spacing: .12em;
 }
 .rolls-collection h3, .rolls-collection__name {
   font-family: var(--f-display);
   font-weight: 400;
-  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  font-size: 1.05rem;
   line-height: 1.15;
   letter-spacing: .01em;
   color: var(--ink);
+  margin: 0;
 }
-.rolls-collection__tagline, .rolls-collection p { font-size: 14px; line-height: 1.6; color: var(--ink-dim); }
+.rolls-collection__tagline, .rolls-collection p {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink-dim);
+  margin: 0;
+}
 .rolls-collection .rolls-specs { margin-top: 2px; }
+.rolls-collection .rolls-specs > * {
+  padding: 4px 0;
+  font-size: 11.5px;
+}
+.rolls-collection .rolls-collection__actions,
 .rolls-collection .rolls-actions {
-  flex-direction: column; align-items: stretch;
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
   margin-top: auto;
   padding-top: 6px;
 }
-.rolls-collection .rolls-actions .btn { width: 100%; padding: 14px 18px; font-size: 12.5px; }
+.rolls-collection .rolls-collection__actions .btn,
+.rolls-collection .rolls-actions .btn {
+  width: 100%;
+  padding: 7px 10px;
+  font-size: 11px;
+  letter-spacing: .05em;
+  min-height: 32px;
+  justify-content: center;
+}
 
 /* ---------- 4. Toolbar — search, chips, count ---------- */
 .rolls-toolbar {

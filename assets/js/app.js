@@ -54,10 +54,13 @@
     history.scrollRestoration = 'manual';
   }
 
-  // Smooth top-level navigation when clicking logo on home page
+  // Smooth top-level navigation when clicking logo on home page, navigate to home from other pages
   document.addEventListener('click', (e) => {
-    const logo = e.target.closest('.wordmark, a[href="index.html"]');
-    if (logo && (location.pathname.endsWith('index.html') || location.pathname === '/' || location.pathname.endsWith('/'))) {
+    const logo = e.target.closest('.wordmark, a[href="index.html"], a[href="../index.html"]');
+    if (!logo) return;
+    const targetPath = new URL(logo.href, window.location.origin).pathname.replace(/index\.html$/, '').replace(/\/$/, '');
+    const currentPath = window.location.pathname.replace(/index\.html$/, '').replace(/\/$/, '');
+    if (targetPath === currentPath) {
       e.preventDefault();
       if (lenis) {
         lenis.scrollTo(0, { duration: 1.2 });
