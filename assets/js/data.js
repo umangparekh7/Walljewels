@@ -2,7 +2,7 @@
 // Synchronized directly from Kala Parampara (Volume I) & Kala Rasa (Volume II)
 
 const VOLUMES = [
-  { id: 'ultra-premium', name: 'Ultra Premium', no: 'Curated Edition', desc: '15 bespoke master murals and palatial fine-art wall coverings.', count: 15 },
+  { id: 'ultra-premium', name: 'Ultra Premium', no: 'Curated Edition', desc: '20 bespoke master murals and palatial fine-art wall coverings.', count: 20 },
   { id: 'kala-parampara', name: 'Kala Parampara', no: 'Volume I', desc: '82 master plates of classical sacred iconography, southern heritage, and world architectures.', count: 69 },
   { id: 'kala-rasa', name: 'Kala Rasa', no: 'Volume II', desc: '176 plates of divine devotion, Pichwai traditions, lush tropicals, modern abstractions, and serene landscapes.', count: 165 },
   { id: 'vishwa-darshan', name: 'Vishwa Darshan', no: 'Volume III', desc: '81 bespoke master murals celebrating global heritage, architectural depth, and timeless world aesthetics.', count: 81 }
@@ -234,6 +234,76 @@ const COLLECTION = [
       "ideal": "Executive Studies, Private Libraries, Gentleman's Lounges",
       "img": "assets/img/collection/ultra-premium/up-plate-15.jpg",
       "sp": "office",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-16",
+      "v": "ultra-premium",
+      "n": "The Gilded Moon Lotus Lagoon",
+      "no": "WJWP-UP-016",
+      "sub": "Ultra Premium · Gilded full moon, standing cranes & sacred lotus waters.",
+      "b": "An ethereal sanctuary of elegant white cranes standing amid blooming pink and ivory lotuses, sheltered beneath a textured gold leaf moon and misty mountain horizons for palatial living salons.",
+      "style": "Orientalist Fine-Art Lotus Mural",
+      "palette": "Gold Leaf, Lotus Pink, Emerald Teal, Misty Parchment",
+      "ideal": "Grand Living Rooms, Palatial Foyers, Luxury Reception Salons",
+      "img": "assets/img/collection/ultra-premium/up-plate-16.jpg",
+      "sp": "living",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-17",
+      "v": "ultra-premium",
+      "n": "The Celestial Magnolia & Bluebird",
+      "no": "WJWP-UP-017",
+      "sub": "Ultra Premium · Flowering ivory magnolia boughs & songbirds under golden sun.",
+      "b": "Flourishing magnolia boughs heavy with ivory petals, animated by azure songbirds taking flight around a radiant gold foil sun disk, gracing master bedroom suites with peaceful dawn harmony.",
+      "style": "Imperial Chinoiserie Botanical",
+      "palette": "Soft Celadon, Warm Ivory, Gold Foil, Azure Blue",
+      "ideal": "Master Bedrooms, Luxury Guest Suites, Private Boudoirs",
+      "img": "assets/img/collection/ultra-premium/up-plate-17.jpg",
+      "sp": "bedroom",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-18",
+      "v": "ultra-premium",
+      "n": "The Sovereign Crane & Sun",
+      "no": "WJWP-UP-018",
+      "sub": "Ultra Premium · Soaring red-crowned crane & gilded sun over jade lotus.",
+      "b": "A breathtaking composition of sovereignty featuring a red-crowned crane soaring past a golden sun disk, framed by majestic deep jade lotus foliage and bronze architectural fluting for stately executive offices.",
+      "style": "Imperial Japanese & Fine-Art Asian Classical",
+      "palette": "Jade Green, Imperial Gold, Chalk White, Deep Umber",
+      "ideal": "Executive Offices, Boardrooms, Private Studies, Library Suites",
+      "img": "assets/img/collection/ultra-premium/up-plate-18.jpg",
+      "sp": "office",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-19",
+      "v": "ultra-premium",
+      "n": "The Zen Bonsai Sanctuary",
+      "no": "WJWP-UP-019",
+      "sub": "Ultra Premium · Weathered bonsai pine & gilded sun in relief architecture.",
+      "b": "A tranquil Japanese garden vision of an ancient bonsai pine rooted on weathered stone, harmonized with classical arched niches and a golden sun disk to transform luxury bathrooms into serene spa retreats.",
+      "style": "Zen Architectural Fresco",
+      "palette": "Pine Green, Weathered Stone, Muted Gold, Sand Plaster",
+      "ideal": "Luxury Spa Suites, Master Bathrooms, Wellness Lounges",
+      "img": "assets/img/collection/ultra-premium/up-plate-19.jpg",
+      "sp": "powder",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-20",
+      "v": "ultra-premium",
+      "n": "The Curious Astronaut’s Cosmos",
+      "no": "WJWP-UP-020",
+      "sub": "Ultra Premium · Celestial storybook voyage with starry skies & rocket launch.",
+      "b": "An inspiring cosmic wonderland featuring a storybook astronaut reading atop lunar craters, orbiting Saturn, and a soaring retro rocket against deep indigo starlight to spark boundless imagination.",
+      "style": "Fine-Art Storybook Celestial Nursery",
+      "palette": "Midnight Indigo, Lunar Gold, Chalk White, Terracotta Rocket",
+      "ideal": "Luxury Kids Bedrooms, Nurseries, Creative Playrooms",
+      "img": "assets/img/collection/ultra-premium/up-plate-20.jpg",
+      "sp": "kids",
       "cat": "ultra-premium"
   },
   {
