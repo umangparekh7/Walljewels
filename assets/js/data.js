@@ -2,7 +2,7 @@
 // Synchronized directly from Kala Parampara (Volume I) & Kala Rasa (Volume II)
 
 const VOLUMES = [
-  { id: 'ultra-premium', name: 'Ultra Premium', no: 'Curated Edition', desc: '10 bespoke master murals and palatial fine-art wall coverings.', count: 10 },
+  { id: 'ultra-premium', name: 'Ultra Premium', no: 'Curated Edition', desc: '15 bespoke master murals and palatial fine-art wall coverings.', count: 15 },
   { id: 'kala-parampara', name: 'Kala Parampara', no: 'Volume I', desc: '82 master plates of classical sacred iconography, southern heritage, and world architectures.', count: 69 },
   { id: 'kala-rasa', name: 'Kala Rasa', no: 'Volume II', desc: '176 plates of divine devotion, Pichwai traditions, lush tropicals, modern abstractions, and serene landscapes.', count: 165 },
   { id: 'vishwa-darshan', name: 'Vishwa Darshan', no: 'Volume III', desc: '81 bespoke master murals celebrating global heritage, architectural depth, and timeless world aesthetics.', count: 81 }
@@ -164,6 +164,76 @@ const COLLECTION = [
       "ideal": "Master Bedrooms, Guest Sanctuaries, Sunrooms",
       "img": "assets/img/collection/ultra-premium/up-plate-10.jpg",
       "sp": "bedroom",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-11",
+      "v": "ultra-premium",
+      "n": "The Sculpted Blossom Symphony",
+      "no": "WJWP-UP-011",
+      "sub": "Ultra Premium · Dimensional papercraft blossoms & sculptured waves.",
+      "b": "Intricately layered papercraft petals in marigold, crimson, and cerulean bloom across undulating deep-ocean relief waves, introducing contemporary sculptural artistry to modern living spaces.",
+      "style": "Contemporary 3D Paper Sculptural Mural",
+      "palette": "Tangerine, Cerulean Blue, Saffron, Ivory White",
+      "ideal": "Modern Living Rooms, Contemporary Foyers, Architectural Salons",
+      "img": "assets/img/collection/ultra-premium/up-plate-11.jpg",
+      "sp": "living",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-12",
+      "v": "ultra-premium",
+      "n": "The Whispering Magnolia",
+      "no": "WJWP-UP-012",
+      "sub": "Ultra Premium · Archival botanical garden with songbirds & magnolia blooms.",
+      "b": "Graceful long-tailed paradise birds and fluttering butterflies nestle among blossoming ivory magnolias on an antique celadon plaster ground, imbuing master suites with serene, poetic stillness.",
+      "style": "Classical Fine-Art Chinoiserie",
+      "palette": "Celadon Mist, Soft Ivory, Sage Green, Cerulean Teal",
+      "ideal": "Master Bedroom Suites, Luxury Guest Sanctuaries, Boudoirs",
+      "img": "assets/img/collection/ultra-premium/up-plate-12.jpg",
+      "sp": "bedroom",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-13",
+      "v": "ultra-premium",
+      "n": "The Royal Delft Urn",
+      "no": "WJWP-UP-013",
+      "sub": "Ultra Premium · Baroque urns & scrolling acanthus in porcelain cobalt.",
+      "b": "Classical cobalt blue urns overflowing with garden botanicals rendered in historic Delftware porcelain style against crisp ivory plaster, bringing architectural refinement to powder rooms and dressing suites.",
+      "style": "Royal Delft Porcelain Damask",
+      "palette": "Cobalt Blue, Porcelain White, Chalk Ivory, Antique Brass",
+      "ideal": "Luxury Powder Rooms, Dressing Rooms, Elegant Bathrooms",
+      "img": "assets/img/collection/ultra-premium/up-plate-13.jpg",
+      "sp": "powder",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-14",
+      "v": "ultra-premium",
+      "n": "The Peacock Arbor",
+      "no": "WJWP-UP-014",
+      "sub": "Ultra Premium · Blooming peach boughs on aged peacock patina.",
+      "b": "Delicate peach blossoms and singing goldfinches branch across a rich, textured peacock teal patina ground, radiating warmth and aristocratic garden tranquility throughout the bedroom suite.",
+      "style": "Hand-Painted Orientalist Fresco",
+      "palette": "Peacock Teal, Peach Blossom, Warm Teak, Brushed Gold",
+      "ideal": "Luxury Master Bedrooms, Heritage Suites, Sunlit Verandahs",
+      "img": "assets/img/collection/ultra-premium/up-plate-14.jpg",
+      "sp": "bedroom",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-15",
+      "v": "ultra-premium",
+      "n": "The Scholar's Teardrop Damask",
+      "no": "WJWP-UP-015",
+      "sub": "Ultra Premium · Archival Mughal medallion lattice in terracotta & umber.",
+      "b": "Structured Mughal teardrop medallions framing symmetrical flowering urns in warm terracotta, burnt umber, and moss on an antique linen ground, conferring intellectual dignity upon executive studies and private libraries.",
+      "style": "Classical Mughal Archival Lattice",
+      "palette": "Terracotta Rust, Burnt Umber, Antique Linen, Forest Moss",
+      "ideal": "Executive Studies, Private Libraries, Gentleman's Lounges",
+      "img": "assets/img/collection/ultra-premium/up-plate-15.jpg",
+      "sp": "office",
       "cat": "ultra-premium"
   },
   {
