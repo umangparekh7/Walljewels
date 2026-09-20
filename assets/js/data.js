@@ -2,12 +2,14 @@
 // Synchronized directly from Kala Parampara (Volume I) & Kala Rasa (Volume II)
 
 const VOLUMES = [
+  { id: 'ultra-premium', name: 'Ultra Premium', no: 'Curated Edition', desc: '10 bespoke master murals and palatial fine-art wall coverings.', count: 10 },
   { id: 'kala-parampara', name: 'Kala Parampara', no: 'Volume I', desc: '82 master plates of classical sacred iconography, southern heritage, and world architectures.', count: 69 },
   { id: 'kala-rasa', name: 'Kala Rasa', no: 'Volume II', desc: '176 plates of divine devotion, Pichwai traditions, lush tropicals, modern abstractions, and serene landscapes.', count: 165 },
   { id: 'vishwa-darshan', name: 'Vishwa Darshan', no: 'Volume III', desc: '81 bespoke master murals celebrating global heritage, architectural depth, and timeless world aesthetics.', count: 81 }
 ];
 
 const CATEGORIES = [
+  { id: 'ultra-premium', label: 'Ultra Premium' },
   { id: 'heritage', label: 'Sanatan & Heritage' },
   { id: 'botanical', label: 'Botanical & Tropical' },
   { id: 'world', label: 'World Cities' },
@@ -24,6 +26,146 @@ const SPACES = [
 ];
 
 const COLLECTION = [
+  {
+      "id": "up-01",
+      "v": "ultra-premium",
+      "n": "The Imperial Shikar",
+      "no": "WJWP-UP-001",
+      "sub": "Ultra Premium · Imperial majesty in gold leaf & Mughal flora.",
+      "b": "An extraordinary composition of royal guards, blooming arborvitae, and intricate golden filigree. Painted against a rich mustard canvas, creating an architectural focal point of quiet sovereignty.",
+      "style": "Imperial Mughal Court Mural",
+      "palette": "Ochre Gold, Prussian Blue, Rose Pink, Travertine",
+      "ideal": "Grand Living Courts, Executive Lounges, Palatial Foyers",
+      "img": "assets/img/collection/ultra-premium/up-plate-01.jpg",
+      "sp": "living",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-02",
+      "v": "ultra-premium",
+      "n": "The Crimson Yali",
+      "no": "WJWP-UP-002",
+      "sub": "Ultra Premium · Sacred temple guardians in burnished crimson.",
+      "b": "Rendered on a deep crimson woven ground, the mythical Yali guardians dance in classical rhythmic symmetry. Infuses private bedroom suites with timeless regal sanctuary.",
+      "style": "South Indian Sacred Relief",
+      "palette": "Deep Crimson, Burnished Gold, Vermillion, Warm Teak",
+      "ideal": "Master Suites, Private Sanctuaries, Luxury Bedroom",
+      "img": "assets/img/collection/ultra-premium/up-plate-02.jpg",
+      "sp": "bedroom",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-03",
+      "v": "ultra-premium",
+      "n": "Verdant Rainforest Canopy",
+      "no": "WJWP-UP-003",
+      "sub": "Ultra Premium · Lush botanical immersion in deep emerald.",
+      "b": "Layered monstera, acanthus and forest ferns envelop the wall in deep emerald shadows, creating a serene, biophilic oasis of living green with tactile depth.",
+      "style": "Fine-Art Botanical Mural",
+      "palette": "Emerald Green, Forest Jade, Sage, Brushed Bronze",
+      "ideal": "Powder Rooms, Wellness Lounges, Dining Alcoves",
+      "img": "assets/img/collection/ultra-premium/up-plate-03.jpg",
+      "sp": "powder",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-04",
+      "v": "ultra-premium",
+      "n": "The Saffron Cypress",
+      "no": "WJWP-UP-004",
+      "sub": "Ultra Premium · Archival tree-of-life butas in terracotta.",
+      "b": "Sacred cypress and teardrop buta motifs in warm saffron-terracotta stand tall across an ivory-gold horizon, celebrating timeless Mughal botanical harmony and tranquility.",
+      "style": "Heritage Block-Print Register",
+      "palette": "Saffron Terracotta, Warm Sand, Cream, Dark Walnut",
+      "ideal": "Luxury Bedrooms, Heritage Suites, Quiet Reading Rooms",
+      "img": "assets/img/collection/ultra-premium/up-plate-04.jpg",
+      "sp": "bedroom",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-05",
+      "v": "ultra-premium",
+      "n": "The Imperial Kalamkari",
+      "no": "WJWP-UP-005",
+      "sub": "Ultra Premium · Archival peacocks and pomegranate blossoms.",
+      "b": "Graceful peacocks roosting amid trailing flowering vines and pomegranate blossoms, painted in authentic indigo, cinnabar, and gold on textured linen for grand living courts.",
+      "style": "Kalamkari & Persian Garden",
+      "palette": "Ivory Parchment, Persian Teal, Pomegranate, Indigo",
+      "ideal": "Grand Formal Salons, Living Rooms, Gallery Spaces",
+      "img": "assets/img/collection/ultra-premium/up-plate-05.jpg",
+      "sp": "living",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-06",
+      "v": "ultra-premium",
+      "n": "The Amalfi Lemon Grove",
+      "no": "WJWP-UP-006",
+      "sub": "Ultra Premium · Sun-drenched Mediterranean lemon arbor & lush foliage.",
+      "b": "Lush hanging lemons, emerald citrus leaves, and architectural garden vignettes painted on an aged ochre fresco canvas, creating a warm, vibrant Mediterranean dining sanctuary.",
+      "style": "Mediterranean Fresco Mural",
+      "palette": "Limoncello Yellow, Olive Green, Ochre, Warm Cream",
+      "ideal": "Dining Rooms, Kitchen Suites, Sunlit Breakfast Conservatories",
+      "img": "assets/img/collection/ultra-premium/up-plate-06.jpg",
+      "sp": "dining",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-07",
+      "v": "ultra-premium",
+      "n": "The Nocturne Woodland",
+      "no": "WJWP-UP-007",
+      "sub": "Ultra Premium · Enchanted midnight forest fauna in gilded sepia.",
+      "b": "A magical nocturnal tableau of resting deer, prowling fox, wise owls, and songbirds amidst archival botanical shadows on deep charcoal noir, bringing intimate storybook majesty to living spaces.",
+      "style": "Fine-Art Tapestry & Storybook Wildlife",
+      "palette": "Midnight Charcoal, Tawny Gold, Chestnut Fox, Moss Green",
+      "ideal": "Living Rooms, Executive Lounges, Master Suites",
+      "img": "assets/img/collection/ultra-premium/up-plate-07.jpg",
+      "sp": "living",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-08",
+      "v": "ultra-premium",
+      "n": "The Royal Crimson Damask",
+      "no": "WJWP-UP-008",
+      "sub": "Ultra Premium · Palatial Venetian brocade & gilded crest motifs.",
+      "b": "Opulent crimson urns, baroque acanthus scrolls, and royal damask medallions hand-rendered on an ivory plaster ground, commanding formal dining halls with European regal grandeur.",
+      "style": "Venetian Baroque Damask",
+      "palette": "Crimson Red, Antique Ivory, Burnt Umber, Burnished Brass",
+      "ideal": "Grand Dining Suites, Formal Banquet Halls, Stately Salons",
+      "img": "assets/img/collection/ultra-premium/up-plate-08.jpg",
+      "sp": "dining",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-09",
+      "v": "ultra-premium",
+      "n": "The Imperial Gilded Pavilion",
+      "no": "WJWP-UP-009",
+      "sub": "Ultra Premium · Archival sepia chinoiserie with aviary & flowering boughs.",
+      "b": "Intricate gilded canopies, flowering plum boughs, gilded birdcages, and swallows painted in antique sepia tones against a soft pearlescent wall, evoking aristocratic 18th-century salon prestige.",
+      "style": "Antique Chinoiserie Landscape",
+      "palette": "Sepia Ochre, Warm Sand, Antique Gold, Soft Linen",
+      "ideal": "Grand Dining Rooms, Classical Foyers, Drawing Rooms",
+      "img": "assets/img/collection/ultra-premium/up-plate-09.jpg",
+      "sp": "dining",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-10",
+      "v": "ultra-premium",
+      "n": "The Golden Marigold Meadow",
+      "no": "WJWP-UP-010",
+      "sub": "Ultra Premium · Wild botanical silhouettes in radiant sunlit saffron.",
+      "b": "Lush meadows of wild marigolds, honeysuckle, and delicate field herbs silhouetted in warm ivory against a vibrant saffron-gold ground, filling master bedrooms with permanent morning radiance.",
+      "style": "Radiant Botanical Silhouette",
+      "palette": "Saffron Gold, Marigold, Warm Ivory, Terracotta Amber",
+      "ideal": "Master Bedrooms, Guest Sanctuaries, Sunrooms",
+      "img": "assets/img/collection/ultra-premium/up-plate-10.jpg",
+      "sp": "bedroom",
+      "cat": "ultra-premium"
+  },
   {
       "id": "kp-06",
       "v": "kala-parampara",

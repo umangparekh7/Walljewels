@@ -687,6 +687,8 @@
         if (targetC === 'kids') {
           const isKids = cat === 'kids' || sp === 'kids' || ['kids', 'nursery', 'child', 'playroom', 'whimsical', 'storybook', 'fairytale', 'baby', 'pastel forest', 'wonderland', 'meadows', 'enchanted'].some(k => fullText.includes(k));
           if (!isKids) return false;
+        } else if (targetC === 'ultra-premium' || targetC === 'premium') {
+          if (cat !== 'ultra-premium') return false;
         } else if (targetC !== cat) {
           return false;
         }

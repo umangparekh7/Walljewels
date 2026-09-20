@@ -1532,9 +1532,10 @@ body.theme-light {
 .tile:nth-child(1), .tile:nth-child(2) { grid-column: span 6; min-height: clamp(320px, 34vw, 470px); }
 /* the merged doors grid: every door the same modest size */
 .tiles--doors .tile { grid-column: span 3; min-height: clamp(230px, 22vw, 310px); }
-.tiles--doors .tile:nth-last-child(1), .tiles--doors .tile:nth-last-child(2) { grid-column: span 6; }
+.tiles--doors .tile:nth-last-child(-n+3) { grid-column: span 4; }
 @media (max-width: 900px) {
-  .tiles--doors .tile, .tiles--doors .tile:nth-last-child(1), .tiles--doors .tile:nth-last-child(2) { grid-column: span 1; min-height: 210px; }
+  .tiles--doors .tile, .tiles--doors .tile:nth-last-child(-n+3) { grid-column: span 1; min-height: 210px; }
+  .tiles--doors .tile:nth-last-child(1) { grid-column: 1 / -1; }
 }
 .tile__img { position: absolute; inset: 0; z-index: -1; }
 .tile__img img {
