@@ -2,7 +2,7 @@
 // Synchronized directly from Kala Parampara (Volume I) & Kala Rasa (Volume II)
 
 const VOLUMES = [
-  { id: 'ultra-premium', name: 'Ultra Premium', no: 'Curated Edition', desc: '20 bespoke master murals and palatial fine-art wall coverings.', count: 20 },
+  { id: 'ultra-premium', name: 'Ultra Premium', no: 'Curated Edition', desc: '26 bespoke master murals and palatial fine-art wall coverings.', count: 26 },
   { id: 'kala-parampara', name: 'Kala Parampara', no: 'Volume I', desc: '82 master plates of classical sacred iconography, southern heritage, and world architectures.', count: 69 },
   { id: 'kala-rasa', name: 'Kala Rasa', no: 'Volume II', desc: '176 plates of divine devotion, Pichwai traditions, lush tropicals, modern abstractions, and serene landscapes.', count: 165 },
   { id: 'vishwa-darshan', name: 'Vishwa Darshan', no: 'Volume III', desc: '81 bespoke master murals celebrating global heritage, architectural depth, and timeless world aesthetics.', count: 81 }
@@ -304,6 +304,90 @@ const COLLECTION = [
       "ideal": "Luxury Kids Bedrooms, Nurseries, Creative Playrooms",
       "img": "assets/img/collection/ultra-premium/up-plate-20.jpg",
       "sp": "kids",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-21",
+      "v": "ultra-premium",
+      "n": "The Serengeti Wildlife Sanctuary",
+      "no": "WJWP-UP-021",
+      "sub": "Ultra Premium · Archival African safari wildlife & cascading waterfalls.",
+      "b": "A grand panoramic safari mural of sovereign African wildlife — an elephant, resting leopard, giraffe, and zebra amidst lush jungle palms and cascading waterfalls, inspiring power and vitality in wellness suites and private gyms.",
+      "style": "Fine-Art Classical Wildlife Panorama",
+      "palette": "Safari Khaki, Olive Canopy, Golden Amber, Deep Charcoal",
+      "ideal": "Luxury Home Gyms, Wellness Suites, Executive Lounges",
+      "img": "assets/img/collection/ultra-premium/up-plate-21.jpg",
+      "sp": "living",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-22",
+      "v": "ultra-premium",
+      "n": "The Odyssey of World Wonders",
+      "no": "WJWP-UP-022",
+      "sub": "Ultra Premium · Antique cartography, nautical compass & legendary architectural monuments.",
+      "b": "An extraordinary antique world map composition uniting legendary civilizations — Rome’s Colosseum, the Giza Pyramids, and the Eiffel Tower against a deep ocean grid, commanding grand living rooms with timeless wanderlust.",
+      "style": "Antique Cartography & World Monuments",
+      "palette": "Indigo Navy, Parchment Gold, Sepia Terracotta, Travertine",
+      "ideal": "Grand Formal Living Rooms, Library Salons, Travel Suites",
+      "img": "assets/img/collection/ultra-premium/up-plate-22.jpg",
+      "sp": "living",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-23",
+      "v": "ultra-premium",
+      "n": "The Gilded Meridian",
+      "no": "WJWP-UP-023",
+      "sub": "Ultra Premium · Gold leaf continental map & flight routes on distressed midnight.",
+      "b": "A sleek contemporary masterwork of continents rendered in rich gold leaf with sweeping flight vectors and a compass rose on deep midnight blue marble texture, lending cosmopolitan luxury to modern lounges and cocktail bars.",
+      "style": "Contemporary Gilded Cartography",
+      "palette": "Midnight Navy, Gold Foil, Warm Sand, Brushed Bronze",
+      "ideal": "Penthouse Lounges, Private Cocktail Bars, Executive Boardrooms",
+      "img": "assets/img/collection/ultra-premium/up-plate-23.jpg",
+      "sp": "living",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-24",
+      "v": "ultra-premium",
+      "n": "The Little Explorers' Dreamscape",
+      "no": "WJWP-UP-024",
+      "sub": "Ultra Premium · Whimsical hot air balloons & gentle wildlife safari.",
+      "b": "A captivating storybook panorama of gentle safari animals journeying across rolling hills in hot air balloons — featuring a brave little lion, panda, giraffe, and elephant beneath soft skies inscribed with kindness and big dreams.",
+      "style": "Fine-Art Illustrated Children's Storybook",
+      "palette": "Sage Green, Sky Aqua, Warm Honey, Tuscan Cream, Charcoal",
+      "ideal": "Luxury Kids Bedrooms, Playrooms, Designer Nurseries",
+      "img": "assets/img/collection/ultra-premium/up-plate-24.jpg",
+      "sp": "kids",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-25",
+      "v": "ultra-premium",
+      "n": "The Oceanic Abyssal Sanctuary",
+      "no": "WJWP-UP-025",
+      "sub": "Ultra Premium · Luminous deep-sea whale & coral reef in ethereal ocean light.",
+      "b": "A breathtaking panoramic underwater tableau of majestic humpback whales, gentle sea turtles, and flourishing coral gardens pierced by golden rays of ocean light, bringing immense depth and tranquility to luxury leisure spaces.",
+      "style": "Fine-Art Marine Realism",
+      "palette": "Deep Oceanic Navy, Bioluminescent Teal, Sunbeam Gold, Coral Shadow",
+      "ideal": "Luxury Billiards Lounges, Entertainment Suites, Private Bars",
+      "img": "assets/img/collection/ultra-premium/up-plate-25.jpg",
+      "sp": "living",
+      "cat": "ultra-premium"
+  },
+  {
+      "id": "up-26",
+      "v": "ultra-premium",
+      "n": "The Zen Bonsai & Gilded Moon",
+      "no": "WJWP-UP-026",
+      "sub": "Ultra Premium · Sculptural pine bonsai, burnished copper disc & flying origami cranes.",
+      "b": "A masterwork of Japanese Wabi-Sabi serenity and modern grandeur — featuring an ancient twisting pine upon misty mountain crags, an artisanal terracotta copper sun, and three-dimensional gold origami cranes ascending into timeless space.",
+      "style": "Japanese Wabi-Sabi & Fine-Art Relief",
+      "palette": "Weathered Pine Charcoal, Terracotta Copper, Metallic Gold, Textured Linen",
+      "ideal": "Grand Entrance Foyers, Contemporary Living Salons, Meditation Suites",
+      "img": "assets/img/collection/ultra-premium/up-plate-26.jpg",
+      "sp": "living",
       "cat": "ultra-premium"
   },
   {
