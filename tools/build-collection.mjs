@@ -258,7 +258,7 @@ const html = `<!DOCTYPE html>
     </div>
     <div class="drawer__foot">
       <a class="btn btn--wa" href="https://wa.me/919677042903" rel="noopener"><span class="dot-a"></span>WhatsApp the design team</a>
-      <p class="small">Parry’s · OMR · T. Nagar — Chennai<br><a href="tel:+919840064205">+91 98400 64205</a> · <a href="mailto:info@walljewels.com">info@walljewels.com</a></p>
+      <p class="small">Parry’s · OMR · T. Nagar — Chennai<br><a href="tel:+919840064205">+91 98400 64205</a> · <a href="mailto:umang.parekh@walljewels.in">umang.parekh@walljewels.in</a></p>
     </div>
   </nav>
 
@@ -325,7 +325,7 @@ ${plates}
     <div class="wrap">
       <div class="footer__bottom" style="border-top:0">
         <span>© Wall Jewels Wallpaper World Pvt. Ltd. · Chennai · Since 1978</span>
-        <span><a href="index.html">Home</a> · <a href="tel:+919840064205">+91 98400 64205</a> · <a href="mailto:info@walljewels.com">info@walljewels.com</a></span>
+        <span><a href="index.html">Home</a> · <a href="tel:+919840064205">+91 98400 64205</a> · <a href="mailto:umang.parekh@walljewels.in">umang.parekh@walljewels.in</a></span>
       </div>
     </div>
   </footer>
@@ -351,7 +351,7 @@ ${plates}
     </div>
     <div class="docket__send">
       <button class="btn btn--wa" type="button" data-send-docket><span class="dot-a"></span>Send via WhatsApp</button>
-      <p class="small">Or write to <a href="mailto:info@walljewels.com">info@walljewels.com</a> — no enquiry goes unanswered.</p>
+      <p class="small">Or write to <a href="mailto:umang.parekh@walljewels.in">umang.parekh@walljewels.in</a> — no enquiry goes unanswered.</p>
     </div>
   </aside>
 

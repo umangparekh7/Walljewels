@@ -7,7 +7,7 @@ export const BRAND = 'Wall Jewels Wallpaper World';
 export const BRAND_LINE = "South India's Pioneers in Wallpapers Since 1978";
 export const CONTACT = Object.freeze({
   whatsapp: '919677042903',
-  email: 'info@walljewels.com',
+  email: 'umang.parekh@walljewels.in',
   phone: '+91 98400 64205',
   phoneHref: 'tel:+919840064205',
 });

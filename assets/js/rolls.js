@@ -169,7 +169,7 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const RAW = (window.WJ_ROLLS && typeof window.WJ_ROLLS === 'object') ? window.WJ_ROLLS : {};
   const CONTACT = Object.assign(
-    { whatsapp: '919677042903', email: 'info@walljewels.com', phone: '+91 98400 64205' },
+    { whatsapp: '919677042903', email: 'umang.parekh@walljewels.in', phone: '+91 98400 64205' },
     (RAW.contact && typeof RAW.contact === 'object') ? RAW.contact : {}
   );
   const SITE = /(^|\.)walljewels\.in$/i.test(location.hostname) ? location.origin : 'https://www.walljewels.in';

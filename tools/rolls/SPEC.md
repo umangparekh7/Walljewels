@@ -56,7 +56,7 @@ Site root (all paths below are relative to it):
   `.dfield` (label + input with bottom hairline). Overlays: `.docket` (right drawer
   + `.docket-scrim`), `.catview` (full-screen viewer, `z-index 99999`), `.lightbox`.
   Reveal: add `.rv` (and `style="--i:n"` for stagger) to elements that should fade up.
-  Contact: WhatsApp `https://wa.me/919677042903`, email `info@walljewels.com`,
+  Contact: WhatsApp `https://wa.me/919677042903`, email `umang.parekh@walljewels.in`,
   phone `+91 98400 64205`. Brand lines: "Wall Jewels Wallpaper World",
   "South India's Pioneers in Wallpapers Since 1978".
 
@@ -143,7 +143,7 @@ Generated `assets/js/rolls-data.js` (written by build.mjs, one line per record O
 ```js
 window.WJ_ROLLS = {
   "generatedAt": "2026-09-14T00:00:00Z",
-  "contact": { "whatsapp": "919677042903", "email": "info@walljewels.com" },
+  "contact": { "whatsapp": "919677042903", "email": "umang.parekh@walljewels.in" },
   "collections": [ {...collection as above...} ],
   "designs": [ {...design as above, plus "url": "wallpaper-rolls/athenic-india/12/"...} ]
 };
@@ -281,7 +281,7 @@ head (`.cap` "Wallpaper rolls enquiry", `h2` "Enquire about this design" / "Requ
 summary card `.rolls-enquiry__summary` (Collection, Design Number, Wall Size, Wall Area, Estimated Rolls, Estimated Cost — rows only when known),
 fields (`.dfield`): Name* `#re-name`, Phone Number* `#re-phone` (tel, inputmode tel), Email `#re-email`, Wall Width `#re-w` (inches), Wall Height `#re-h`, Message `#re-msg` (textarea). Width/height prefilled from the calculator; editing them recalculates the summary live (same calculate()).
 Validation: name required; phone OR email required; dims optional but if given must validate.
-Buttons: `button.btn.btn--wa[data-rolls-enquiry-send]` "SEND VIA WHATSAPP" (opens `https://wa.me/919677042903?text=<encoded>` in a new tab — this IS the site's enquiry system) and `a.btn.btn--ghost[data-rolls-enquiry-mail]` "SEND BY EMAIL" (`mailto:info@walljewels.com?subject=…&body=…`, same text). Small print: "Or call +91 98400 64205 · Nothing here is an order — final roll count and price are confirmed by the Wall Jewels team."
+Buttons: `button.btn.btn--wa[data-rolls-enquiry-send]` "SEND VIA WHATSAPP" (opens `https://wa.me/919677042903?text=<encoded>` in a new tab — this IS the site's enquiry system) and `a.btn.btn--ghost[data-rolls-enquiry-mail]` "SEND BY EMAIL" (`mailto:umang.parekh@walljewels.in?subject=…&body=…`, same text). Small print: "Or call +91 98400 64205 · Nothing here is an order — final roll count and price are confirmed by the Wall Jewels team."
 Message text (exact structure, omit lines whose value is unknown):
 ```
 Namaste Wall Jewels — Wallpaper Rolls enquiry
