@@ -1129,7 +1129,8 @@
   const CATALOGUES = {
     kp: { name: 'Kala Parampara · Volume I', count: 82, prefix: 'assets/img/catalogue/kp-' },
     kr: { name: 'Kala Rasa · Volume II', count: 189, prefix: 'assets/img/catalogue/kr-' },
-    vd: { name: 'Vishwa Darshan · Volume III', count: 179, prefix: 'assets/img/catalogue/vd-' }
+    vd: { name: 'Vishwa Darshan · Volume III', count: 179, prefix: 'assets/img/catalogue/vd-' },
+    pr: { name: 'Prakriti · Volume IV', count: 109, prefix: 'assets/img/catalogue/pr-' }
   };
   const catViews = {};
   let activeCat = null;
